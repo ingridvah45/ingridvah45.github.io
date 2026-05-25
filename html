@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mouse Worm Game</title>
+<style>
+    html, body {
+        margin: 0;
+        overflow: hidden;
+        background: #ffe44d;
+        font-family: Arial, sans-serif;
+    }
+
+    canvas {
+        display: block;
+    }
+
+    .ui {
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        color: #222;
+        font-size: 22px;
+        font-weight: bold;
+        user-select: none;
+    }
+
+    .hint {
+        position: fixed;
+        bottom: 15px;
+        width: 100%;
+        text-align: center;
+        color: #444;
+        font-size: 16px;
+        user-select: none;
+    }
+</style>
+</head>
+<body>
+
+<div class="ui">Apples: <span id="score">0</span></div>
+<div class="hint">Move your mouse to guide the worm</div>
+
+<canvas id="game"></canvas>
+
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+window.addEventListener("resize", resize);
+resize();
+
+let mouse = {
+    x: canvas.width / 2,
+    y: canvas.height / 2
+};
+
+window.addEventListener("mousemove", (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+});
+
+const worm = {
+    segments: [],
+    speed: 0.12,
+    size: 18
+};
+
+const initialLength = 20;
+
+for (let i = 0; i < initialLength; i++) {
+    worm.segments.push({
+        x: canvas.width / 2,
+        y: canvas.height / 2
+    });
+}
+
+let apple = spawnApple();
+let score = 0;
+
+function spawnApple() {
+    return {
+        x: Math.random() * (canvas.width - 60) + 30,
+        y: Math.random() * (canvas.height - 60) + 30,
+        size: 14
+    };
+}
+
+function update() {
+    // Move head toward mouse
+    const head = worm.segments[0];
+
+    head.x += (mouse.x - head.x) * worm.speed;
+    head.y += (mouse.y - head.y) * worm.speed;
+
+    // Follow behavior
+    for (let i = 1; i < worm.segments.length; i++) {
+        const prev = worm.segments[i - 1];
+        const seg = worm.segments[i];
+
+        seg.x += (prev.x - seg.x) * 0.35;
+        seg.y += (prev.y - seg.y) * 0.35;
+    }
+
+    // Apple collision
+    const dx = head.x - apple.x;
+    const dy = head.y - apple.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+
+    if (dist < worm.size + apple.size) {
+        score++;
+        document.getElementById("score").textContent = score;
+
+        // Grow worm
+        const tail = worm.segments[worm.segments.length - 1];
+        worm.segments.push({
+            x: tail.x,
+            y: tail.y
+        });
+
+        apple = spawnApple();
+    }
+}
+
+function drawApple() {
+    ctx.save();
+
+    // Apple body
+    ctx.fillStyle = "#e53935";
+    ctx.beginPath();
+    ctx.arc(apple.x, apple.y, apple.size, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Shine
+    ctx.fillStyle = "rgba(255,255,255,0.5)";
+    ctx.beginPath();
+    ctx.arc(apple.x - 4, apple.y - 4, 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Stem
+    ctx.strokeStyle = "#5d4037";
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(apple.x, apple.y - apple.size + 2);
+    ctx.lineTo(apple.x + 2, apple.y - apple.size - 8);
+    ctx.stroke();
+
+    // Leaf
+    ctx.fillStyle = "#43a047";
+    ctx.beginPath();
+    ctx.ellipse(
+        apple.x + 7,
+        apple.y - apple.size - 5,
+        7,
+        4,
+        Math.PI / 4,
+        0,
+        Math.PI * 2
+    );
+    ctx.fill();
+
+    ctx.restore();
+}
+
+function drawWorm() {
+    for (let i = worm.segments.length - 1; i >= 0; i--) {
+        const seg = worm.segments[i];
+
+        const t = i / worm.segments.length;
+
+        // Gradient green worm
+        const green = Math.floor(180 - t * 90);
+
+        ctx.fillStyle = `rgb(50, ${green}, 70)`;
+
+        ctx.beginPath();
+        ctx.arc(seg.x, seg.y, worm.size - t * 4, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    // Eyes
+    const head = worm.segments[0];
+
+    ctx.fillStyle = "white";
+    ctx.beginPath();
+    ctx.arc(head.x - 5, head.y - 4, 4, 0, Math.PI * 2);
+    ctx.arc(head.x + 5, head.y - 4, 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = "black";
+    ctx.beginPath();
+    ctx.arc(head.x - 5, head.y - 4, 2, 0, Math.PI * 2);
+    ctx.arc(head.x + 5, head.y - 4, 2, 0, Math.PI * 2);
+    ctx.fill();
+}
+
+function render() {
+    // Yellow background
+    ctx.fillStyle = "#ffe44d";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Soft background dots
+    for (let i = 0; i < 40; i++) {
+        ctx.fillStyle = "rgba(255,255,255,0.08)";
+        ctx.beginPath();
+        ctx.arc(
+            (i * 173) % canvas.width,
+            (i * 97) % canvas.height,
+            30,
+            0,
+            Math.PI * 2
+        );
+        ctx.fill();
+    }
+
+    drawApple();
+    drawWorm();
+}
+
+function gameLoop() {
+    update();
+    render();
+    requestAnimationFrame(gameLoop);
+}
+
+gameLoop();
+</script>
+
+</body>
+</html>
