@@ -130,7 +130,6 @@ function spawnApple() {
 
         validPosition = true;
 
-        // Kontrolli kas õun läheb takistuse peale
         for (const obstacle of obstacles) {
 
             if (
@@ -160,7 +159,11 @@ function createObstacles() {
             x: Math.random() * (canvas.width - 250) + 80,
             y: Math.random() * (canvas.height - 250) + 80,
             width: 80 + Math.random() * 80,
-            height: 40 + Math.random() * 100
+            height: 40 + Math.random() * 100,
+
+            // ÜLIAEGLANE liikumine
+            vx: (Math.random() - 0.5) * 0.15,
+            vy: (Math.random() - 0.5) * 0.15
         });
     }
 }
@@ -191,9 +194,53 @@ function resetGame() {
     document.getElementById("gameover").style.display = "none";
 }
 
+function moveObstacles() {
+
+    for (const obstacle of obstacles) {
+
+        obstacle.x += obstacle.vx;
+        obstacle.y += obstacle.vy;
+
+        // Põrkab ekraani servadelt tagasi
+        if (
+            obstacle.x <= 0 ||
+            obstacle.x + obstacle.width >= canvas.width
+        ) {
+            obstacle.vx *= -1;
+        }
+
+        if (
+            obstacle.y <= 0 ||
+            obstacle.y + obstacle.height >= canvas.height
+        ) {
+            obstacle.vy *= -1;
+        }
+    }
+}
+
+function checkCollisionWithObstacle(x, y, radius, obstacle) {
+
+    const closestX = Math.max(
+        obstacle.x,
+        Math.min(x, obstacle.x + obstacle.width)
+    );
+
+    const closestY = Math.max(
+        obstacle.y,
+        Math.min(y, obstacle.y + obstacle.height)
+    );
+
+    const dx = x - closestX;
+    const dy = y - closestY;
+
+    return (dx * dx + dy * dy) < radius * radius;
+}
+
 function update() {
 
     if (gameOver) return;
+
+    moveObstacles();
 
     const head = worm.segments[0];
 
@@ -231,7 +278,7 @@ function update() {
         apple = spawnApple();
     }
 
-    // Surm seinaga
+    // Kui pea läheb ekraanist välja
     if (
         head.x < 0 ||
         head.x > canvas.width ||
@@ -241,34 +288,33 @@ function update() {
         endGame();
     }
 
-    // Surm takistusega
-    for (const obstacle of obstacles) {
+    // KÕIK ussi kehaosad võivad surra
+    for (const segment of worm.segments) {
 
-        const closestX = Math.max(
-            obstacle.x,
-            Math.min(head.x, obstacle.x + obstacle.width)
-        );
+        for (const obstacle of obstacles) {
 
-        const closestY = Math.max(
-            obstacle.y,
-            Math.min(head.y, obstacle.y + obstacle.height)
-        );
-
-        const dx = head.x - closestX;
-        const dy = head.y - closestY;
-
-        if ((dx * dx + dy * dy) < worm.size * worm.size) {
-            endGame();
+            if (
+                checkCollisionWithObstacle(
+                    segment.x,
+                    segment.y,
+                    worm.size,
+                    obstacle
+                )
+            ) {
+                endGame();
+            }
         }
     }
 }
 
 function endGame() {
+
     gameOver = true;
     document.getElementById("gameover").style.display = "block";
 }
 
 window.addEventListener("keydown", (e) => {
+
     if (e.code === "Space" && gameOver) {
         resetGame();
     }
