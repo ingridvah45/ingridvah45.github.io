@@ -1,484 +1,600 @@
+Here's the full code — the file viewer truncated the middle section, so let me give you the complete thing in one block:
+
+```html
 <!DOCTYPE html>
-<html lang="et">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Ussi Mäng</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fairy Phone ✦</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=VT323&display=swap" rel="stylesheet" />
 <style>
-    html, body {
-        margin: 0;
-        overflow: hidden;
-        background: #ffe44d;
-        font-family: Arial, sans-serif;
-    }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    canvas {
-        display: block;
-    }
+  body {
+    min-height: 100vh;
+    background: radial-gradient(ellipse at 25% 15%, #ffc0e8 0%, #ffaade 30%, #f8d0ff 60%, #ffd6f5 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fredoka One', cursive;
+    overflow: hidden;
+    position: relative;
+  }
 
-    .ui {
-        position: fixed;
-        top: 15px;
-        left: 15px;
-        color: #222;
-        font-size: 24px;
-        font-weight: bold;
-        user-select: none;
-        z-index: 10;
-    }
+  /* ── floating glitter particles ── */
+  .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+  .star {
+    position: absolute;
+    animation: twinkle var(--dur,2s) ease-in-out infinite var(--delay,0s);
+    opacity: 0;
+  }
+  .star::before {
+    content: '✦';
+    font-size: var(--sz, 10px);
+    color: var(--c, #ffb3dc);
+    display: block;
+    filter: drop-shadow(0 0 3px var(--c, #ffb3dc));
+  }
+  @keyframes twinkle {
+    0%,100% { opacity: 0; transform: scale(0.4) rotate(0deg); }
+    50%      { opacity: 1; transform: scale(1.2) rotate(20deg); }
+  }
 
-    .gameover {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        color: #222;
-        display: none;
-        user-select: none;
-        z-index: 10;
-    }
+  /* floating sparkles drifting up */
+  .drift {
+    position: absolute;
+    pointer-events: none;
+    animation: driftUp var(--dur,6s) ease-in infinite var(--delay,0s);
+    opacity: 0;
+    font-size: var(--sz, 10px);
+    color: var(--c, #ff80c0);
+    filter: drop-shadow(0 0 4px var(--c, #ff80c0));
+  }
+  @keyframes driftUp {
+    0%   { opacity: 0; transform: translateY(0) scale(0.5); }
+    20%  { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-120px) scale(1.1) rotate(30deg); }
+  }
 
-    .gameover h1 {
-        font-size: 64px;
-        margin: 0;
-    }
+  /* ── phone wrapper ── */
+  #phone-wrap {
+    position: relative;
+    z-index: 2;
+    width: 360px;
+    filter: drop-shadow(0 0 30px rgba(255,100,180,0.5)) drop-shadow(0 20px 40px rgba(200,50,150,0.3));
+  }
 
-    .gameover p {
-        font-size: 24px;
-    }
+  #phone-svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
 
-    .hint {
-        position: fixed;
-        bottom: 15px;
-        width: 100%;
-        text-align: center;
-        color: #444;
-        font-size: 16px;
-        user-select: none;
-        z-index: 10;
-    }
+  /* Phone body */
+  #_x3C_background_x3E_ {
+    fill: url(#bodyGrad);
+    stroke: #e060b0;
+    stroke-width: 2;
+    filter: url(#bevel);
+  }
+
+  /* Screen */
+  #phone_screen {
+    fill: url(#screenGrad);
+    stroke: #ff90d0;
+    stroke-width: 2;
+  }
+
+  /* Phone decoration arc */
+  #phone_decoration {
+    fill: none;
+    stroke: url(#arcGrad);
+    stroke-width: 3;
+  }
+
+  /* ── WINGS ── */
+  #left_wing {
+    fill: url(#wingGradL);
+    stroke: #ffaad8;
+    stroke-width: 1.5;
+    transform-origin: 250px 342px;
+    transition: transform 0.75s cubic-bezier(.34,1.56,.64,1), opacity 0.5s;
+    opacity: 0;
+    transform: rotate(0deg) scale(0);
+    filter: url(#wingGlow);
+    pointer-events: none;
+  }
+  #right_wing {
+    fill: url(#wingGradR);
+    stroke: #ffaad8;
+    stroke-width: 1.5;
+    transform-origin: 250px 342px;
+    transition: transform 0.75s cubic-bezier(.34,1.56,.64,1), opacity 0.5s;
+    opacity: 0;
+    transform: rotate(0deg) scale(0);
+    filter: url(#wingGlow);
+    pointer-events: none;
+  }
+  #left_wing.active  { opacity: 1; transform: rotate(-18deg) scale(1); }
+  #right_wing.active { opacity: 1; transform: rotate(18deg)  scale(1); }
+
+  /* wing glitter overlays */
+  #left_wing_glitter, #right_wing_glitter {
+    pointer-events: none;
+    transition: opacity 0.5s;
+    opacity: 0;
+  }
+  #left_wing_glitter.active, #right_wing_glitter.active { opacity: 0.7; }
+
+  /* ── Wing buttons ── */
+  #left_wing_button, #right_wing_button {
+    fill: url(#wingBtnGrad);
+    stroke: #ff60b0;
+    stroke-width: 1.5;
+    cursor: pointer;
+    transition: filter 0.15s;
+    filter: url(#btnGlow);
+  }
+  #left_wing_button:hover  { filter: url(#btnGlowHot); }
+  #right_wing_button:hover { filter: url(#btnGlowHot); }
+  #left_wing_button.toggled, #right_wing_button.toggled {
+    fill: url(#wingBtnActive);
+    filter: url(#btnGlowHot);
+  }
+
+  /* D-pad arrows */
+  #up_arrow, #down_arrow, #left_arrow, #right_arrow {
+    fill: none;
+    stroke: #ff5aaa;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+
+  /* Number button ovals */
+  .st2 {
+    fill: url(#btnOvalGrad);
+    stroke: #ffaadd;
+    stroke-width: 0.5;
+    cursor: pointer;
+    transition: filter 0.12s;
+    filter: url(#btnGlow);
+  }
+  .st2:hover  { filter: url(#btnGlowHot); }
+  .st2:active { filter: brightness(0.88); }
+
+  /* Number labels */
+  .st4 {
+    fill: #cc2080;
+    font-family: 'Fredoka One', cursive;
+    font-size: 11px;
+    stroke: #ffe0f0;
+    stroke-width: 0.3;
+    pointer-events: none;
+  }
+
+  /* ── screen content ── */
+  #screen-content {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 97px;
+    width: 123px;
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 5;
+    overflow: hidden;
+  }
+  #screen-text {
+    font-family: 'VT323', monospace;
+    font-size: 15px;
+    color: #ffccee;
+    text-shadow: 0 0 8px #ff60b0, 0 0 16px #ff60b0;
+    text-align: center;
+    line-height: 1.25;
+    max-width: 108px;
+    word-break: break-all;
+  }
+  #screen-signal {
+    font-size: 10px;
+    color: #ff90cc;
+    font-family: 'VT323', monospace;
+    margin-top: 8px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 6px #ff60b0;
+  }
+
+  /* ── ripple ── */
+  .ripple {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 999;
+    animation: rippleOut 0.65s ease-out forwards;
+    background: radial-gradient(circle, rgba(255,150,210,0.75) 0%, rgba(255,200,240,0.3) 60%, transparent 100%);
+  }
+  @keyframes rippleOut {
+    from { transform: scale(0); opacity: 1; }
+    to   { transform: scale(5); opacity: 0; }
+  }
+
+  /* ── fairy dust burst on wing toggle ── */
+  .fairy-burst {
+    position: fixed;
+    pointer-events: none;
+    z-index: 998;
+    font-size: 18px;
+    animation: fairyBurst 0.9s ease-out forwards;
+  }
+  @keyframes fairyBurst {
+    0%   { opacity: 1; transform: translate(0,0) scale(0.5); }
+    100% { opacity: 0; transform: translate(var(--tx,0px), var(--ty,-60px)) scale(1.5) rotate(45deg); }
+  }
+
+  /* ── tagline ── */
+  .tagline {
+    position: relative;
+    z-index: 2;
+    margin-top: 10px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 17px;
+    color: #cc2080;
+    letter-spacing: 3px;
+    text-shadow: 0 0 12px rgba(255,100,180,0.6), 0 2px 6px rgba(200,50,130,0.3);
+  }
+  .tagline span { color: #ff80c0; }
 </style>
 </head>
-
 <body>
 
-<div class="ui">
-    Õunad: <span id="score">0</span>
+<div class="stars" id="stars"></div>
+
+<div id="phone-wrap">
+  <div id="screen-content">
+    <div id="screen-text">✦ fairy ✦</div>
+    <div id="screen-signal">♡♡♡♡ NET</div>
+  </div>
+
+  <svg id="phone-svg" viewBox="0 0 500 700" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- Body gradient: deep pink → hot pink → blush -->
+      <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%"   stop-color="#ffb8e8"/>
+        <stop offset="25%"  stop-color="#ff85cc"/>
+        <stop offset="55%"  stop-color="#ff60b8"/>
+        <stop offset="80%"  stop-color="#ff85cc"/>
+        <stop offset="100%" stop-color="#ffb0e0"/>
+      </linearGradient>
+
+      <!-- Screen gradient: deep magenta LCD -->
+      <linearGradient id="screenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%"   stop-color="#2a0020"/>
+        <stop offset="100%" stop-color="#150010"/>
+      </linearGradient>
+
+      <!-- Arc gradient -->
+      <linearGradient id="arcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%"   stop-color="#ff40a0"/>
+        <stop offset="50%"  stop-color="#ffc0e8"/>
+        <stop offset="100%" stop-color="#ff40a0"/>
+      </linearGradient>
+
+      <!-- Left wing gradient: iridescent pink-to-lavender -->
+      <linearGradient id="wingGradL" x1="100%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%"   stop-color="#ffd0f0" stop-opacity="0.95"/>
+        <stop offset="30%"  stop-color="#ffb0e8" stop-opacity="0.92"/>
+        <stop offset="60%"  stop-color="#f0a0ff" stop-opacity="0.88"/>
+        <stop offset="100%" stop-color="#ffccf5" stop-opacity="0.90"/>
+      </linearGradient>
+
+      <!-- Right wing gradient -->
+      <linearGradient id="wingGradR" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%"   stop-color="#ffd0f0" stop-opacity="0.95"/>
+        <stop offset="30%"  stop-color="#ffb0e8" stop-opacity="0.92"/>
+        <stop offset="60%"  stop-color="#f0a0ff" stop-opacity="0.88"/>
+        <stop offset="100%" stop-color="#ffccf5" stop-opacity="0.90"/>
+      </linearGradient>
+
+      <!-- Wing button gradient -->
+      <linearGradient id="wingBtnGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%"   stop-color="#ffe0f5"/>
+        <stop offset="50%"  stop-color="#ff70c0"/>
+        <stop offset="100%" stop-color="#cc2080"/>
+      </linearGradient>
+      <!-- Wing button active gradient -->
+      <linearGradient id="wingBtnActive" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%"   stop-color="#fff0b0"/>
+        <stop offset="50%"  stop-color="#ffcc00"/>
+        <stop offset="100%" stop-color="#ff8000"/>
+      </linearGradient>
+
+      <!-- Button oval gradient -->
+      <linearGradient id="btnOvalGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.98"/>
+        <stop offset="30%"  stop-color="#ffd8f0"/>
+        <stop offset="70%"  stop-color="#ffaadd"/>
+        <stop offset="100%" stop-color="#ff80cc"/>
+      </linearGradient>
+
+      <!-- Bevel filter for body -->
+      <filter id="bevel" x="-5%" y="-5%" width="110%" height="110%">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
+        <feOffset dx="-4" dy="-4" in="blur" result="ob1"/>
+        <feOffset dx="4"  dy="4"  in="blur" result="ob2"/>
+        <feFlood flood-color="white"   flood-opacity="0.65" result="white"/>
+        <feFlood flood-color="#a01060" flood-opacity="0.45" result="dark"/>
+        <feComposite in="white" in2="ob1" operator="in" result="hi"/>
+        <feComposite in="dark"  in2="ob2" operator="in" result="sh"/>
+        <feMerge>
+          <feMergeNode in="SourceGraphic"/>
+          <feMergeNode in="hi"/>
+          <feMergeNode in="sh"/>
+        </feMerge>
+      </filter>
+
+      <!-- Soft button glow -->
+      <filter id="btnGlow" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <!-- Hot glow (hover/active) -->
+      <filter id="btnGlowHot" x="-40%" y="-40%" width="180%" height="180%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
+        <feColorMatrix in="blur" type="matrix"
+          values="1.5 0 0.5 0 0  0 0 0.5 0 0  0.5 0 1 0 0  0 0 0 1.8 0" result="colored"/>
+        <feMerge><feMergeNode in="colored"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+
+      <!-- Wing glow filter -->
+      <filter id="wingGlow" x="-25%" y="-25%" width="150%" height="150%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur"/>
+        <feColorMatrix in="blur" type="matrix"
+          values="1.2 0 0.3 0 0.1  0 0.3 0.8 0 0  0.5 0 0.8 0 0.1  0 0 0 0.85 0" result="tinted"/>
+        <feMerge><feMergeNode in="tinted"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+
+      <!-- Glitter sparkle pattern for wings -->
+      <pattern id="glitter" x="0" y="0" width="18" height="18" patternUnits="userSpaceOnUse">
+        <rect width="18" height="18" fill="none"/>
+        <circle cx="2"  cy="2"  r="1"   fill="white"   opacity="0.8"/>
+        <circle cx="9"  cy="5"  r="0.6" fill="#ffe0f8" opacity="0.9"/>
+        <circle cx="15" cy="1"  r="0.8" fill="white"   opacity="0.7"/>
+        <circle cx="5"  cy="12" r="0.5" fill="#ffccee" opacity="0.85"/>
+        <circle cx="13" cy="14" r="0.9" fill="white"   opacity="0.8"/>
+        <circle cx="1"  cy="16" r="0.6" fill="#f8d0ff" opacity="0.75"/>
+        <circle cx="17" cy="10" r="0.7" fill="white"   opacity="0.7"/>
+        <circle cx="8"  cy="16" r="0.5" fill="#ffc0f0" opacity="0.9"/>
+      </pattern>
+    </defs>
+
+    <!-- ═══ WINGS (rendered behind phone) ═══ -->
+    <path id="left_wing" d="M180.02,315.06c-1.46-11.86-4.26-25.53-9.4-40.17-4.46-12.69-8.92-25.39-19.66-39.32-5.34-6.92-15.25-18.08-30.77-27.35-3.22-1.92-19.31-11-42.74-13.68-10.77-1.23-19.88-.74-26.36,0-9.12,1.99-18.23,3.99-27.35,5.98-10.25,4.54-13.07,9.26-13.68,12.82-1.19,6.95,5.61,12,30.63,37.61,14.73,15.07,17.57,19.22,20.51,25.64,3.03,6.59,5.65,16.19,6.84,20.51,2.18,7.98,2.33,10.49,5.13,13.68,2.67,3.03,6.62,4.87,14.53,8.55,2.5,1.16,3.5,1.54,9,3.86,10.09,4.25,12.19,5.29,14.93,6.4,10.4,4.22,20.65,5.7,24.79,5.98,20.39,1.41,38.1-15.03,43.59-20.51-6.03,18.86-6.57,33.69-5.98,43.59,1.05,17.59,2.16,26.18,4.27,33.33,1.54,5.2,3.35,9.27,2.56,15.38-.32,2.48-1.04,8.04-5.13,11.97-5.35,5.14-9.99,1.23-19.66,5.98-5.69,2.8-9.55,5.8-14.53,10.26-5.91,5.3-10.01,10.58-12.68,14.53-7.2-14.92-13.55-18.44-18.08-18.8-7.14-.58-12.82.85-12.82.85-7.62.58-8.95.79-11.11,0-5.78-2.12-8.48-8.2-9.4-10.26-1.17-2.62-.98-3.46-2.7-14.46-.6-3.83-.2-7.61-2.42-12.04-.68-1.36-1.4-2.41-1.91-3.11-1.97-1.41-5.01-3.96-7.49-8-1.44-2.35-6.01-9.84-3.42-16.24,1.34-3.33,3.21-2.71,8.55-8.55,1.82-1.99,5.16-5.69,7.69-11.11,1.25-2.67,2.89-7.01,3.42-12.82,5.85-4.13,11.7-8.26,17.55-12.38"/>
+    <!-- left wing glitter overlay -->
+    <path id="left_wing_glitter"
+      d="M180.02,315.06c-1.46-11.86-4.26-25.53-9.4-40.17-4.46-12.69-8.92-25.39-19.66-39.32-5.34-6.92-15.25-18.08-30.77-27.35-3.22-1.92-19.31-11-42.74-13.68-10.77-1.23-19.88-.74-26.36,0-9.12,1.99-18.23,3.99-27.35,5.98-10.25,4.54-13.07,9.26-13.68,12.82-1.19,6.95,5.61,12,30.63,37.61,14.73,15.07,17.57,19.22,20.51,25.64,3.03,6.59,5.65,16.19,6.84,20.51,2.18,7.98,2.33,10.49,5.13,13.68,2.67,3.03,6.62,4.87,14.53,8.55,2.5,1.16,3.5,1.54,9,3.86,10.09,4.25,12.19,5.29,14.93,6.4,10.4,4.22,20.65,5.7,24.79,5.98,20.39,1.41,38.1-15.03,43.59-20.51-6.03,18.86-6.57,33.69-5.98,43.59,1.05,17.59,2.16,26.18,4.27,33.33,1.54,5.2,3.35,9.27,2.56,15.38-.32,2.48-1.04,8.04-5.13,11.97-5.35,5.14-9.99,1.23-19.66,5.98-5.69,2.8-9.55,5.8-14.53,10.26-5.91,5.3-10.01,10.58-12.68,14.53-7.2-14.92-13.55-18.44-18.08-18.8-7.14-.58-12.82.85-12.82.85-7.62.58-8.95.79-11.11,0-5.78-2.12-8.48-8.2-9.4-10.26-1.17-2.62-.98-3.46-2.7-14.46-.6-3.83-.2-7.61-2.42-12.04-.68-1.36-1.4-2.41-1.91-3.11-1.97-1.41-5.01-3.96-7.49-8-1.44-2.35-6.01-9.84-3.42-16.24,1.34-3.33,3.21-2.71,8.55-8.55,1.82-1.99,5.16-5.69,7.69-11.11,1.25-2.67,2.89-7.01,3.42-12.82,5.85-4.13,11.7-8.26,17.55-12.38"
+      fill="url(#glitter)" transform-origin="250px 342px"/>
+
+    <path id="right_wing" d="M319.91,314.92c1.37-12.09,3.98-26.02,8.78-40.94,4.16-12.93,8.33-25.88,18.36-40.07,4.98-7.05,14.24-18.42,28.73-27.87,3.01-1.96,18.04-11.21,39.9-13.94,10.05-1.26,18.56-.75,24.61,0,8.51,2.03,17.03,4.06,25.54,6.1,9.57,4.63,12.2,9.44,12.77,13.07,1.11,7.08-5.24,12.23-28.6,38.33-13.75,15.36-16.4,19.59-19.15,26.13-2.83,6.72-5.28,16.5-6.38,20.91-2.04,8.13-2.17,10.7-4.79,13.94-2.49,3.09-6.18,4.96-13.57,8.71-2.33,1.18-3.26,1.57-8.4,3.93-9.42,4.33-11.39,5.39-13.94,6.52-9.71,4.3-19.28,5.81-23.14,6.1-19.04,1.44-35.58-15.31-40.7-20.91,5.63,19.22,6.14,34.34,5.59,44.42-.98,17.92-2.02,26.68-3.99,33.97-1.43,5.3-3.13,9.45-2.39,15.68.3,2.53.97,8.2,4.79,12.19,5,5.24,9.33,1.26,18.36,6.1,5.32,2.85,8.92,5.91,13.57,10.45,5.52,5.4,9.34,10.78,11.84,14.81,6.72-15.21,12.65-18.79,16.89-19.16,6.67-.59,11.97.87,11.97.87,7.11.59,8.36.81,10.38,0,5.4-2.16,7.92-8.36,8.78-10.45,1.09-2.67.92-3.53,2.53-14.74.56-3.9.19-7.76,2.26-12.27.64-1.39,1.3-2.46,1.78-3.17,1.84-1.44,4.68-4.04,6.99-8.16,1.34-2.4,5.61-10.03,3.19-16.55-1.26-3.39-3-2.77-7.98-8.71-1.7-2.03-4.82-5.8-7.18-11.32-1.17-2.72-2.7-7.14-3.19-13.07-5.46-4.21-10.92-8.41-16.38-12.62"/>
+    <!-- right wing glitter overlay -->
+    <path id="right_wing_glitter"
+      d="M319.91,314.92c1.37-12.09,3.98-26.02,8.78-40.94,4.16-12.93,8.33-25.88,18.36-40.07,4.98-7.05,14.24-18.42,28.73-27.87,3.01-1.96,18.04-11.21,39.9-13.94,10.05-1.26,18.56-.75,24.61,0,8.51,2.03,17.03,4.06,25.54,6.1,9.57,4.63,12.2,9.44,12.77,13.07,1.11,7.08-5.24,12.23-28.6,38.33-13.75,15.36-16.4,19.59-19.15,26.13-2.83,6.72-5.28,16.5-6.38,20.91-2.04,8.13-2.17,10.7-4.79,13.94-2.49,3.09-6.18,4.96-13.57,8.71-2.33,1.18-3.26,1.57-8.4,3.93-9.42,4.33-11.39,5.39-13.94,6.52-9.71,4.3-19.28,5.81-23.14,6.1-19.04,1.44-35.58-15.31-40.7-20.91,5.63,19.22,6.14,34.34,5.59,44.42-.98,17.92-2.02,26.68-3.99,33.97-1.43,5.3-3.13,9.45-2.39,15.68.3,2.53.97,8.2,4.79,12.19,5,5.24,9.33,1.26,18.36,6.1,5.32,2.85,8.92,5.91,13.57,10.45,5.52,5.4,9.34,10.78,11.84,14.81,6.72-15.21,12.65-18.79,16.89-19.16,6.67-.59,11.97.87,11.97.87,7.11.59,8.36.81,10.38,0,5.4-2.16,7.92-8.36,8.78-10.45,1.09-2.67.92-3.53,2.53-14.74.56-3.9.19-7.76,2.26-12.27.64-1.39,1.3-2.46,1.78-3.17,1.84-1.44,4.68-4.04,6.99-8.16,1.34-2.4,5.61-10.03,3.19-16.55-1.26-3.39-3-2.77-7.98-8.71-1.7-2.03-4.82-5.8-7.18-11.32-1.17-2.72-2.7-7.14-3.19-13.07-5.46-4.21-10.92-8.41-16.38-12.62"
+      fill="url(#glitter)" transform-origin="250px 342px"/>
+
+    <!-- ═══ PHONE BODY ═══ -->
+    <path id="_x3C_background_x3E_"
+      d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z"/>
+
+    <!-- glitter sheen on phone body -->
+    <path
+      d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z"
+      fill="url(#glitter)" opacity="0.45" pointer-events="none"/>
+
+    <!-- highlight sheen stripe -->
+    <path d="M210,185 Q218,260 206,390"
+      fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="9" stroke-linecap="round" pointer-events="none"/>
+    <path d="M212,185 Q220,260 208,390"
+      fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="3" stroke-linecap="round" pointer-events="none"/>
+
+    <!-- ═══ SCREEN ═══ -->
+    <rect id="phone_screen" x="207.02" y="203.09" width="85.95" height="91.2" rx="4" ry="4"/>
+    <!-- screen glare -->
+    <rect x="210" y="206" width="28" height="7" rx="2" fill="rgba(255,200,230,0.18)" pointer-events="none"/>
+
+    <!-- ═══ DECORATION ARC ═══ -->
+    <path id="phone_decoration"
+      d="M191.03,337.56c7.25,8.16,13.45,14.61,17.97,19.18,12.32,12.45,16.07,14.85,17.97,15.98,3.5,2.08,10.64,6.22,20.22,6.39,7.26.13,12.58-2.09,19.1-4.8,7.81-3.25,13.5-7.22,16.85-9.59,5.96-4.21,10.25-8.18,13.48-11.19,5.04-4.69,9.18-9.15,12.36-12.79"/>
+
+    <!-- D-pad ring -->
+    <circle cx="250" cy="342" r="28" fill="url(#bodyGrad)" stroke="#e050a0" stroke-width="1.5" opacity="0.55" pointer-events="none"/>
+    <circle cx="250" cy="342" r="10"  fill="url(#wingBtnGrad)" stroke="#ff60b8" stroke-width="1" pointer-events="none"/>
+    <!-- glitter on d-pad ring -->
+    <circle cx="250" cy="342" r="28" fill="url(#glitter)" opacity="0.5" pointer-events="none"/>
+
+    <!-- ═══ D-PAD ARROWS ═══ -->
+    <path id="up_arrow"    d="M246.63,333.78l3.21-6.14c1.5,1.8,2.67,3.88,3.42,6.09"/>
+    <path id="down_arrow"  d="M246.52,351.2c1.88,1.11,3.4,2.83,4.25,4.84,1.09-1.89,2-3.89,2.71-5.96"/>
+    <path id="right_arrow" d="M270.73,350.36l6.79,3.45c-2.58.65-5.16,1.3-7.75,1.96"/>
+    <path id="left_arrow"  d="M227.26,350.71l-7,3.02c2.66.57,5.32,1.14,7.98,1.71"/>
+
+    <!-- ═══ WING BUTTONS (toggle left/right independently) ═══ -->
+    <path id="left_wing_button"
+      d="M240.09,347.44c.51-.36,1.14-1.3-3-12.03-2.43-6.29-3.65-9.44-6.01-13.75-2.6-4.75-4.78-8.66-9.01-12.89-3.18-3.18-7.9-7.9-11.01-6.87-3.03,1-3.58,7.15-2,11.17,0,0,1.83,4.5,6.37,7.35.01,0,.02.02.02.02.27.17.48.29.62.37-.58.2-7.82,2.74-8.01,6.87-.11,2.41,2.26,4.22,7.01,7.73,2.94,2.18,5.68,3.78,10.01,6.02,9.06,4.68,13.58,7.02,15.02,6.02Z"/>
+    <path id="right_wing_button"
+      d="M260.54,347.56c-.49-.36-1.09-1.31,2.86-12.09,2.32-6.33,3.48-9.49,5.73-13.82,2.48-4.77,4.56-8.7,8.59-12.95,3.03-3.2,7.54-7.94,10.5-6.91,2.89,1,3.41,7.18,1.91,11.23,0,0-1.74,4.52-6.07,7.39-.01,0-.02.02-.02.02-.26.17-.45.29-.59.37.55.2,7.46,2.76,7.64,6.91.1,2.42-2.16,4.24-6.68,7.77-2.8,2.19-5.42,3.8-9.55,6.05-8.64,4.7-12.96,7.05-14.32,6.05Z"/>
+
+    <!-- ═══ NUMBER BUTTON OVALS ═══ -->
+    <path class="st2 numpad-btn" data-key="1" d="M204.52,375.8c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
+    <path class="st2 numpad-btn" data-key="2" d="M244.99,389.78c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
+    <path class="st2 numpad-btn" data-key="3" d="M284.81,375.22c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
+    <path class="st2 numpad-btn" data-key="4" d="M211.58,400.55c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
+    <path class="st2 numpad-btn" data-key="5" d="M244.99,413.13c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
+    <path class="st2 numpad-btn" data-key="6" d="M281.38,400.49c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
+    <path class="st2 numpad-btn" data-key="7" d="M216.36,425.89c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
+    <path class="st2 numpad-btn" data-key="8" d="M274.19,426.58c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
+    <path class="st2 numpad-btn" data-key="9" d="M231.41,447.45c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
+    <path class="st2 numpad-btn" data-key="0" d="M261.88,447.45c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
+
+    <!-- ═══ NUMBER LABELS ═══ -->
+    <text class="st4" transform="translate(208 383.49)"><tspan x="0" y="0">1</tspan></text>
+    <text class="st4" transform="translate(248.13 396.9)"><tspan x="0" y="0">2</tspan></text>
+    <text class="st4" transform="translate(288.74 382.47)"><tspan x="0" y="0">3</tspan></text>
+    <text class="st4" transform="translate(214.14 407.25)"><tspan x="0" y="0">4</tspan></text>
+    <text class="st4" transform="translate(248.13 421.84)"><tspan x="0" y="0">5</tspan></text>
+    <text class="st4" transform="translate(285 407.94)"><tspan x="0" y="0">6</tspan></text>
+    <text class="st4" transform="translate(220.02 433.05)"><tspan x="0" y="0">7</tspan></text>
+    <text class="st4" transform="translate(277.76 433.05)"><tspan x="0" y="0">8</tspan></text>
+    <text class="st4" transform="translate(234.14 454.4)"><tspan x="0" y="0">9</tspan></text>
+    <text class="st4" transform="translate(265.53 454.4)"><tspan x="0" y="0">0</tspan></text>
+  </svg>
 </div>
 
-<div class="gameover" id="gameover">
-    <h1>Mäng Läbi</h1>
-    <p>Vajuta SPACE, et uuesti mängida</p>
-</div>
-
-<div class="hint">
-    Liiguta hiirt, et juhtida ussi
-</div>
-
-<canvas id="game"></canvas>
+<div class="tagline">✦ fairy <span>phone</span> ✦</div>
 
 <script>
-const canvas = document.getElementById("game");
-const ctx = canvas.getContext("2d");
+// ── Glitter star field ──
+(function() {
+  const c = document.getElementById('stars');
+  const pink  = ['#ff60b0','#ff90cc','#ffb3dc','#ffd6f0','#ffffff','#f8b0ff','#ffc0e8'];
+  const chars = ['✦','✧','★','✺','◆','♡','·'];
+  for (let i = 0; i < 90; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.cssText = `
+      left:${Math.random()*100}vw; top:${Math.random()*100}vh;
+      --sz:${(Math.random()*12+6)}px;
+      --c:${pink[Math.floor(Math.random()*pink.length)]};
+      --dur:${(Math.random()*3+1.2).toFixed(1)}s;
+      --delay:-${(Math.random()*5).toFixed(1)}s;
+    `;
+    c.appendChild(s);
+  }
+  // drifting particles
+  for (let i = 0; i < 30; i++) {
+    const d = document.createElement('div');
+    d.className = 'drift';
+    d.textContent = chars[Math.floor(Math.random()*chars.length)];
+    d.style.cssText = `
+      left:${Math.random()*100}vw; top:${(Math.random()*80+20)}vh;
+      --sz:${(Math.random()*10+5)}px;
+      --c:${pink[Math.floor(Math.random()*pink.length)]};
+      --dur:${(Math.random()*5+4).toFixed(1)}s;
+      --delay:-${(Math.random()*8).toFixed(1)}s;
+    `;
+    c.appendChild(d);
+  }
+})();
 
-function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-window.addEventListener("resize", resize);
-resize();
+// ── Wing toggle state ──
+const leftWing     = document.getElementById('left_wing');
+const rightWing    = document.getElementById('right_wing');
+const leftGlitter  = document.getElementById('left_wing_glitter');
+const rightGlitter = document.getElementById('right_wing_glitter');
+const leftWingBtn  = document.getElementById('left_wing_button');
+const rightWingBtn = document.getElementById('right_wing_button');
+const screenText   = document.getElementById('screen-text');
+const screenSignal = document.getElementById('screen-signal');
 
-let mouse = {
-    x: canvas.width / 2,
-    y: canvas.height / 2
+let leftOn  = false;
+let rightOn = false;
+
+const fairyTexts = {
+  left:  ['✦ wings ✦', '♡ fly ♡', '✧ magic ✧', 'fairy! ✦'],
+  right: ['✦ soar ✦',  '♡ shine ♡','✧ dream ✧',  'glitter!'],
+  num:   ['✦ beep ✦',  '♡ boop ♡', '✧ pip ✧',    'zap! ✦'],
 };
+const signals = ['♡♡♡♡ NET','♡♡♡░ FAE','♡♡░░ PKY','♡░░░ MGC'];
+let sigIdx = 0;
 
-window.addEventListener("mousemove", (e) => {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
+function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function setScreen(msg) {
+  screenText.textContent = msg;
+  sigIdx = (sigIdx + 1) % signals.length;
+  screenSignal.textContent = signals[sigIdx];
+}
+
+function fairyBurst(x, y) {
+  const chars = ['✦','✧','★','♡','✺','·'];
+  const colors = ['#ff60b0','#ffaadd','#ff90cc','#ffd6f0','#f8b0ff'];
+  for (let i = 0; i < 10; i++) {
+    const el = document.createElement('div');
+    el.className = 'fairy-burst';
+    el.textContent = chars[Math.floor(Math.random()*chars.length)];
+    const angle = (Math.random() * 360) * Math.PI / 180;
+    const dist  = 30 + Math.random() * 50;
+    el.style.cssText = `
+      left:${x}px; top:${y}px;
+      color:${colors[Math.floor(Math.random()*colors.length)]};
+      font-size:${10+Math.random()*14}px;
+      --tx:${Math.cos(angle)*dist}px;
+      --ty:${Math.sin(angle)*dist - 40}px;
+      animation-delay:${Math.random()*0.15}s;
+      filter: drop-shadow(0 0 4px currentColor);
+    `;
+    document.body.appendChild(el);
+    el.addEventListener('animationend', () => el.remove());
+  }
+}
+
+function spawnRipple(x, y) {
+  const r = document.createElement('div');
+  r.className = 'ripple';
+  const sz = 60;
+  r.style.cssText = `left:${x-sz/2}px;top:${y-sz/2}px;width:${sz}px;height:${sz}px;`;
+  document.body.appendChild(r);
+  r.addEventListener('animationend', () => r.remove());
+}
+
+// ── Left wing button toggle ──
+leftWingBtn.addEventListener('click', () => {
+  leftOn = !leftOn;
+  leftWing.classList.toggle('active', leftOn);
+  leftGlitter.classList.toggle('active', leftOn);
+  leftWingBtn.classList.toggle('toggled', leftOn);
+  const rect = leftWingBtn.getBoundingClientRect();
+  const cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
+  spawnRipple(cx, cy);
+  fairyBurst(cx, cy);
+  setScreen(leftOn ? pick(fairyTexts.left) : '✦ fairy ✦');
 });
 
-let worm;
-let apple;
-let obstacles;
-let score;
-let gameOver;
-
-function pointInsideObstacle(x, y, obstacle, padding = 0) {
-    return (
-        x > obstacle.x - padding &&
-        x < obstacle.x + obstacle.width + padding &&
-        y > obstacle.y - padding &&
-        y < obstacle.y + obstacle.height + padding
-    );
-}
-
-function spawnApple() {
-
-    let validPosition = false;
-    let newApple;
-
-    while (!validPosition) {
-
-        newApple = {
-            x: Math.random() * (canvas.width - 60) + 30,
-            y: Math.random() * (canvas.height - 60) + 30,
-            size: 14
-        };
-
-        validPosition = true;
-
-        for (const obstacle of obstacles) {
-
-            if (
-                pointInsideObstacle(
-                    newApple.x,
-                    newApple.y,
-                    obstacle,
-                    25
-                )
-            ) {
-                validPosition = false;
-                break;
-            }
-        }
-    }
-
-    return newApple;
-}
-
-function createObstacles() {
-
-    obstacles = [];
-
-    for (let i = 0; i < 7; i++) {
-
-        obstacles.push({
-            x: Math.random() * (canvas.width - 250) + 80,
-            y: Math.random() * (canvas.height - 250) + 80,
-            width: 80 + Math.random() * 80,
-            height: 40 + Math.random() * 100,
-
-            // ÜLIAEGLANE liikumine
-            vx: (Math.random() - 0.5) * 0.15,
-            vy: (Math.random() - 0.5) * 0.15
-        });
-    }
-}
-
-function resetGame() {
-
-    worm = {
-        segments: [],
-        speed: 0.12,
-        size: 18
-    };
-
-    for (let i = 0; i < 20; i++) {
-        worm.segments.push({
-            x: canvas.width / 2,
-            y: canvas.height / 2
-        });
-    }
-
-    createObstacles();
-
-    apple = spawnApple();
-
-    score = 0;
-    gameOver = false;
-
-    document.getElementById("score").textContent = score;
-    document.getElementById("gameover").style.display = "none";
-}
-
-function moveObstacles() {
-
-    for (const obstacle of obstacles) {
-
-        obstacle.x += obstacle.vx;
-        obstacle.y += obstacle.vy;
-
-        // Põrkab ekraani servadelt tagasi
-        if (
-            obstacle.x <= 0 ||
-            obstacle.x + obstacle.width >= canvas.width
-        ) {
-            obstacle.vx *= -1;
-        }
-
-        if (
-            obstacle.y <= 0 ||
-            obstacle.y + obstacle.height >= canvas.height
-        ) {
-            obstacle.vy *= -1;
-        }
-    }
-}
-
-function checkCollisionWithObstacle(x, y, radius, obstacle) {
-
-    const closestX = Math.max(
-        obstacle.x,
-        Math.min(x, obstacle.x + obstacle.width)
-    );
-
-    const closestY = Math.max(
-        obstacle.y,
-        Math.min(y, obstacle.y + obstacle.height)
-    );
-
-    const dx = x - closestX;
-    const dy = y - closestY;
-
-    return (dx * dx + dy * dy) < radius * radius;
-}
-
-function update() {
-
-    if (gameOver) return;
-
-    moveObstacles();
-
-    const head = worm.segments[0];
-
-    // Liiguta pead hiire suunas
-    head.x += (mouse.x - head.x) * worm.speed;
-    head.y += (mouse.y - head.y) * worm.speed;
-
-    // Ülejäänud keha järgneb
-    for (let i = 1; i < worm.segments.length; i++) {
-
-        const prev = worm.segments[i - 1];
-        const seg = worm.segments[i];
-
-        seg.x += (prev.x - seg.x) * 0.35;
-        seg.y += (prev.y - seg.y) * 0.35;
-    }
-
-    // Õuna söömine
-    const dx = head.x - apple.x;
-    const dy = head.y - apple.y;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-
-    if (dist < worm.size + apple.size) {
-
-        score++;
-        document.getElementById("score").textContent = score;
-
-        const tail = worm.segments[worm.segments.length - 1];
-
-        worm.segments.push({
-            x: tail.x,
-            y: tail.y
-        });
-
-        apple = spawnApple();
-    }
-
-    // Kui pea läheb ekraanist välja
-    if (
-        head.x < 0 ||
-        head.x > canvas.width ||
-        head.y < 0 ||
-        head.y > canvas.height
-    ) {
-        endGame();
-    }
-
-    // KÕIK ussi kehaosad võivad surra
-    for (const segment of worm.segments) {
-
-        for (const obstacle of obstacles) {
-
-            if (
-                checkCollisionWithObstacle(
-                    segment.x,
-                    segment.y,
-                    worm.size,
-                    obstacle
-                )
-            ) {
-                endGame();
-            }
-        }
-    }
-}
-
-function endGame() {
-
-    gameOver = true;
-    document.getElementById("gameover").style.display = "block";
-}
-
-window.addEventListener("keydown", (e) => {
-
-    if (e.code === "Space" && gameOver) {
-        resetGame();
-    }
+// ── Right wing button toggle ──
+rightWingBtn.addEventListener('click', () => {
+  rightOn = !rightOn;
+  rightWing.classList.toggle('active', rightOn);
+  rightGlitter.classList.toggle('active', rightOn);
+  rightWingBtn.classList.toggle('toggled', rightOn);
+  const rect = rightWingBtn.getBoundingClientRect();
+  const cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
+  spawnRipple(cx, cy);
+  fairyBurst(cx, cy);
+  setScreen(rightOn ? pick(fairyTexts.right) : '✦ fairy ✦');
 });
 
-function drawApple() {
+// ── Number buttons ──
+document.querySelectorAll('.numpad-btn').forEach(el => {
+  el.addEventListener('click', (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
+    spawnRipple(cx, cy);
+    fairyBurst(cx, cy);
+    setScreen(pick(fairyTexts.num));
+  });
+});
 
-    ctx.fillStyle = "#e53935";
-
-    ctx.beginPath();
-    ctx.arc(apple.x, apple.y, apple.size, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Läige
-    ctx.fillStyle = "rgba(255,255,255,0.5)";
-    ctx.beginPath();
-    ctx.arc(apple.x - 4, apple.y - 4, 4, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Vars
-    ctx.strokeStyle = "#5d4037";
-    ctx.lineWidth = 3;
-
-    ctx.beginPath();
-    ctx.moveTo(apple.x, apple.y - apple.size + 2);
-    ctx.lineTo(apple.x + 2, apple.y - apple.size - 8);
-    ctx.stroke();
-
-    // Leht
-    ctx.fillStyle = "#43a047";
-
-    ctx.beginPath();
-    ctx.ellipse(
-        apple.x + 7,
-        apple.y - apple.size - 5,
-        7,
-        4,
-        Math.PI / 4,
-        0,
-        Math.PI * 2
-    );
-
-    ctx.fill();
-}
-
-function drawObstacles() {
-
-    for (const obstacle of obstacles) {
-
-        // Vari
-        ctx.fillStyle = "rgba(0,0,0,0.15)";
-        ctx.fillRect(
-            obstacle.x + 6,
-            obstacle.y + 6,
-            obstacle.width,
-            obstacle.height
-        );
-
-        // Põhi
-        ctx.fillStyle = "#555";
-
-        ctx.fillRect(
-            obstacle.x,
-            obstacle.y,
-            obstacle.width,
-            obstacle.height
-        );
-
-        // Highlight
-        ctx.fillStyle = "rgba(255,255,255,0.15)";
-        ctx.fillRect(
-            obstacle.x,
-            obstacle.y,
-            obstacle.width,
-            6
-        );
-    }
-}
-
-function drawWorm() {
-
-    for (let i = worm.segments.length - 1; i >= 0; i--) {
-
-        const seg = worm.segments[i];
-        const t = i / worm.segments.length;
-
-        const green = Math.floor(180 - t * 90);
-
-        ctx.fillStyle = `rgb(50, ${green}, 70)`;
-
-        ctx.beginPath();
-
-        ctx.arc(
-            seg.x,
-            seg.y,
-            worm.size - t * 4,
-            0,
-            Math.PI * 2
-        );
-
-        ctx.fill();
-    }
-
-    // Silmad
-    const head = worm.segments[0];
-
-    ctx.fillStyle = "white";
-
-    ctx.beginPath();
-    ctx.arc(head.x - 5, head.y - 4, 4, 0, Math.PI * 2);
-    ctx.arc(head.x + 5, head.y - 4, 4, 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.fillStyle = "black";
-
-    ctx.beginPath();
-    ctx.arc(head.x - 5, head.y - 4, 2, 0, Math.PI * 2);
-    ctx.arc(head.x + 5, head.y - 4, 2, 0, Math.PI * 2);
-    ctx.fill();
-}
-
-function drawBackground() {
-
-    ctx.fillStyle = "#ffe44d";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Dekoratiivsed ringid
-    for (let i = 0; i < 40; i++) {
-
-        ctx.fillStyle = "rgba(255,255,255,0.08)";
-
-        ctx.beginPath();
-
-        ctx.arc(
-            (i * 173) % canvas.width,
-            (i * 97) % canvas.height,
-            30,
-            0,
-            Math.PI * 2
-        );
-
-        ctx.fill();
-    }
-}
-
-function render() {
-
-    drawBackground();
-    drawObstacles();
-    drawApple();
-    drawWorm();
-}
-
-function gameLoop() {
-
-    update();
-    render();
-
-    requestAnimationFrame(gameLoop);
-}
-
-resetGame();
-gameLoop();
+// touch support for wing buttons
+[leftWingBtn, rightWingBtn].forEach(btn => {
+  btn.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    btn.dispatchEvent(new MouseEvent('click'));
+  }, { passive: false });
+});
 </script>
-
 </body>
 </html>
+```
