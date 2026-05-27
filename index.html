@@ -6,299 +6,249 @@
 <title>Winx Phone</title>
 <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet"/>
 <style>
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
-  body {
-    min-height:100vh;
-    background: radial-gradient(ellipse at 20% 10%, #ff80cc 0%, #ff40a8 25%, #cc1880 55%, #880050 100%);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    overflow:hidden;
-    position:relative;
-  }
+body{
+  min-height:100vh;
+  background:radial-gradient(ellipse at 25% 15%,#ff80cc 0%,#ff40a8 30%,#cc1880 65%,#880050 100%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  position:relative;
+}
 
-  /* ── background glitter dots ── */
-  .stars{position:fixed;inset:0;pointer-events:none;z-index:0;}
-  .star{
-    position:absolute;
-    animation:twinkle var(--dur,2s) ease-in-out infinite var(--delay,0s);
-    opacity:0;font-size:var(--sz,10px);color:var(--c,#ffb3dc);
-    filter:drop-shadow(0 0 4px var(--c,#ffb3dc));
-  }
-  @keyframes twinkle{
-    0%,100%{opacity:0;transform:scale(.4) rotate(0deg);}
-    50%{opacity:1;transform:scale(1.3) rotate(20deg);}
-  }
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.star{
+  position:absolute;
+  animation:twinkle var(--dur,2s) ease-in-out infinite var(--delay,0s);
+  opacity:0;font-size:var(--sz,10px);color:var(--c,#ffb3dc);
+  filter:drop-shadow(0 0 4px var(--c,#ffb3dc));
+}
+@keyframes twinkle{
+  0%,100%{opacity:0;transform:scale(.3);}
+  50%{opacity:1;transform:scale(1.2);}
+}
 
-  /* ── phone wrapper – bigger ── */
-  #phone-wrap{
-    position:relative;z-index:2;
-    width:520px;          /* was 360px – now 520px */
-    flex-shrink:0;
-    filter:
-      drop-shadow(0 0 40px rgba(255,80,160,.7))
-      drop-shadow(0 30px 60px rgba(180,0,100,.5));
-  }
+/* 700px wide wrapper = 1.4× the 500-unit SVG viewBox */
+#phone-wrap{
+  position:relative;z-index:2;width:700px;flex-shrink:0;
+  filter:drop-shadow(0 0 40px rgba(255,80,160,.65)) drop-shadow(0 25px 55px rgba(160,0,90,.5));
+}
+#phone-svg{width:100%;height:auto;overflow:visible;}
 
-  #phone-svg{width:100%;height:auto;overflow:visible;}
+/* phone body */
+#_x3C_background_x3E_{
+  fill:url(#bodyGrad);
+  stroke:#cc0080;stroke-width:1.5;
+  filter:url(#bevel);
+}
 
-  /* ── phone body ── */
-  #_x3C_background_x3E_{
-    fill:url(#bodyGrad);
-    stroke:url(#bodyStroke);
-    stroke-width:2;
-    filter:url(#bevel);
-  }
+/* screen */
+#phone_screen{fill:url(#screenGrad);stroke:#ff80c8;stroke-width:1.2;}
 
-  /* glitter overlay on body */
-  #body-glitter{pointer-events:none;}
+/* phone outline silhouette (st3 path) */
+.st3-outline{fill:none;stroke:url(#bodyStrokeGrad);stroke-width:1.5;stroke-miterlimit:10;}
 
-  /* ── screen ── */
-  #phone_screen{
-    fill:url(#screenGrad);
-    stroke:#ff90d0;stroke-width:1.5;
-  }
+/* decoration arc */
+#phone_decoration{fill:none;stroke:url(#arcGrad);stroke-width:2.5;stroke-miterlimit:10;}
 
-  /* ── decoration arc ── */
-  #phone_decoration{fill:none;stroke:url(#arcGrad);stroke-width:2.5;}
+/* inner d-pad lines — thicker now */
+.dpad-inner{fill:none;stroke:rgba(255,130,210,.75);stroke-width:1.8;stroke-miterlimit:10;}
 
-  /* ── WINGS ── */
-  #left_wing,#right_wing{
-    pointer-events:none;
-    opacity:0;
-    transform:scale(0);
-    transition:opacity .7s ease, transform .7s cubic-bezier(.34,1.56,.64,1);
-  }
-  /* transform-origin set inline via CSS vars won't work on SVG paths in all browsers,
-     so we use a wrapper group approach handled in JS */
-  #left_wing.active  {opacity:1;transform:scale(1);}
-  #right_wing.active {opacity:1;transform:scale(1);}
+/* arrows */
+#up_arrow,#down_arrow,#left_arrow,#right_arrow{
+  fill:none;stroke:#ff50aa;stroke-width:2.5;stroke-linecap:round;stroke-miterlimit:10;
+}
 
-  /* ── wing buttons ── */
-  #left_wing_button,#right_wing_button{
-    fill:url(#wingBtnGrad);
-    stroke:#ff50a0;stroke-width:1.5;
-    cursor:pointer;
-    transition:filter .15s;
-    filter:url(#btnGlow);
-  }
-  #left_wing_button:hover,#right_wing_button:hover{filter:url(#btnGlowHot);}
-  #left_wing_button.toggled,#right_wing_button.toggled{
-    fill:url(#wingBtnBlue);
-    filter:url(#btnGlowBlue);
-  }
+/* wing buttons */
+#left_wing_button,#right_wing_button{
+  fill:url(#wingBtnGrad);stroke:#ff50a0;stroke-width:1.4;
+  cursor:pointer;transition:filter .15s;filter:url(#btnGlow);
+}
+#left_wing_button:hover,#right_wing_button:hover{filter:url(#btnGlowHot);}
+#left_wing_button.toggled,#right_wing_button.toggled{fill:url(#wingBtnBlue);filter:url(#btnGlowBlue);}
 
-  /* ── d-pad arrows ── */
-  #up_arrow,#down_arrow,#left_arrow,#right_arrow{
-    fill:none;stroke:#ff50aa;stroke-width:2;stroke-linecap:round;
-  }
+/* numpad ovals — soap bubble */
+.st2{
+  fill:url(#bubbleGrad);stroke:rgba(140,210,255,.8);stroke-width:.8;stroke-miterlimit:10;
+  cursor:pointer;transition:filter .12s;filter:url(#bubbleGlow);
+}
+.st2:hover{filter:url(#bubbleGlowHot);}
+.st2:active{filter:brightness(.85);}
 
-  /* ── numpad ovals – soap bubble blue ── */
-  .st2{
-    fill:url(#bubbleGrad);
-    stroke:rgba(120,200,255,.6);
-    stroke-width:.6;
-    cursor:pointer;
-    transition:filter .12s;
-    filter:url(#bubbleGlow);
-  }
-  .st2:hover{filter:url(#bubbleGlowHot);}
-  .st2:active{filter:brightness(.85);}
+/* number labels — bigger, white with chrome shadow, clearly visible */
+.numLabel{
+  font-family:'VT323',monospace;
+  font-size:14px;
+  fill:white;
+  stroke:rgba(80,160,255,.6);
+  stroke-width:.4;
+  pointer-events:none;
+  filter:url(#chromeFlt);
+}
 
-  /* ── number labels ── */
-  .st4{
-    fill:#c0eeff;
-    font-family:'VT323',monospace;
-    font-size:11px;
-    stroke:rgba(255,255,255,.4);
-    stroke-width:.2;
-    pointer-events:none;
-    filter:url(#chromeTxt);
-  }
+/* WINGS — opaque, grouped */
+#lwg,#rwg{
+  transition:opacity .7s ease, transform .7s cubic-bezier(.34,1.56,.64,1);
+  opacity:0;transform:scale(0);
+  transform-origin:250px 340px;
+}
+#lwg.active,#rwg.active{opacity:1;transform:scale(1);}
 
-  /* ── screen overlay ── */
-  #screen-content{
-    position:absolute;
-    left:50%;
-    transform:translateX(-50%);
-    /* these values align with the SVG screen rect scaled to 520px wide from 500px viewBox */
-    top:calc(203.09/700 * 520px * (520/500));
-    width:calc(85.95/500 * 520px);
-    height:calc(91.2/700 * (520px * 700/500));
-    display:flex;flex-direction:column;
-    align-items:center;justify-content:center;
-    pointer-events:none;z-index:5;overflow:hidden;
-    gap:2px;
-  }
-  #screen-emoji{font-size:22px;line-height:1;filter:drop-shadow(0 0 6px #ff60b0);}
-  #screen-text{
-    font-family:'VT323',monospace;
-    font-size:13px;
-    text-align:center;
-    line-height:1.2;
-    max-width:95%;
-    word-break:break-all;
-    /* chrome/metallic effect */
-    background:linear-gradient(180deg,#ffffff 0%,#c0d8ff 30%,#8ab0e8 50%,#d8eeff 70%,#ffffff 100%);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    background-clip:text;
-    filter:drop-shadow(0 1px 2px rgba(100,180,255,.8));
-  }
-  #screen-sub{
-    font-family:'VT323',monospace;
-    font-size:10px;
-    background:linear-gradient(180deg,#e0f0ff,#90c0ff,#e0f0ff);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    background-clip:text;
-    filter:drop-shadow(0 1px 2px rgba(80,160,255,.6));
-    letter-spacing:.5px;
-  }
+/* screen overlay — aligned to screen rect at 1.4× scale
+   x=207.02*1.4=289.8  y=203.09*1.4=284.3
+   w=85.95*1.4=120.3   h=91.2*1.4=127.7 */
+#screen-content{
+  position:absolute;
+  left:290px;top:285px;width:120px;height:128px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  pointer-events:none;z-index:5;overflow:hidden;gap:2px;
+}
+#screen-line1,#screen-line2,#screen-line3{
+  font-family:'VT323',monospace;text-align:center;line-height:1.15;max-width:100%;
+  background:linear-gradient(180deg,#fff 0%,#c8e0ff 25%,#7090c8 50%,#c8deff 75%,#fff 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 1px 3px rgba(100,180,255,.9));
+}
+#screen-line1{font-size:16px;letter-spacing:1px;}
+#screen-line2{font-size:12px;}
+#screen-line3{font-size:10px;letter-spacing:.5px;}
 
-  /* ── ripple ── */
-  .ripple{
-    position:fixed;border-radius:50%;pointer-events:none;z-index:999;
-    animation:rippleOut .6s ease-out forwards;
-    background:radial-gradient(circle,rgba(180,220,255,.8) 0%,rgba(255,160,220,.3) 60%,transparent 100%);
-  }
-  @keyframes rippleOut{from{transform:scale(0);opacity:1;}to{transform:scale(5);opacity:0;}}
+.ripple{
+  position:fixed;border-radius:50%;pointer-events:none;z-index:999;
+  animation:rippleOut .6s ease-out forwards;
+  background:radial-gradient(circle,rgba(180,220,255,.8) 0%,rgba(255,160,220,.3) 60%,transparent 100%);
+}
+@keyframes rippleOut{from{transform:scale(0);opacity:1;}to{transform:scale(5);opacity:0;}}
 
-  /* ── fairy burst ── */
-  .fairy-burst{
-    position:fixed;pointer-events:none;z-index:998;
-    animation:fairyBurst .85s ease-out forwards;
-  }
-  @keyframes fairyBurst{
-    0%{opacity:1;transform:translate(0,0) scale(.5);}
-    100%{opacity:0;transform:translate(var(--tx,0px),var(--ty,-60px)) scale(1.6) rotate(40deg);}
-  }
-
-  /* ── Winx logo area on phone top ── */
-  .winx-logo{
-    font-family:'VT323',monospace;
-    font-size:18px;
-    fill:url(#silverGrad);
-    filter:url(#chromeTxt);
-    pointer-events:none;
-  }
+.fburst{position:fixed;pointer-events:none;z-index:998;animation:fburstAnim .85s ease-out forwards;}
+@keyframes fburstAnim{
+  0%{opacity:1;transform:translate(0,0) scale(.5);}
+  100%{opacity:0;transform:translate(var(--tx,0px),var(--ty,-55px)) scale(1.5) rotate(35deg);}
+}
 </style>
 </head>
 <body>
+
 <div class="stars" id="stars"></div>
 
 <div id="phone-wrap">
-  <!-- screen overlay -->
   <div id="screen-content">
-    <div id="screen-emoji">🦋</div>
-    <div id="screen-text">WINX CLUB</div>
-    <div id="screen-sub">✦ ready ✦</div>
+    <div id="screen-line1">✦ WINX ✦</div>
+    <div id="screen-line2">CLUB</div>
+    <div id="screen-line3">· ready ·</div>
   </div>
 
   <svg id="phone-svg" viewBox="0 0 500 700" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <!-- ── GRADIENTS ── -->
+      <!-- body gradient: rich pink with more depth -->
       <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%"   stop-color="#ffb0e0"/>
-        <stop offset="20%"  stop-color="#ff70c0"/>
-        <stop offset="45%"  stop-color="#ff30a0"/>
-        <stop offset="70%"  stop-color="#ff60b8"/>
-        <stop offset="100%" stop-color="#ffb0e0"/>
+        <stop offset="0%"  stop-color="#ffc0ec"/>
+        <stop offset="15%" stop-color="#ff88d0"/>
+        <stop offset="35%" stop-color="#ff30a0"/>
+        <stop offset="55%" stop-color="#e8008c"/>
+        <stop offset="75%" stop-color="#ff50b8"/>
+        <stop offset="100%" stop-color="#ffb8e8"/>
       </linearGradient>
-      <linearGradient id="bodyStroke" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%"  stop-color="#ffd0f0"/>
+
+      <linearGradient id="bodyStrokeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%"  stop-color="#ffd8f8"/>
         <stop offset="50%" stop-color="#ff40b0"/>
-        <stop offset="100%" stop-color="#cc0080"/>
+        <stop offset="100%" stop-color="#aa0070"/>
       </linearGradient>
 
+      <!-- screen -->
       <linearGradient id="screenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%"   stop-color="#1a0820"/>
-        <stop offset="100%" stop-color="#080010"/>
+        <stop offset="0%"  stop-color="#180620"/>
+        <stop offset="100%" stop-color="#060010"/>
       </linearGradient>
 
+      <!-- arc -->
       <linearGradient id="arcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%"   stop-color="#ff40a0"/>
-        <stop offset="50%"  stop-color="#ffd0f0"/>
+        <stop offset="0%"  stop-color="#ff40a0"/>
+        <stop offset="50%" stop-color="#ffd0f8"/>
         <stop offset="100%" stop-color="#ff40a0"/>
       </linearGradient>
 
-      <!-- wing fill gradients (butterfly reference – pink top, blue bottom) -->
-      <linearGradient id="wingGradPink" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%"   stop-color="#ff80c8" stop-opacity=".92"/>
-        <stop offset="40%"  stop-color="#ffb0e0" stop-opacity=".88"/>
-        <stop offset="70%"  stop-color="#d0a0f8" stop-opacity=".85"/>
-        <stop offset="100%" stop-color="#90c8ff" stop-opacity=".82"/>
+      <!-- wings: solid opaque pink+blue, no gap, seamless -->
+      <linearGradient id="wingFill" x1="0%" y1="0%" x2="60%" y2="100%">
+        <stop offset="0%"  stop-color="#ff80c4"/>
+        <stop offset="30%" stop-color="#ffb0e0"/>
+        <stop offset="60%" stop-color="#a0d0ff"/>
+        <stop offset="100%" stop-color="#60aaff"/>
       </linearGradient>
-      <linearGradient id="wingGradBlue" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%"   stop-color="#c0a0ff" stop-opacity=".88"/>
-        <stop offset="50%"  stop-color="#80c8ff" stop-opacity=".85"/>
-        <stop offset="100%" stop-color="#50a8ff" stop-opacity=".80"/>
+      <linearGradient id="wingStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%"  stop-color="#ff90cc"/>
+        <stop offset="100%" stop-color="#80c8ff"/>
       </linearGradient>
 
-      <!-- wing button gradients -->
+      <!-- wing buttons -->
       <linearGradient id="wingBtnGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%"   stop-color="#ffe0f5"/>
-        <stop offset="50%"  stop-color="#ff70c0"/>
+        <stop offset="0%"  stop-color="#ffe4f8"/>
+        <stop offset="50%" stop-color="#ff70c0"/>
         <stop offset="100%" stop-color="#cc1880"/>
       </linearGradient>
-      <!-- toggled: light blue -->
       <linearGradient id="wingBtnBlue" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%"   stop-color="#e0f8ff"/>
-        <stop offset="50%"  stop-color="#80d8ff"/>
+        <stop offset="0%"  stop-color="#e4f8ff"/>
+        <stop offset="50%" stop-color="#80d8ff"/>
         <stop offset="100%" stop-color="#40a8e0"/>
       </linearGradient>
 
-      <!-- soap bubble numpad -->
+      <!-- numpad soap bubble -->
       <linearGradient id="bubbleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%"   stop-color="rgba(220,240,255,.75)"/>
-        <stop offset="30%"  stop-color="rgba(160,210,255,.60)"/>
-        <stop offset="60%"  stop-color="rgba(100,180,255,.50)"/>
-        <stop offset="100%" stop-color="rgba(180,230,255,.65)"/>
+        <stop offset="0%"  stop-color="rgba(220,244,255,.88)"/>
+        <stop offset="40%" stop-color="rgba(150,210,255,.72)"/>
+        <stop offset="100%" stop-color="rgba(100,185,255,.80)"/>
       </linearGradient>
 
-      <!-- silver/chrome for logo and text -->
+      <!-- silver for number labels -->
       <linearGradient id="silverGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%"   stop-color="#ffffff"/>
-        <stop offset="25%"  stop-color="#c8d8f0"/>
-        <stop offset="50%"  stop-color="#8090b8"/>
-        <stop offset="75%"  stop-color="#d8e8ff"/>
+        <stop offset="0%"  stop-color="#ffffff"/>
+        <stop offset="30%" stop-color="#c0d8f8"/>
+        <stop offset="55%" stop-color="#8090c0"/>
+        <stop offset="80%" stop-color="#d8e8ff"/>
         <stop offset="100%" stop-color="#ffffff"/>
       </linearGradient>
 
-      <!-- glitter pattern -->
+      <!-- glitter pattern for body -->
       <pattern id="glitter" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
         <rect width="16" height="16" fill="none"/>
-        <circle cx="2"  cy="2"  r=".9"  fill="white" opacity=".9"/>
-        <circle cx="8"  cy="4"  r=".5"  fill="#ffe0f8" opacity=".85"/>
-        <circle cx="14" cy="1"  r=".7"  fill="white" opacity=".8"/>
-        <circle cx="4"  cy="10" r=".4"  fill="#ffc0f0" opacity=".9"/>
-        <circle cx="12" cy="12" r=".8"  fill="white" opacity=".85"/>
-        <circle cx="1"  cy="14" r=".5"  fill="#f0d0ff" opacity=".8"/>
-        <circle cx="15" cy="9"  r=".6"  fill="white" opacity=".75"/>
-        <circle cx="7"  cy="14" r=".45" fill="#ffd0ff" opacity=".9"/>
-        <circle cx="11" cy="7"  r=".35" fill="white" opacity=".8"/>
+        <circle cx="2"  cy="2"  r=".9" fill="white" opacity=".85"/>
+        <circle cx="9"  cy="4"  r=".5" fill="#ffe0f8" opacity=".8"/>
+        <circle cx="14" cy="1"  r=".7" fill="white" opacity=".75"/>
+        <circle cx="4"  cy="11" r=".4" fill="#ffc0f0" opacity=".85"/>
+        <circle cx="12" cy="12" r=".8" fill="white" opacity=".8"/>
+        <circle cx="1"  cy="14" r=".5" fill="#f0d0ff" opacity=".75"/>
+        <circle cx="15" cy="8"  r=".6" fill="white" opacity=".7"/>
+        <circle cx="7"  cy="15" r=".45" fill="#ffd0ff" opacity=".85"/>
+        <circle cx="11" cy="7"  r=".35" fill="white" opacity=".75"/>
+        <circle cx="5"  cy="6"  r=".3" fill="#ffddf8" opacity=".9"/>
+        <circle cx="13" cy="5"  r=".4" fill="white" opacity=".8"/>
       </pattern>
 
-      <!-- glitter for wings (blue-ish sparkles) -->
+      <!-- glitter for wings -->
       <pattern id="wingGlitter" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
         <rect width="14" height="14" fill="none"/>
-        <circle cx="2"  cy="2"  r=".8" fill="white" opacity=".9"/>
-        <circle cx="7"  cy="4"  r=".5" fill="#c0e8ff" opacity=".85"/>
-        <circle cx="12" cy="1"  r=".6" fill="white" opacity=".8"/>
-        <circle cx="4"  cy="10" r=".4" fill="#ffd0f8" opacity=".85"/>
-        <circle cx="11" cy="11" r=".7" fill="white" opacity=".8"/>
-        <circle cx="1"  cy="13" r=".45" fill="#d0f0ff" opacity=".85"/>
-        <circle cx="13" cy="8"  r=".55" fill="white" opacity=".75"/>
+        <circle cx="2"  cy="2"  r="1"   fill="white" opacity=".9"/>
+        <circle cx="7"  cy="4"  r=".6"  fill="#c8e8ff" opacity=".85"/>
+        <circle cx="12" cy="1"  r=".7"  fill="white" opacity=".8"/>
+        <circle cx="4"  cy="10" r=".5"  fill="#ffd0f8" opacity=".85"/>
+        <circle cx="11" cy="11" r=".8"  fill="white" opacity=".8"/>
+        <circle cx="1"  cy="13" r=".5"  fill="#d8f0ff" opacity=".85"/>
+        <circle cx="13" cy="8"  r=".6"  fill="white" opacity=".75"/>
+        <circle cx="6"  cy="13" r=".45" fill="#ffc8f0" opacity=".9"/>
+        <circle cx="9"  cy="7"  r=".4"  fill="white" opacity=".8"/>
       </pattern>
 
-      <!-- ── FILTERS ── -->
+      <!-- FILTERS -->
+      <!-- bevel for body -->
       <filter id="bevel" x="-5%" y="-5%" width="110%" height="110%">
         <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
         <feOffset dx="-4" dy="-4" in="blur" result="ob1"/>
         <feOffset dx="4"  dy="4"  in="blur" result="ob2"/>
-        <feFlood flood-color="white"   flood-opacity=".7" result="white"/>
-        <feFlood flood-color="#800040" flood-opacity=".5" result="dark"/>
+        <feFlood flood-color="white"   flood-opacity=".65" result="white"/>
+        <feFlood flood-color="#800040" flood-opacity=".5"  result="dark"/>
         <feComposite in="white" in2="ob1" operator="in" result="hi"/>
         <feComposite in="dark"  in2="ob2" operator="in" result="sh"/>
         <feMerge>
@@ -308,6 +258,15 @@
         </feMerge>
       </filter>
 
+      <!-- wing glow -->
+      <filter id="wingGlow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur"/>
+        <feColorMatrix in="blur" type="matrix"
+          values="1 0 .4 0 .05  0 .4 1 0 .05  .5 0 1 0 .1  0 0 0 .85 0" result="c"/>
+        <feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+
+      <!-- btn glows -->
       <filter id="btnGlow" x="-30%" y="-30%" width="160%" height="160%">
         <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur"/>
         <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
@@ -321,13 +280,15 @@
       <filter id="btnGlowBlue" x="-40%" y="-40%" width="180%" height="180%">
         <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
         <feColorMatrix in="blur" type="matrix"
-          values=".2 0 .5 0 0  0 .5 1 0 0  .5 0 1.5 0 0  0 0 0 1.8 0" result="c"/>
+          values=".2 0 .4 0 0  0 .5 1 0 0  .5 0 1.5 0 0  0 0 0 1.8 0" result="c"/>
         <feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge>
       </filter>
+
+      <!-- bubble glow -->
       <filter id="bubbleGlow" x="-30%" y="-30%" width="160%" height="160%">
         <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
         <feColorMatrix in="blur" type="matrix"
-          values=".3 0 .5 0 0  0 .4 1 0 0  .5 0 1.2 0 0  0 0 0 1 0" result="c"/>
+          values=".3 0 .5 0 0  0 .5 1 0 0  .5 0 1.2 0 0  0 0 0 1 0" result="c"/>
         <feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge>
       </filter>
       <filter id="bubbleGlowHot" x="-40%" y="-40%" width="180%" height="180%">
@@ -336,129 +297,127 @@
           values=".3 0 .5 0 0  0 .6 1.2 0 0  .6 0 1.5 0 0  0 0 0 1.5 0" result="c"/>
         <feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge>
       </filter>
-      <filter id="wingGlow" x="-25%" y="-25%" width="150%" height="150%">
-        <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur"/>
-        <feColorMatrix in="blur" type="matrix"
-          values="1 0 .4 0 .05  0 .4 1 0 .05  .4 0 1 0 .1  0 0 0 .9 0" result="c"/>
-        <feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge>
-      </filter>
-      <!-- chrome text filter -->
-      <filter id="chromeTxt" x="-10%" y="-10%" width="120%" height="120%">
-        <feGaussianBlur in="SourceAlpha" stdDeviation=".5" result="blur"/>
-        <feOffset dx="0" dy="1" in="blur" result="offset"/>
-        <feFlood flood-color="rgba(120,180,255,.5)" result="color"/>
-        <feComposite in="color" in2="offset" operator="in" result="shadow"/>
+
+      <!-- chrome shadow for labels -->
+      <filter id="chromeFlt" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur in="SourceAlpha" stdDeviation=".6" result="blur"/>
+        <feOffset dx="0" dy="1" in="blur" result="off"/>
+        <feFlood flood-color="rgba(60,140,255,.7)" result="col"/>
+        <feComposite in="col" in2="off" operator="in" result="shadow"/>
         <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
       </filter>
     </defs>
 
-    <!-- ══════════════════════════════════
-         WINGS  (behind phone body)
-         Each wing is a group so transform-origin works
-    ════════════════════════════════════ -->
-
-    <!-- LEFT WING group – pivot at phone centre ~(250,340) -->
-    <g id="left_wing_group" style="transform-origin:250px 340px; transition:transform .75s cubic-bezier(.34,1.56,.64,1), opacity .5s; opacity:0; transform:scale(0);">
-      <!-- main wing shape -->
-      <path id="left_wing"
-        d="M180.02,315.06c-1.46-11.86-4.26-25.53-9.4-40.17-4.46-12.69-8.92-25.39-19.66-39.32-5.34-6.92-15.25-18.08-30.77-27.35-3.22-1.92-19.31-11-42.74-13.68-10.77-1.23-19.88-.74-26.36,0-9.12,1.99-18.23,3.99-27.35,5.98-10.25,4.54-13.07,9.26-13.68,12.82-1.19,6.95,5.61,12,30.63,37.61,14.73,15.07,17.57,19.22,20.51,25.64,3.03,6.59,5.65,16.19,6.84,20.51,2.18,7.98,2.33,10.49,5.13,13.68,2.67,3.03,6.62,4.87,14.53,8.55,2.5,1.16,3.5,1.54,9,3.86,10.09,4.25,12.19,5.29,14.93,6.4,10.4,4.22,20.65,5.7,24.79,5.98,20.39,1.41,38.1-15.03,43.59-20.51-6.03,18.86-6.57,33.69-5.98,43.59,1.05,17.59,2.16,26.18,4.27,33.33,1.54,5.2,3.35,9.27,2.56,15.38-.32,2.48-1.04,8.04-5.13,11.97-5.35,5.14-9.99,1.23-19.66,5.98-5.69,2.8-9.55,5.8-14.53,10.26-5.91,5.3-10.01,10.58-12.68,14.53-7.2-14.92-13.55-18.44-18.08-18.8-7.14-.58-12.82.85-12.82.85-7.62.58-8.95.79-11.11,0-5.78-2.12-8.48-8.2-9.4-10.26-1.17-2.62-.98-3.46-2.7-14.46-.6-3.83-.2-7.61-2.42-12.04-.68-1.36-1.4-2.41-1.91-3.11-1.97-1.41-5.01-3.96-7.49-8-1.44-2.35-6.01-9.84-3.42-16.24,1.34-3.33,3.21-2.71,8.55-8.55,1.82-1.99,5.16-5.69,7.69-11.11,1.25-2.67,2.89-7.01,3.42-12.82,5.85-4.13,11.7-8.26,17.55-12.38"
-        fill="url(#wingGradPink)" stroke="#ffaadd" stroke-width="1.2" filter="url(#wingGlow)"/>
-      <!-- veins / inner wing detail lines (butterfly-style) -->
-      <path d="M180,315 C160,310 140,300 120,285 C100,270 80,255 60,230" fill="none" stroke="rgba(255,160,220,.5)" stroke-width=".8"/>
-      <path d="M175,320 C155,325 130,330 100,335 C75,338 50,340 20,338" fill="none" stroke="rgba(180,140,255,.5)" stroke-width=".8"/>
-      <path d="M170,340 C150,350 125,365 100,375 C80,382 55,390 30,388" fill="none" stroke="rgba(130,180,255,.5)" stroke-width=".8"/>
-      <!-- sparkle dots on wing -->
+    <!-- ═══════════════════════════════
+         LEFT WING — no gap, pivot at phone centre
+    ═══════════════════════════════ -->
+    <g id="lwg">
+      <path d="M180.02,315.06c-1.46-11.86-4.26-25.53-9.4-40.17-4.46-12.69-8.92-25.39-19.66-39.32-5.34-6.92-15.25-18.08-30.77-27.35-3.22-1.92-19.31-11-42.74-13.68-10.77-1.23-19.88-.74-26.36,0-9.12,1.99-18.23,3.99-27.35,5.98-10.25,4.54-13.07,9.26-13.68,12.82-1.19,6.95,5.61,12,30.63,37.61,14.73,15.07,17.57,19.22,20.51,25.64,3.03,6.59,5.65,16.19,6.84,20.51,2.18,7.98,2.33,10.49,5.13,13.68,2.67,3.03,6.62,4.87,14.53,8.55,2.5,1.16,3.5,1.54,9,3.86,10.09,4.25,12.19,5.29,14.93,6.4,10.4,4.22,20.65,5.7,24.79,5.98,20.39,1.41,38.1-15.03,43.59-20.51-6.03,18.86-6.57,33.69-5.98,43.59,1.05,17.59,2.16,26.18,4.27,33.33,1.54,5.2,3.35,9.27,2.56,15.38-.32,2.48-1.04,8.04-5.13,11.97-5.35,5.14-9.99,1.23-19.66,5.98-5.69,2.8-9.55,5.8-14.53,10.26-5.91,5.3-10.01,10.58-12.68,14.53-7.2-14.92-13.55-18.44-18.08-18.8-7.14-.58-12.82.85-12.82.85-7.62.58-8.95.79-11.11,0-5.78-2.12-8.48-8.2-9.4-10.26-1.17-2.62-.98-3.46-2.7-14.46-.6-3.83-.2-7.61-2.42-12.04-.68-1.36-1.4-2.41-1.91-3.11-1.97-1.41-5.01-3.96-7.49-8-1.44-2.35-6.01-9.84-3.42-16.24,1.34-3.33,3.21-2.71,8.55-8.55,1.82-1.99,5.16-5.69,7.69-11.11,1.25-2.67,2.89-7.01,3.42-12.82,5.85-4.13,11.7-8.26,17.55-12.38"
+        fill="url(#wingFill)" stroke="url(#wingStroke)" stroke-width="1.4" filter="url(#wingGlow)"/>
+      <!-- sparkle overlay -->
       <path d="M180.02,315.06c-1.46-11.86-4.26-25.53-9.4-40.17-4.46-12.69-8.92-25.39-19.66-39.32-5.34-6.92-15.25-18.08-30.77-27.35-3.22-1.92-19.31-11-42.74-13.68-10.77-1.23-19.88-.74-26.36,0-9.12,1.99-18.23,3.99-27.35,5.98-10.25,4.54-13.07,9.26-13.68,12.82-1.19,6.95,5.61,12,30.63,37.61,14.73,15.07,17.57,19.22,20.51,25.64,3.03,6.59,5.65,16.19,6.84,20.51,2.18,7.98,2.33,10.49,5.13,13.68,2.67,3.03,6.62,4.87,14.53,8.55,2.5,1.16,3.5,1.54,9,3.86,10.09,4.25,12.19,5.29,14.93,6.4,10.4,4.22,20.65,5.7,24.79,5.98,20.39,1.41,38.1-15.03,43.59-20.51-6.03,18.86-6.57,33.69-5.98,43.59,1.05,17.59,2.16,26.18,4.27,33.33,1.54,5.2,3.35,9.27,2.56,15.38-.32,2.48-1.04,8.04-5.13,11.97-5.35,5.14-9.99,1.23-19.66,5.98-5.69,2.8-9.55,5.8-14.53,10.26-5.91,5.3-10.01,10.58-12.68,14.53-7.2-14.92-13.55-18.44-18.08-18.8-7.14-.58-12.82.85-12.82.85-7.62.58-8.95.79-11.11,0-5.78-2.12-8.48-8.2-9.4-10.26-1.17-2.62-.98-3.46-2.7-14.46-.6-3.83-.2-7.61-2.42-12.04-.68-1.36-1.4-2.41-1.91-3.11-1.97-1.41-5.01-3.96-7.49-8-1.44-2.35-6.01-9.84-3.42-16.24,1.34-3.33,3.21-2.71,8.55-8.55,1.82-1.99,5.16-5.69,7.69-11.11,1.25-2.67,2.89-7.01,3.42-12.82,5.85-4.13,11.7-8.26,17.55-12.38"
         fill="url(#wingGlitter)" opacity=".6" pointer-events="none"/>
-      <!-- jewel dots on edge -->
-      <circle cx="90"  cy="215" r="3.5" fill="#d0b0ff" stroke="white" stroke-width=".8" opacity=".9"/>
-      <circle cx="60"  cy="240" r="2.5" fill="#b0d0ff" stroke="white" stroke-width=".6" opacity=".9"/>
-      <circle cx="50"  cy="320" r="3"   fill="#ffd0f8" stroke="white" stroke-width=".7" opacity=".9"/>
-      <circle cx="70"  cy="390" r="2.5" fill="#c0e0ff" stroke="white" stroke-width=".6" opacity=".9"/>
-      <!-- curl detail -->
-      <path d="M155,275 C148,268 142,272 145,280 C148,288 158,286 158,279" fill="none" stroke="rgba(180,140,255,.7)" stroke-width="1.2"/>
+      <!-- vein lines -->
+      <path d="M178,314 C154,307 126,296 102,278" fill="none" stroke="rgba(255,185,235,.6)" stroke-width="1.1"/>
+      <path d="M174,322 C148,328 116,334 84,336" fill="none" stroke="rgba(185,155,255,.55)" stroke-width="1.1"/>
+      <path d="M166,342 C145,353 116,367 86,375" fill="none" stroke="rgba(120,195,255,.55)" stroke-width="1.1"/>
+      <!-- jewel dots -->
+      <circle cx="86"  cy="212" r="3"   fill="#d8b0ff" stroke="white" stroke-width=".7"/>
+      <circle cx="56"  cy="240" r="2.2" fill="#b0d0ff" stroke="white" stroke-width=".6"/>
+      <circle cx="44"  cy="318" r="2.8" fill="#ffc8f0" stroke="white" stroke-width=".6"/>
+      <circle cx="66"  cy="388" r="2.2" fill="#b8e0ff" stroke="white" stroke-width=".6"/>
     </g>
 
-    <!-- RIGHT WING group – pivot at phone centre ~(250,340) -->
-    <g id="right_wing_group" style="transform-origin:250px 340px; transition:transform .75s cubic-bezier(.34,1.56,.64,1), opacity .5s; opacity:0; transform:scale(0);">
-      <path id="right_wing"
-        d="M319.91,314.92c1.37-12.09,3.98-26.02,8.78-40.94,4.16-12.93,8.33-25.88,18.36-40.07,4.98-7.05,14.24-18.42,28.73-27.87,3.01-1.96,18.04-11.21,39.9-13.94,10.05-1.26,18.56-.75,24.61,0,8.51,2.03,17.03,4.06,25.54,6.1,9.57,4.63,12.2,9.44,12.77,13.07,1.11,7.08-5.24,12.23-28.6,38.33-13.75,15.36-16.4,19.59-19.15,26.13-2.83,6.72-5.28,16.5-6.38,20.91-2.04,8.13-2.17,10.7-4.79,13.94-2.49,3.09-6.18,4.96-13.57,8.71-2.33,1.18-3.26,1.57-8.4,3.93-9.42,4.33-11.39,5.39-13.94,6.52-9.71,4.3-19.28,5.81-23.14,6.1-19.04,1.44-35.58-15.31-40.7-20.91,5.63,19.22,6.14,34.34,5.59,44.42-.98,17.92-2.02,26.68-3.99,33.97-1.43,5.3-3.13,9.45-2.39,15.68.3,2.53.97,8.2,4.79,12.19,5,5.24,9.33,1.26,18.36,6.1,5.32,2.85,8.92,5.91,13.57,10.45,5.52,5.4,9.34,10.78,11.84,14.81,6.72-15.21,12.65-18.79,16.89-19.16,6.67-.59,11.97.87,11.97.87,7.11.59,8.36.81,10.38,0,5.4-2.16,7.92-8.36,8.78-10.45,1.09-2.67.92-3.53,2.53-14.74.56-3.9.19-7.76,2.26-12.27.64-1.39,1.3-2.46,1.78-3.17,1.84-1.44,4.68-4.04,6.99-8.16,1.34-2.4,5.61-10.03,3.19-16.55-1.26-3.39-3-2.77-7.98-8.71-1.7-2.03-4.82-5.8-7.18-11.32-1.17-2.72-2.7-7.14-3.19-13.07-5.46-4.21-10.92-8.41-16.38-12.62"
-        fill="url(#wingGradPink)" stroke="#ffaadd" stroke-width="1.2" filter="url(#wingGlow)"/>
-      <!-- veins -->
-      <path d="M320,315 C340,310 360,300 380,285 C400,270 420,255 440,230" fill="none" stroke="rgba(255,160,220,.5)" stroke-width=".8"/>
-      <path d="M325,320 C345,325 370,330 400,335 C425,338 450,340 480,338" fill="none" stroke="rgba(180,140,255,.5)" stroke-width=".8"/>
-      <path d="M330,340 C350,350 375,365 400,375 C420,382 445,390 470,388" fill="none" stroke="rgba(130,180,255,.5)" stroke-width=".8"/>
-      <!-- sparkle -->
+    <!-- ═══════════════════════════════
+         RIGHT WING
+    ═══════════════════════════════ -->
+    <g id="rwg">
+      <path d="M319.91,314.92c1.37-12.09,3.98-26.02,8.78-40.94,4.16-12.93,8.33-25.88,18.36-40.07,4.98-7.05,14.24-18.42,28.73-27.87,3.01-1.96,18.04-11.21,39.9-13.94,10.05-1.26,18.56-.75,24.61,0,8.51,2.03,17.03,4.06,25.54,6.1,9.57,4.63,12.2,9.44,12.77,13.07,1.11,7.08-5.24,12.23-28.6,38.33-13.75,15.36-16.4,19.59-19.15,26.13-2.83,6.72-5.28,16.5-6.38,20.91-2.04,8.13-2.17,10.7-4.79,13.94-2.49,3.09-6.18,4.96-13.57,8.71-2.33,1.18-3.26,1.57-8.4,3.93-9.42,4.33-11.39,5.39-13.94,6.52-9.71,4.3-19.28,5.81-23.14,6.1-19.04,1.44-35.58-15.31-40.7-20.91,5.63,19.22,6.14,34.34,5.59,44.42-.98,17.92-2.02,26.68-3.99,33.97-1.43,5.3-3.13,9.45-2.39,15.68.3,2.53.97,8.2,4.79,12.19,5,5.24,9.33,1.26,18.36,6.1,5.32,2.85,8.92,5.91,13.57,10.45,5.52,5.4,9.34,10.78,11.84,14.81,6.72-15.21,12.65-18.79,16.89-19.16,6.67-.59,11.97.87,11.97.87,7.11.59,8.36.81,10.38,0,5.4-2.16,7.92-8.36,8.78-10.45,1.09-2.67.92-3.53,2.53-14.74.56-3.9.19-7.76,2.26-12.27.64-1.39,1.3-2.46,1.78-3.17,1.84-1.44,4.68-4.04,6.99-8.16,1.34-2.4,5.61-10.03,3.19-16.55-1.26-3.39-3-2.77-7.98-8.71-1.7-2.03-4.82-5.8-7.18-11.32-1.17-2.72-2.7-7.14-3.19-13.07-5.46-4.21-10.92-8.41-16.38-12.62"
+        fill="url(#wingFill)" stroke="url(#wingStroke)" stroke-width="1.4" filter="url(#wingGlow)"/>
       <path d="M319.91,314.92c1.37-12.09,3.98-26.02,8.78-40.94,4.16-12.93,8.33-25.88,18.36-40.07,4.98-7.05,14.24-18.42,28.73-27.87,3.01-1.96,18.04-11.21,39.9-13.94,10.05-1.26,18.56-.75,24.61,0,8.51,2.03,17.03,4.06,25.54,6.1,9.57,4.63,12.2,9.44,12.77,13.07,1.11,7.08-5.24,12.23-28.6,38.33-13.75,15.36-16.4,19.59-19.15,26.13-2.83,6.72-5.28,16.5-6.38,20.91-2.04,8.13-2.17,10.7-4.79,13.94-2.49,3.09-6.18,4.96-13.57,8.71-2.33,1.18-3.26,1.57-8.4,3.93-9.42,4.33-11.39,5.39-13.94,6.52-9.71,4.3-19.28,5.81-23.14,6.1-19.04,1.44-35.58-15.31-40.7-20.91,5.63,19.22,6.14,34.34,5.59,44.42-.98,17.92-2.02,26.68-3.99,33.97-1.43,5.3-3.13,9.45-2.39,15.68.3,2.53.97,8.2,4.79,12.19,5,5.24,9.33,1.26,18.36,6.1,5.32,2.85,8.92,5.91,13.57,10.45,5.52,5.4,9.34,10.78,11.84,14.81,6.72-15.21,12.65-18.79,16.89-19.16,6.67-.59,11.97.87,11.97.87,7.11.59,8.36.81,10.38,0,5.4-2.16,7.92-8.36,8.78-10.45,1.09-2.67.92-3.53,2.53-14.74.56-3.9.19-7.76,2.26-12.27.64-1.39,1.3-2.46,1.78-3.17,1.84-1.44,4.68-4.04,6.99-8.16,1.34-2.4,5.61-10.03,3.19-16.55-1.26-3.39-3-2.77-7.98-8.71-1.7-2.03-4.82-5.8-7.18-11.32-1.17-2.72-2.7-7.14-3.19-13.07-5.46-4.21-10.92-8.41-16.38-12.62"
         fill="url(#wingGlitter)" opacity=".6" pointer-events="none"/>
-      <!-- jewels -->
-      <circle cx="410" cy="215" r="3.5" fill="#d0b0ff" stroke="white" stroke-width=".8" opacity=".9"/>
-      <circle cx="440" cy="240" r="2.5" fill="#b0d0ff" stroke="white" stroke-width=".6" opacity=".9"/>
-      <circle cx="450" cy="320" r="3"   fill="#ffd0f8" stroke="white" stroke-width=".7" opacity=".9"/>
-      <circle cx="430" cy="390" r="2.5" fill="#c0e0ff" stroke="white" stroke-width=".6" opacity=".9"/>
-      <!-- curl -->
-      <path d="M345,275 C352,268 358,272 355,280 C352,288 342,286 342,279" fill="none" stroke="rgba(180,140,255,.7)" stroke-width="1.2"/>
+      <path d="M322,314 C346,307 374,296 398,278" fill="none" stroke="rgba(255,185,235,.6)" stroke-width="1.1"/>
+      <path d="M326,322 C352,328 384,334 416,336" fill="none" stroke="rgba(185,155,255,.55)" stroke-width="1.1"/>
+      <path d="M334,342 C355,353 384,367 414,375" fill="none" stroke="rgba(120,195,255,.55)" stroke-width="1.1"/>
+      <circle cx="414" cy="212" r="3"   fill="#d8b0ff" stroke="white" stroke-width=".7"/>
+      <circle cx="444" cy="240" r="2.2" fill="#b0d0ff" stroke="white" stroke-width=".6"/>
+      <circle cx="456" cy="318" r="2.8" fill="#ffc8f0" stroke="white" stroke-width=".6"/>
+      <circle cx="434" cy="388" r="2.2" fill="#b8e0ff" stroke="white" stroke-width=".6"/>
     </g>
 
-    <!-- ══════════════════════════════════
-         PHONE BODY
-    ════════════════════════════════════ -->
+    <!-- ═══════════════════════════════
+         PHONE BODY (exact from layout)
+    ═══════════════════════════════ -->
     <path id="_x3C_background_x3E_"
       d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z"/>
 
     <!-- glitter sheen on body -->
-    <path
-      d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z"
+    <path d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z"
       fill="url(#glitter)" opacity=".45" pointer-events="none"/>
 
-    <!-- highlight stripe -->
-    <path d="M210,182 Q218,265 206,400" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="10" stroke-linecap="round" pointer-events="none"/>
-    <path d="M213,182 Q221,265 209,400" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="3"  stroke-linecap="round" pointer-events="none"/>
+    <!-- bold highlight stripe -->
+    <path d="M211,183 Q219,265 207,400" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="10" stroke-linecap="round" pointer-events="none"/>
+    <path d="M214,183 Q222,265 210,400" fill="none" stroke="rgba(255,255,255,.20)" stroke-width="3"  stroke-linecap="round" pointer-events="none"/>
 
-    <!-- WINX CLUB logo text on phone top -->
-    <text class="winx-logo" x="250" y="196" text-anchor="middle" fill="url(#silverGrad)" filter="url(#chromeTxt)" style="font-size:13px;letter-spacing:2px;">WINX CLUB</text>
+    <!-- extra glam: scattered stars on phone body sides, soft and matching -->
+    <text x="196" y="435" font-size="9"  font-family="sans-serif" fill="rgba(255,230,245,.6)" pointer-events="none">✦</text>
+    <text x="199" y="462" font-size="7"  font-family="sans-serif" fill="rgba(210,235,255,.55)" pointer-events="none">✧</text>
+    <text x="195" y="492" font-size="10" font-family="sans-serif" fill="rgba(255,225,245,.6)" pointer-events="none">★</text>
+    <text x="198" y="520" font-size="7"  font-family="sans-serif" fill="rgba(210,235,255,.55)" pointer-events="none">✦</text>
+    <text x="196" y="548" font-size="9"  font-family="sans-serif" fill="rgba(255,230,245,.5)"  pointer-events="none">✧</text>
 
-    <!-- fairy character silhouettes (decorative) on phone body sides -->
-    <!-- Left side fairy hint (simple star cluster) -->
-    <g opacity=".35" pointer-events="none">
-      <text x="195" y="440" font-size="18" fill="#ffd0f8">🧚</text>
-      <text x="192" y="490" font-size="14" fill="#d0c0ff">🦋</text>
-      <text x="194" y="535" font-size="12" fill="#ffc0f0">✦</text>
-    </g>
-    <!-- Right side -->
-    <g opacity=".35" pointer-events="none">
-      <text x="278" y="440" font-size="18" fill="#ffd0f8">🧚</text>
-      <text x="281" y="490" font-size="14" fill="#d0c0ff">🦋</text>
-      <text x="282" y="535" font-size="12" fill="#ffc0f0">✦</text>
-    </g>
+    <text x="288" y="435" font-size="9"  font-family="sans-serif" fill="rgba(255,230,245,.6)" pointer-events="none">✦</text>
+    <text x="290" y="462" font-size="7"  font-family="sans-serif" fill="rgba(210,235,255,.55)" pointer-events="none">✧</text>
+    <text x="287" y="492" font-size="10" font-family="sans-serif" fill="rgba(255,225,245,.6)" pointer-events="none">★</text>
+    <text x="290" y="520" font-size="7"  font-family="sans-serif" fill="rgba(210,235,255,.55)" pointer-events="none">✦</text>
+    <text x="288" y="548" font-size="9"  font-family="sans-serif" fill="rgba(255,230,245,.5)"  pointer-events="none">✧</text>
 
-    <!-- ── SCREEN ── -->
-    <rect id="phone_screen" x="207.02" y="203.09" width="85.95" height="91.2" rx="3" ry="3"/>
+    <!-- shimmer diamonds on body -->
+    <polygon points="250,165 252,170 250,175 248,170" fill="rgba(255,255,255,.5)" pointer-events="none"/>
+    <polygon points="200,560 202,565 200,570 198,565" fill="rgba(200,230,255,.4)" pointer-events="none"/>
+    <polygon points="300,555 302,560 300,565 298,560" fill="rgba(255,210,240,.4)" pointer-events="none"/>
+
+    <!-- ══ SCREEN ══ -->
+    <rect id="phone_screen" x="207.02" y="203.09" width="85.95" height="91.2"/>
     <!-- screen glare -->
-    <rect x="209" y="205" width="26" height="6" rx="2" fill="rgba(200,220,255,.15)" pointer-events="none"/>
+    <rect x="209" y="205" width="25" height="6" rx="2" fill="rgba(200,220,255,.14)" pointer-events="none"/>
 
-    <!-- ── DECORATION ARC ── -->
+    <!-- ══ PHONE SILHOUETTE OUTLINE (st3 path from layout line 41) ══ -->
+    <path class="st3-outline"
+      d="M207.67,173.43c-1.58,1.91-2.94,3.91-4.55,7.91-1.07,2.66-1.32,4.29-2.66,11.52-2.3,12.43-2.19,10.93-2.66,14.18-.97,6.74-.67,7.74-1.77,14.18-.75,4.41-1.05,4.85-1.77,8.86-.97,5.38-1.2,8.84-1.77,15.95-1.26,15.6-1.28,12.88-1.77,20.38-.61,9.24-.76,16.16-.89,22.15-.11,5.22-.34,15.96,0,27.47.4,13.65,1.19,14.61,3.54,42.53,1.96,23.19,1.72,26.18,3.54,37.22,1.79,10.83,3.84,18.98,5.32,24.81,3.18,12.52,5.2,20.32,9.75,30.13,3.77,8.12,6.44,13.75,12.41,19.49,7.9,7.61,16.09,10.15,17.72,10.63,4.07,1.21,10.82,3.2,18.61.89,6.38-1.9,10.18-5.72,15.06-10.63,1.73-1.74,6.82-7.07,11.52-15.95,1.86-3.51,3.92-9.77,7.97-22.15,0,0,2.24-6.84,7.09-22.15,1.14-6.35,2.4-14.12,3.54-23.04.67-5.21,1.87-14.68,2.66-26.58.72-10.91.31-12.09.89-33.67.6-22.22,1-19.81.89-28.35-.13-9.53-.61-10.72-1.77-34.56-.67-13.73-.49-12.87-.89-18.61-.63-9.12-1.32-19.18-3.54-31.9-2.06-11.79-4.75-21.96-6.2-27.47,0,0-.45,1-3.86-11.78-11.96-1.36-24.94-2.36-38.83-2.72-17.22-.46-33.15.12-47.57,1.28Z"/>
+
+    <!-- ══ DECORATION ARC ══ -->
     <path id="phone_decoration"
       d="M191.03,337.56c7.25,8.16,13.45,14.61,17.97,19.18,12.32,12.45,16.07,14.85,17.97,15.98,3.5,2.08,10.64,6.22,20.22,6.39,7.26.13,12.58-2.09,19.1-4.8,7.81-3.25,13.5-7.22,16.85-9.59,5.96-4.21,10.25-8.18,13.48-11.19,5.04-4.69,9.18-9.15,12.36-12.79"/>
 
-    <!-- D-pad circles -->
-    <circle cx="250" cy="342" r="28" fill="url(#bodyGrad)" stroke="#ff50a8" stroke-width="1.2" opacity=".5" pointer-events="none"/>
-    <circle cx="250" cy="342" r="28" fill="url(#glitter)" opacity=".4" pointer-events="none"/>
-    <circle cx="250" cy="342" r="10" fill="url(#wingBtnGrad)" stroke="#ff60b8" stroke-width="1" pointer-events="none"/>
+    <!-- ══ INNER D-PAD PATHS (exact from layout, thicker) ══ -->
+    <path class="dpad-inner"
+      d="M242.03,337.5c.24-3.6,1.26-7.16,3-10.51.84-1.61,2.21-3.38,4.46-3.55,2.38-.19,4.26,1.54,5.26,3.2,2.88,4.77,2.43,10.63-1.16,15.11,3.08,3.5,2.81,8.07,2.43,12.28-.21,2.24-.78,4.91-3.47,5.83-2.34.79-5.17-.3-6.57-1.94s-1.71-3.66-1.99-5.6c-.22-1.53-.44-3.06-.65-4.6-.13-.95-.25-1.96.36-2.79.39-.53,1.04-.93,1.31-1.5.35-.75-.05-1.57-.44-2.3-.76-1.41-1.52-2.82-2.27-4.22"/>
+    <path class="dpad-inner"
+      d="M237.7,350.99c-8.89-2.33-17.86-4.18-26.89-5.53,1.47,6.53,6.74,13.51,12.3,14.99,5.56,1.48,10.91-4.29,14.59-9.45Z"/>
+    <path class="dpad-inner"
+      d="M259.62,350.9c9.27-2.43,18.63-4.35,28.05-5.77-1.53,6.81-7.03,14.09-12.83,15.63-5.8,1.54-11.39-4.48-15.22-9.86Z"/>
 
-    <!-- D-PAD ARROWS (exact from layout) -->
+    <!-- d-pad ring -->
+    <circle cx="250" cy="342" r="28" fill="url(#bodyGrad)" stroke="#e050a0" stroke-width="1" opacity=".45" pointer-events="none"/>
+    <circle cx="250" cy="342" r="28" fill="url(#glitter)"  opacity=".35" pointer-events="none"/>
+    <circle cx="250" cy="342" r="10" fill="url(#wingBtnGrad)" stroke="#ff60b8" stroke-width=".8" pointer-events="none"/>
+
+    <!-- ══ D-PAD ARROWS (exact from layout) ══ -->
     <path id="up_arrow"    d="M246.63,333.78l3.21-6.14c1.5,1.8,2.67,3.88,3.42,6.09"/>
     <path id="down_arrow"  d="M246.52,351.2c1.88,1.11,3.4,2.83,4.25,4.84,1.09-1.89,2-3.89,2.71-5.96"/>
     <path id="right_arrow" d="M270.73,350.36l6.79,3.45c-2.58.65-5.16,1.3-7.75,1.96"/>
     <path id="left_arrow"  d="M227.26,350.71l-7,3.02c2.66.57,5.32,1.14,7.98,1.71"/>
 
-    <!-- ── WING BUTTONS (exact paths from layout) ── -->
+    <!-- ══ WING BUTTONS — EXACT PATHS FROM LAYOUT ══
+         left_wing_button sits left of d-pad (x≈210–240)
+         right_wing_button sits right of d-pad (x≈260–290) -->
     <path id="left_wing_button"
       d="M240.09,347.44c.51-.36,1.14-1.3-3-12.03-2.43-6.29-3.65-9.44-6.01-13.75-2.6-4.75-4.78-8.66-9.01-12.89-3.18-3.18-7.9-7.9-11.01-6.87-3.03,1-3.58,7.15-2,11.17,0,0,1.83,4.5,6.37,7.35.01,0,.02.02.02.02.27.17.48.29.62.37-.58.2-7.82,2.74-8.01,6.87-.11,2.41,2.26,4.22,7.01,7.73,2.94,2.18,5.68,3.78,10.01,6.02,9.06,4.68,13.58,7.02,15.02,6.02Z"/>
     <path id="right_wing_button"
       d="M260.54,347.56c-.49-.36-1.09-1.31,2.86-12.09,2.32-6.33,3.48-9.49,5.73-13.82,2.48-4.77,4.56-8.7,8.59-12.95,3.03-3.2,7.54-7.94,10.5-6.91,2.89,1,3.41,7.18,1.91,11.23,0,0-1.74,4.52-6.07,7.39-.01,0-.02.02-.02.02-.26.17-.45.29-.59.37.55.2,7.46,2.76,7.64,6.91.1,2.42-2.16,4.24-6.68,7.77-2.8,2.19-5.42,3.8-9.55,6.05-8.64,4.7-12.96,7.05-14.32,6.05Z"/>
 
-    <!-- ── NUMPAD OVALS (exact paths from layout) ── -->
+    <!-- ══ NUMPAD OVALS (exact from layout) ══ -->
     <path class="st2 numpad-btn" data-key="1" d="M204.52,375.8c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
     <path class="st2 numpad-btn" data-key="2" d="M244.99,389.78c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
     <path class="st2 numpad-btn" data-key="3" d="M284.81,375.22c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
@@ -470,144 +429,116 @@
     <path class="st2 numpad-btn" data-key="9" d="M231.41,447.45c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
     <path class="st2 numpad-btn" data-key="0" d="M261.88,447.45c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
 
-    <!-- ── NUMBER LABELS (exact positions from layout) ── -->
-    <text class="st4" transform="translate(208 383.49)"><tspan x="0" y="0">1</tspan></text>
-    <text class="st4" transform="translate(248.13 396.9)"><tspan x="0" y="0">2</tspan></text>
-    <text class="st4" transform="translate(288.74 382.47)"><tspan x="0" y="0">3</tspan></text>
-    <text class="st4" transform="translate(214.14 407.25)"><tspan x="0" y="0">4</tspan></text>
-    <text class="st4" transform="translate(248.13 421.84)"><tspan x="0" y="0">5</tspan></text>
-    <text class="st4" transform="translate(285 407.94)"><tspan x="0" y="0">6</tspan></text>
-    <text class="st4" transform="translate(220.02 433.05)"><tspan x="0" y="0">7</tspan></text>
-    <text class="st4" transform="translate(277.76 433.05)"><tspan x="0" y="0">8</tspan></text>
-    <text class="st4" transform="translate(234.14 454.4)"><tspan x="0" y="0">9</tspan></text>
-    <text class="st4" transform="translate(265.53 454.4)"><tspan x="0" y="0">0</tspan></text>
+    <!-- ══ NUMBER LABELS — bigger (14px), white, chrome shadow, exact layout positions ══ -->
+    <text class="numLabel" transform="translate(207 384)"><tspan x="0" y="0">1</tspan></text>
+    <text class="numLabel" transform="translate(247 397)"><tspan x="0" y="0">2</tspan></text>
+    <text class="numLabel" transform="translate(288 383)"><tspan x="0" y="0">3</tspan></text>
+    <text class="numLabel" transform="translate(213 408)"><tspan x="0" y="0">4</tspan></text>
+    <text class="numLabel" transform="translate(247 422)"><tspan x="0" y="0">5</tspan></text>
+    <text class="numLabel" transform="translate(284 408)"><tspan x="0" y="0">6</tspan></text>
+    <text class="numLabel" transform="translate(219 434)"><tspan x="0" y="0">7</tspan></text>
+    <text class="numLabel" transform="translate(277 434)"><tspan x="0" y="0">8</tspan></text>
+    <text class="numLabel" transform="translate(233 455)"><tspan x="0" y="0">9</tspan></text>
+    <text class="numLabel" transform="translate(264 455)"><tspan x="0" y="0">0</tspan></text>
+
   </svg>
 </div>
 
 <script>
-// ── glitter star field ──
+// ── twinkling star background ──
 (function(){
   const c=document.getElementById('stars');
-  const p=['#ff60b0','#ff90cc','#ffb3dc','#ffd6f0','#ffffff','#f8b0ff','#c0e8ff'];
-  const ch=['✦','✧','★','✺','♡','·','❋'];
-  for(let i=0;i<80;i++){
+  const p=['#ff70b8','#ff98cc','#ffbcdc','#ffdcf4','#ffffff','#f8b4ff','#c4e8ff'];
+  const ch=['✦','✧','★','✺','·'];
+  for(let i=0;i<75;i++){
     const s=document.createElement('div');
     s.className='star';
     s.textContent=ch[Math.floor(Math.random()*ch.length)];
-    s.style.cssText=`left:${Math.random()*100}vw;top:${Math.random()*100}vh;
-      --sz:${(Math.random()*14+5)}px;--c:${p[Math.floor(Math.random()*p.length)]};
-      --dur:${(Math.random()*3+1.2).toFixed(1)}s;--delay:-${(Math.random()*5).toFixed(1)}s;`;
+    s.style.cssText=`left:${Math.random()*100}vw;top:${Math.random()*100}vh;`
+      +`--sz:${(Math.random()*13+5)}px;--c:${p[Math.floor(Math.random()*p.length)]};`
+      +`--dur:${(Math.random()*3+1.2).toFixed(1)}s;--delay:-${(Math.random()*5).toFixed(1)}s;`;
     c.appendChild(s);
   }
 })();
 
-// ── wing toggle ──
-const lwg = document.getElementById('left_wing_group');
-const rwg = document.getElementById('right_wing_group');
-const lwb = document.getElementById('left_wing_button');
-const rwb = document.getElementById('right_wing_button');
-const sEmoji = document.getElementById('screen-emoji');
-const sTxt   = document.getElementById('screen-text');
-const sSub   = document.getElementById('screen-sub');
+const lwg=document.getElementById('lwg');
+const rwg=document.getElementById('rwg');
+const lwb=document.getElementById('left_wing_button');
+const rwb=document.getElementById('right_wing_button');
+const sl1=document.getElementById('screen-line1');
+const sl2=document.getElementById('screen-line2');
+const sl3=document.getElementById('screen-line3');
+let leftOn=false,rightOn=false;
 
-let leftOn=false, rightOn=false;
-
-// per-key screen content: [emoji, line1, line2]
-const keyContent = {
-  '1': [['🌸','BLOOM','fairy of fire!'],['🌺','WINX CLUB','season 1 ♡'],['💖','MISS U BB','call me pls!']],
-  '2': [['🦋','STELLA','fashion fairy✦'],['👗','new look 2moro','u coming?'],['⭐','SPARKLE','4ever!']],
-  '3': [['🌊','AISHA','fairy of waves'],['💙','msg rcvd','lol omg!!'],['🐠','ocean vibes','♡♡♡']],
-  '4': [['🌿','FLORA','nature fairy'],['🌷','garden party','come!!'],['🍃','bloom bloom','✦ grow ✦']],
-  '5': [['❄️','MUSA','music fairy'],['🎵','new ringtone','downloaded!'],['🎶','ur song♡','play it!']],
-  '6': [['🔮','TECNA','tech fairy'],['💻','wifi: WINX','pass:magic'],['⚡','signal full','4G online']],
-  '7': [['💜','RIVEN','call missed','1 missed call'],['🏰','alfea school','txt me after'],['🌙','nite nite♡','sweet dreamz']],
-  '8': [['✨','GLITTER','loading...','✦✦✦✦✦'],['💫','new spell','unlocked!'],['🌟','u got magic','believe it!']],
-  '9': [['🦄','MAGIC','activated','✦ winx! ✦'],['👑','fairy queen','status: yes'],['🌈','rainbow pwr','go go go!']],
-  '0': [['📱','DIALING','...magic...','please hold'],['💌','1 new txt','from: bloom'],['🔔','ringtone','fairy bells']],
+const msgs={
+  '1':[['✦ BLOOM ✦','fairy of fire','winx s01 ♡'],['✦ MISS U ✦','call me pls!','xoxo bloom'],['★ POWER ★','believix!','go winx!!']],
+  '2':[['✧ STELLA ✧','fashion queen','sun fairy ☀'],['♡ GLAM ♡','new outfit!','fabulous~'],['★ SHINE ★','solaria pwr','dazzle!!']],
+  '3':[['✦ AISHA ✦','fairy of waves','ocean ♡♡'],['✧ DANCE ✧','groove time!','feel it~'],['★ MORPH ★','morphix pwr','splash!!']],
+  '4':[['✦ FLORA ✦','nature fairy','garden ♡'],['✧ BLOOM ✧','new flower!','growing~'],['★ PETAL ★','charmix!','blossom!!']],
+  '5':[['✦ MUSA ✦','music fairy','melody ♡'],['✧ SONG ✧','new ringtone','download~'],['★ BEAT ★','harmonic!','play it!!']],
+  '6':[['✦ TECNA ✦','tech fairy','wifi full ♡'],['✧ CYBER ✧','connected!','online~'],['★ POWER ★','technomagic','loading!!']],
+  '7':[['✧ ALFEA ✧','school day','late 4 class'],['✦ NITE ✦','sweet dreamz','nite nite~'],['★ MAGIC ★','study time','fairies!!']],
+  '8':[['✦ SPELL ✦','new power!','unlocked ♡'],['✧ GLITTER✧','sparkle pwr','shimmer~'],['★ WINX ★','transform!','magic!!']],
+  '9':[['✦ ENCHIX✦','fairy queen','royalty ♡'],['✧ DREAM ✧','fairy world','believe~'],['★ RAINBOW★','colour pwr','fly!!']],
+  '0':[['✦ DIAL ✦','calling...','please hold'],['✧ MSG ✧','1 new txt','from: bloom'],['★ RING ★','fairy bells','answering!']],
 };
 
 function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
 
 function setScreen(key){
-  const pool=keyContent[key]||[['✦','WINX','magic!']];
-  const [e,l1,l2]=pick(pool);
-  sEmoji.textContent=e;
-  sTxt.textContent=l1;
-  sSub.textContent=l2||'';
+  const[a,b,cc]=pick(msgs[key]||[['✦ WINX ✦','CLUB','· magic ·']]);
+  sl1.textContent=a;sl2.textContent=b;sl3.textContent=cc;
 }
 
 function fairyBurst(x,y){
-  const ch=['✦','✧','★','♡','✺','🌸','🦋'];
-  const col=['#ff60b0','#ffaadd','#c0e8ff','#ffd6f0','#f8b0ff','#80d0ff'];
-  for(let i=0;i<12;i++){
+  const ch=['✦','✧','★','✺','·'];
+  const col=['#ff70b8','#ffaadd','#c4e8ff','#ffdcf4','#f8b4ff','#88d4ff'];
+  for(let i=0;i<10;i++){
     const el=document.createElement('div');
-    el.className='fairy-burst';
+    el.className='fburst';
     el.textContent=ch[Math.floor(Math.random()*ch.length)];
-    const ang=(Math.random()*360)*Math.PI/180;
-    const d=30+Math.random()*60;
-    el.style.cssText=`left:${x}px;top:${y}px;color:${col[Math.floor(Math.random()*col.length)]};
-      font-size:${10+Math.random()*16}px;
-      --tx:${Math.cos(ang)*d}px;--ty:${Math.sin(ang)*d-50}px;
-      animation-delay:${Math.random()*.15}s;
-      filter:drop-shadow(0 0 5px currentColor);`;
+    const ang=Math.random()*Math.PI*2, d=28+Math.random()*55;
+    el.style.cssText=`left:${x}px;top:${y}px;color:${col[Math.floor(Math.random()*col.length)]};`
+      +`font-size:${9+Math.random()*14}px;--tx:${Math.cos(ang)*d}px;--ty:${Math.sin(ang)*d-48}px;`
+      +`animation-delay:${Math.random()*.14}s;filter:drop-shadow(0 0 5px currentColor);`;
     document.body.appendChild(el);
     el.addEventListener('animationend',()=>el.remove());
   }
 }
 
-function spawnRipple(x,y){
-  const r=document.createElement('div');
-  r.className='ripple';
-  const sz=70;
-  r.style.cssText=`left:${x-sz/2}px;top:${y-sz/2}px;width:${sz}px;height:${sz}px;`;
-  document.body.appendChild(r);
-  r.addEventListener('animationend',()=>r.remove());
+function ripple(x,y){
+  const r=document.createElement('div');r.className='ripple';const s=65;
+  r.style.cssText=`left:${x-s/2}px;top:${y-s/2}px;width:${s}px;height:${s}px;`;
+  document.body.appendChild(r);r.addEventListener('animationend',()=>r.remove());
 }
 
-function getBtnCenter(el){
-  const rect=el.getBoundingClientRect();
-  return [rect.left+rect.width/2, rect.top+rect.height/2];
-}
+function center(el){const rc=el.getBoundingClientRect();return[rc.left+rc.width/2,rc.top+rc.height/2];}
 
-// left wing toggle
 lwb.addEventListener('click',()=>{
   leftOn=!leftOn;
-  lwg.style.opacity=leftOn?'1':'0';
-  lwg.style.transform=leftOn?'scale(1)':'scale(0)';
+  lwg.style.opacity=leftOn?'1':'0';lwg.style.transform=leftOn?'scale(1)':'scale(0)';
   lwb.classList.toggle('toggled',leftOn);
-  const [cx,cy]=getBtnCenter(lwb);
-  spawnRipple(cx,cy); fairyBurst(cx,cy);
-  if(leftOn){sEmoji.textContent='🦋';sTxt.textContent='LEFT WING';sSub.textContent='✦ spread ✦';}
-  else{sEmoji.textContent='🌸';sTxt.textContent='WINX CLUB';sSub.textContent='✦ ready ✦';}
+  const[cx,cy]=center(lwb);ripple(cx,cy);fairyBurst(cx,cy);
+  sl1.textContent='✦ WINGS ✦';sl2.textContent=leftOn?'left open':'left closed';sl3.textContent='· magic ·';
 });
 
-// right wing toggle
 rwb.addEventListener('click',()=>{
   rightOn=!rightOn;
-  rwg.style.opacity=rightOn?'1':'0';
-  rwg.style.transform=rightOn?'scale(1)':'scale(0)';
+  rwg.style.opacity=rightOn?'1':'0';rwg.style.transform=rightOn?'scale(1)':'scale(0)';
   rwb.classList.toggle('toggled',rightOn);
-  const [cx,cy]=getBtnCenter(rwb);
-  spawnRipple(cx,cy); fairyBurst(cx,cy);
-  if(rightOn){sEmoji.textContent='🦋';sTxt.textContent='RIGHT WING';sSub.textContent='✦ fly ✦';}
-  else{sEmoji.textContent='🌸';sTxt.textContent='WINX CLUB';sSub.textContent='✦ ready ✦';}
+  const[cx,cy]=center(rwb);ripple(cx,cy);fairyBurst(cx,cy);
+  sl1.textContent='✦ WINGS ✦';sl2.textContent=rightOn?'right open':'right closed';sl3.textContent='· magic ·';
 });
 
-// numpad
 document.querySelectorAll('.numpad-btn').forEach(el=>{
   el.addEventListener('click',e=>{
-    const [cx,cy]=getBtnCenter(e.currentTarget);
-    spawnRipple(cx,cy); fairyBurst(cx,cy);
+    const[cx,cy]=center(e.currentTarget);ripple(cx,cy);fairyBurst(cx,cy);
     setScreen(e.currentTarget.dataset.key);
   });
 });
 
-// touch
-[lwb,rwb].forEach(btn=>{
-  btn.addEventListener('touchstart',e=>{
-    e.preventDefault();
-    btn.dispatchEvent(new MouseEvent('click'));
-  },{passive:false});
+[lwb,rwb].forEach(b=>{
+  b.addEventListener('touchstart',e=>{e.preventDefault();b.dispatchEvent(new MouseEvent('click'));},{passive:false});
 });
 </script>
 </body>
