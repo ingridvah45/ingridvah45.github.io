@@ -1,648 +1,614 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Fairy Phone</title>
-
-<link href="https://fonts.googleapis.com/css2?family=VT323&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
-
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Winx Phone</title>
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet"/>
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
-body{
-  width:100%;
-  min-height:100vh;
-  overflow:hidden;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:
-    radial-gradient(circle at top,#ffb6f3 0%,#c986ff 35%,#7d6bff 65%,#2d2259 100%);
-  position:relative;
-  font-family:'VT323', monospace;
-}
+  body {
+    min-height:100vh;
+    background: radial-gradient(ellipse at 20% 10%, #ff80cc 0%, #ff40a8 25%, #cc1880 55%, #880050 100%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    position:relative;
+  }
 
-/* BACKGROUND GLITTER */
+  /* ── background glitter dots ── */
+  .stars{position:fixed;inset:0;pointer-events:none;z-index:0;}
+  .star{
+    position:absolute;
+    animation:twinkle var(--dur,2s) ease-in-out infinite var(--delay,0s);
+    opacity:0;font-size:var(--sz,10px);color:var(--c,#ffb3dc);
+    filter:drop-shadow(0 0 4px var(--c,#ffb3dc));
+  }
+  @keyframes twinkle{
+    0%,100%{opacity:0;transform:scale(.4) rotate(0deg);}
+    50%{opacity:1;transform:scale(1.3) rotate(20deg);}
+  }
 
-.sparkle-layer{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  overflow:hidden;
-}
+  /* ── phone wrapper – bigger ── */
+  #phone-wrap{
+    position:relative;z-index:2;
+    width:520px;          /* was 360px – now 520px */
+    flex-shrink:0;
+    filter:
+      drop-shadow(0 0 40px rgba(255,80,160,.7))
+      drop-shadow(0 30px 60px rgba(180,0,100,.5));
+  }
 
-.spark{
-  position:absolute;
-  color:white;
-  opacity:.8;
-  animation:twinkle linear infinite;
-  text-shadow:
-    0 0 6px white,
-    0 0 12px #ff9ae7,
-    0 0 20px #9ae4ff;
-}
+  #phone-svg{width:100%;height:auto;overflow:visible;}
 
-@keyframes twinkle{
-  0%{
-    transform:scale(.4) rotate(0deg);
+  /* ── phone body ── */
+  #_x3C_background_x3E_{
+    fill:url(#bodyGrad);
+    stroke:url(#bodyStroke);
+    stroke-width:2;
+    filter:url(#bevel);
+  }
+
+  /* glitter overlay on body */
+  #body-glitter{pointer-events:none;}
+
+  /* ── screen ── */
+  #phone_screen{
+    fill:url(#screenGrad);
+    stroke:#ff90d0;stroke-width:1.5;
+  }
+
+  /* ── decoration arc ── */
+  #phone_decoration{fill:none;stroke:url(#arcGrad);stroke-width:2.5;}
+
+  /* ── WINGS ── */
+  #left_wing,#right_wing{
+    pointer-events:none;
     opacity:0;
-  }
-  50%{
-    opacity:1;
-  }
-  100%{
-    transform:scale(1.4) rotate(80deg);
-    opacity:0;
-  }
-}
-
-/* PHONE */
-
-#phone-wrap{
-  width:650px;
-  position:relative;
-  z-index:5;
-  filter:
-    drop-shadow(0 0 20px #ff7bd5)
-    drop-shadow(0 0 60px #ff7bd5)
-    drop-shadow(0 0 100px rgba(255,255,255,.25));
-}
-
-/* WINGS */
-
-.wing{
-  position:absolute;
-  width:330px;
-  top:40px;
-  opacity:0;
-  transition:.7s cubic-bezier(.34,1.56,.64,1);
-  pointer-events:none;
-  filter:
-    drop-shadow(0 0 15px #fff)
-    drop-shadow(0 0 35px #ff9ef0);
-}
-
-#leftWing{
-  left:-240px;
-  transform:translateX(100px) scale(.4);
-}
-
-#rightWing{
-  right:-240px;
-  transform:translateX(-100px) scale(.4);
-}
-
-#leftWing.active{
-  opacity:1;
-  transform:translateX(0px) scale(1);
-}
-
-#rightWing.active{
-  opacity:1;
-  transform:translateX(0px) scale(1);
-}
-
-/* PHONE BODY */
-
-.phone{
-  width:100%;
-  position:relative;
-}
-
-.phone svg{
-  width:100%;
-  height:auto;
-}
-
-/* SCREEN */
-
-.screen{
-  position:absolute;
-  left:50%;
-  top:155px;
-  transform:translateX(-50%);
-  width:200px;
-  height:220px;
-  border-radius:18px;
-  overflow:hidden;
-  background:
-    linear-gradient(180deg,#ffb6f3 0%,#db83ff 50%,#83d6ff 100%);
-  border:4px solid rgba(255,255,255,.65);
-  box-shadow:
-    inset 0 0 30px rgba(255,255,255,.4),
-    0 0 25px rgba(255,255,255,.4);
-}
-
-.screen::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255,255,255,.5) 0%,
-      transparent 30%
-    );
-  pointer-events:none;
-}
-
-.screen-content{
-  width:100%;
-  height:100%;
-  position:relative;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:20px;
-  overflow:hidden;
-}
-
-.screenText{
-  font-size:30px;
-  line-height:1.1;
-  letter-spacing:2px;
-  background:linear-gradient(
-    180deg,
-    #ffffff 0%,
-    #f7dfff 20%,
-    #9ce5ff 50%,
-    #ffffff 80%
-  );
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  text-shadow:
-    0 0 8px rgba(255,255,255,.9),
-    0 0 20px #ff8ae2,
-    0 0 25px #8fdcff;
-  filter:drop-shadow(0 0 8px rgba(255,255,255,.4));
-}
-
-/* SCREEN IMAGE */
-
-.screen-image{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-/* BUTTONS */
-
-.phone-btn{
-  cursor:pointer;
-  transition:.15s;
-}
-
-.phone-btn:hover{
-  filter:brightness(1.15);
-}
-
-.phone-btn:active{
-  transform:scale(.97);
-}
-
-/* NUMBER BUTTONS */
-
-.num-btn{
-  fill:url(#blueBubble);
-  stroke:#ffffff;
-  stroke-opacity:.8;
-  stroke-width:1.2;
-}
-
-.num-text{
-  fill:white;
-  font-size:24px;
-  font-family:'Orbitron', sans-serif;
-  pointer-events:none;
-  text-shadow:0 0 10px white;
-}
-
-/* WING BUTTONS */
-
-.wing-btn{
-  fill:url(#wingBlue);
-  stroke:#ffffff;
-  stroke-width:1.4;
-  transition:.2s;
-}
-
-.wing-btn.active{
-  fill:url(#wingBlueActive);
-}
-
-/* RIPPLE */
-
-.ripple{
-  position:fixed;
-  border-radius:50%;
-  pointer-events:none;
-  animation:ripple .7s forwards;
-  z-index:999;
-  background:
-    radial-gradient(circle,
-    rgba(255,255,255,.8),
-    rgba(155,228,255,.4),
-    transparent);
-}
-
-@keyframes ripple{
-  from{
     transform:scale(0);
-    opacity:1;
+    transition:opacity .7s ease, transform .7s cubic-bezier(.34,1.56,.64,1);
   }
-  to{
-    transform:scale(5);
-    opacity:0;
+  /* transform-origin set inline via CSS vars won't work on SVG paths in all browsers,
+     so we use a wrapper group approach handled in JS */
+  #left_wing.active  {opacity:1;transform:scale(1);}
+  #right_wing.active {opacity:1;transform:scale(1);}
+
+  /* ── wing buttons ── */
+  #left_wing_button,#right_wing_button{
+    fill:url(#wingBtnGrad);
+    stroke:#ff50a0;stroke-width:1.5;
+    cursor:pointer;
+    transition:filter .15s;
+    filter:url(#btnGlow);
   }
-}
-
-/* FLOATING FAIRY DUST */
-
-.dust{
-  position:fixed;
-  pointer-events:none;
-  z-index:999;
-  animation:dustAnim 1s forwards;
-  color:white;
-  text-shadow:
-    0 0 8px white,
-    0 0 15px #ff9ce9;
-}
-
-@keyframes dustAnim{
-  from{
-    opacity:1;
-    transform:translate(0,0) scale(.5);
+  #left_wing_button:hover,#right_wing_button:hover{filter:url(#btnGlowHot);}
+  #left_wing_button.toggled,#right_wing_button.toggled{
+    fill:url(#wingBtnBlue);
+    filter:url(#btnGlowBlue);
   }
-  to{
-    opacity:0;
-    transform:
-      translate(var(--x),var(--y))
-      scale(1.5)
-      rotate(120deg);
-  }
-}
 
+  /* ── d-pad arrows ── */
+  #up_arrow,#down_arrow,#left_arrow,#right_arrow{
+    fill:none;stroke:#ff50aa;stroke-width:2;stroke-linecap:round;
+  }
+
+  /* ── numpad ovals – soap bubble blue ── */
+  .st2{
+    fill:url(#bubbleGrad);
+    stroke:rgba(120,200,255,.6);
+    stroke-width:.6;
+    cursor:pointer;
+    transition:filter .12s;
+    filter:url(#bubbleGlow);
+  }
+  .st2:hover{filter:url(#bubbleGlowHot);}
+  .st2:active{filter:brightness(.85);}
+
+  /* ── number labels ── */
+  .st4{
+    fill:#c0eeff;
+    font-family:'VT323',monospace;
+    font-size:11px;
+    stroke:rgba(255,255,255,.4);
+    stroke-width:.2;
+    pointer-events:none;
+    filter:url(#chromeTxt);
+  }
+
+  /* ── screen overlay ── */
+  #screen-content{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    /* these values align with the SVG screen rect scaled to 520px wide from 500px viewBox */
+    top:calc(203.09/700 * 520px * (520/500));
+    width:calc(85.95/500 * 520px);
+    height:calc(91.2/700 * (520px * 700/500));
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+    pointer-events:none;z-index:5;overflow:hidden;
+    gap:2px;
+  }
+  #screen-emoji{font-size:22px;line-height:1;filter:drop-shadow(0 0 6px #ff60b0);}
+  #screen-text{
+    font-family:'VT323',monospace;
+    font-size:13px;
+    text-align:center;
+    line-height:1.2;
+    max-width:95%;
+    word-break:break-all;
+    /* chrome/metallic effect */
+    background:linear-gradient(180deg,#ffffff 0%,#c0d8ff 30%,#8ab0e8 50%,#d8eeff 70%,#ffffff 100%);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+    filter:drop-shadow(0 1px 2px rgba(100,180,255,.8));
+  }
+  #screen-sub{
+    font-family:'VT323',monospace;
+    font-size:10px;
+    background:linear-gradient(180deg,#e0f0ff,#90c0ff,#e0f0ff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+    filter:drop-shadow(0 1px 2px rgba(80,160,255,.6));
+    letter-spacing:.5px;
+  }
+
+  /* ── ripple ── */
+  .ripple{
+    position:fixed;border-radius:50%;pointer-events:none;z-index:999;
+    animation:rippleOut .6s ease-out forwards;
+    background:radial-gradient(circle,rgba(180,220,255,.8) 0%,rgba(255,160,220,.3) 60%,transparent 100%);
+  }
+  @keyframes rippleOut{from{transform:scale(0);opacity:1;}to{transform:scale(5);opacity:0;}}
+
+  /* ── fairy burst ── */
+  .fairy-burst{
+    position:fixed;pointer-events:none;z-index:998;
+    animation:fairyBurst .85s ease-out forwards;
+  }
+  @keyframes fairyBurst{
+    0%{opacity:1;transform:translate(0,0) scale(.5);}
+    100%{opacity:0;transform:translate(var(--tx,0px),var(--ty,-60px)) scale(1.6) rotate(40deg);}
+  }
+
+  /* ── Winx logo area on phone top ── */
+  .winx-logo{
+    font-family:'VT323',monospace;
+    font-size:18px;
+    fill:url(#silverGrad);
+    filter:url(#chromeTxt);
+    pointer-events:none;
+  }
 </style>
 </head>
-
 <body>
-
-<div class="sparkle-layer" id="sparkles"></div>
+<div class="stars" id="stars"></div>
 
 <div id="phone-wrap">
+  <!-- screen overlay -->
+  <div id="screen-content">
+    <div id="screen-emoji">🦋</div>
+    <div id="screen-text">WINX CLUB</div>
+    <div id="screen-sub">✦ ready ✦</div>
+  </div>
 
-  <!-- WINGS -->
+  <svg id="phone-svg" viewBox="0 0 500 700" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- ── GRADIENTS ── -->
+      <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%"   stop-color="#ffb0e0"/>
+        <stop offset="20%"  stop-color="#ff70c0"/>
+        <stop offset="45%"  stop-color="#ff30a0"/>
+        <stop offset="70%"  stop-color="#ff60b8"/>
+        <stop offset="100%" stop-color="#ffb0e0"/>
+      </linearGradient>
+      <linearGradient id="bodyStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%"  stop-color="#ffd0f0"/>
+        <stop offset="50%" stop-color="#ff40b0"/>
+        <stop offset="100%" stop-color="#cc0080"/>
+      </linearGradient>
 
-  <img
-    src="https://pngimg.com/d/butterfly_PNG1046.png"
-    class="wing"
-    id="leftWing"
-    style="transform-origin:right center;"
-  >
+      <linearGradient id="screenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%"   stop-color="#1a0820"/>
+        <stop offset="100%" stop-color="#080010"/>
+      </linearGradient>
 
-  <img
-    src="https://pngimg.com/d/butterfly_PNG1046.png"
-    class="wing"
-    id="rightWing"
-    style="
-      transform-origin:left center;
-      transform:scaleX(-1) translateX(-100px) scale(.4);
-    "
-  >
+      <linearGradient id="arcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%"   stop-color="#ff40a0"/>
+        <stop offset="50%"  stop-color="#ffd0f0"/>
+        <stop offset="100%" stop-color="#ff40a0"/>
+      </linearGradient>
 
-  <!-- PHONE -->
+      <!-- wing fill gradients (butterfly reference – pink top, blue bottom) -->
+      <linearGradient id="wingGradPink" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%"   stop-color="#ff80c8" stop-opacity=".92"/>
+        <stop offset="40%"  stop-color="#ffb0e0" stop-opacity=".88"/>
+        <stop offset="70%"  stop-color="#d0a0f8" stop-opacity=".85"/>
+        <stop offset="100%" stop-color="#90c8ff" stop-opacity=".82"/>
+      </linearGradient>
+      <linearGradient id="wingGradBlue" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%"   stop-color="#c0a0ff" stop-opacity=".88"/>
+        <stop offset="50%"  stop-color="#80c8ff" stop-opacity=".85"/>
+        <stop offset="100%" stop-color="#50a8ff" stop-opacity=".80"/>
+      </linearGradient>
 
-  <div class="phone">
+      <!-- wing button gradients -->
+      <linearGradient id="wingBtnGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%"   stop-color="#ffe0f5"/>
+        <stop offset="50%"  stop-color="#ff70c0"/>
+        <stop offset="100%" stop-color="#cc1880"/>
+      </linearGradient>
+      <!-- toggled: light blue -->
+      <linearGradient id="wingBtnBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%"   stop-color="#e0f8ff"/>
+        <stop offset="50%"  stop-color="#80d8ff"/>
+        <stop offset="100%" stop-color="#40a8e0"/>
+      </linearGradient>
 
-<svg viewBox="0 0 700 1200">
+      <!-- soap bubble numpad -->
+      <linearGradient id="bubbleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%"   stop-color="rgba(220,240,255,.75)"/>
+        <stop offset="30%"  stop-color="rgba(160,210,255,.60)"/>
+        <stop offset="60%"  stop-color="rgba(100,180,255,.50)"/>
+        <stop offset="100%" stop-color="rgba(180,230,255,.65)"/>
+      </linearGradient>
 
-<defs>
+      <!-- silver/chrome for logo and text -->
+      <linearGradient id="silverGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%"   stop-color="#ffffff"/>
+        <stop offset="25%"  stop-color="#c8d8f0"/>
+        <stop offset="50%"  stop-color="#8090b8"/>
+        <stop offset="75%"  stop-color="#d8e8ff"/>
+        <stop offset="100%" stop-color="#ffffff"/>
+      </linearGradient>
 
-<linearGradient id="phoneBody" x1="0%" y1="0%" x2="100%" y2="100%">
-  <stop offset="0%" stop-color="#ffb8ef"/>
-  <stop offset="30%" stop-color="#ff72d8"/>
-  <stop offset="65%" stop-color="#ff8be8"/>
-  <stop offset="100%" stop-color="#8cd9ff"/>
-</linearGradient>
+      <!-- glitter pattern -->
+      <pattern id="glitter" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+        <rect width="16" height="16" fill="none"/>
+        <circle cx="2"  cy="2"  r=".9"  fill="white" opacity=".9"/>
+        <circle cx="8"  cy="4"  r=".5"  fill="#ffe0f8" opacity=".85"/>
+        <circle cx="14" cy="1"  r=".7"  fill="white" opacity=".8"/>
+        <circle cx="4"  cy="10" r=".4"  fill="#ffc0f0" opacity=".9"/>
+        <circle cx="12" cy="12" r=".8"  fill="white" opacity=".85"/>
+        <circle cx="1"  cy="14" r=".5"  fill="#f0d0ff" opacity=".8"/>
+        <circle cx="15" cy="9"  r=".6"  fill="white" opacity=".75"/>
+        <circle cx="7"  cy="14" r=".45" fill="#ffd0ff" opacity=".9"/>
+        <circle cx="11" cy="7"  r=".35" fill="white" opacity=".8"/>
+      </pattern>
 
-<linearGradient id="blueBubble" x1="0%" y1="0%" x2="100%" y2="100%">
-  <stop offset="0%" stop-color="rgba(255,255,255,.95)"/>
-  <stop offset="20%" stop-color="#bfefff"/>
-  <stop offset="55%" stop-color="#79cfff"/>
-  <stop offset="100%" stop-color="#9de5ff"/>
-</linearGradient>
+      <!-- glitter for wings (blue-ish sparkles) -->
+      <pattern id="wingGlitter" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
+        <rect width="14" height="14" fill="none"/>
+        <circle cx="2"  cy="2"  r=".8" fill="white" opacity=".9"/>
+        <circle cx="7"  cy="4"  r=".5" fill="#c0e8ff" opacity=".85"/>
+        <circle cx="12" cy="1"  r=".6" fill="white" opacity=".8"/>
+        <circle cx="4"  cy="10" r=".4" fill="#ffd0f8" opacity=".85"/>
+        <circle cx="11" cy="11" r=".7" fill="white" opacity=".8"/>
+        <circle cx="1"  cy="13" r=".45" fill="#d0f0ff" opacity=".85"/>
+        <circle cx="13" cy="8"  r=".55" fill="white" opacity=".75"/>
+      </pattern>
 
-<linearGradient id="wingBlue" x1="0%" y1="0%" x2="100%" y2="100%">
-  <stop offset="0%" stop-color="#dff9ff"/>
-  <stop offset="100%" stop-color="#73d7ff"/>
-</linearGradient>
+      <!-- ── FILTERS ── -->
+      <filter id="bevel" x="-5%" y="-5%" width="110%" height="110%">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
+        <feOffset dx="-4" dy="-4" in="blur" result="ob1"/>
+        <feOffset dx="4"  dy="4"  in="blur" result="ob2"/>
+        <feFlood flood-color="white"   flood-opacity=".7" result="white"/>
+        <feFlood flood-color="#800040" flood-opacity=".5" result="dark"/>
+        <feComposite in="white" in2="ob1" operator="in" result="hi"/>
+        <feComposite in="dark"  in2="ob2" operator="in" result="sh"/>
+        <feMerge>
+          <feMergeNode in="SourceGraphic"/>
+          <feMergeNode in="hi"/>
+          <feMergeNode in="sh"/>
+        </feMerge>
+      </filter>
 
-<linearGradient id="wingBlueActive" x1="0%" y1="0%" x2="100%" y2="100%">
-  <stop offset="0%" stop-color="#ffffff"/>
-  <stop offset="100%" stop-color="#4ed3ff"/>
-</linearGradient>
+      <filter id="btnGlow" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="btnGlowHot" x="-40%" y="-40%" width="180%" height="180%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
+        <feColorMatrix in="blur" type="matrix"
+          values="1.4 0 .4 0 0  0 .2 .8 0 0  .4 0 1.2 0 0  0 0 0 1.8 0" result="c"/>
+        <feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="btnGlowBlue" x="-40%" y="-40%" width="180%" height="180%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
+        <feColorMatrix in="blur" type="matrix"
+          values=".2 0 .5 0 0  0 .5 1 0 0  .5 0 1.5 0 0  0 0 0 1.8 0" result="c"/>
+        <feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="bubbleGlow" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+        <feColorMatrix in="blur" type="matrix"
+          values=".3 0 .5 0 0  0 .4 1 0 0  .5 0 1.2 0 0  0 0 0 1 0" result="c"/>
+        <feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="bubbleGlowHot" x="-40%" y="-40%" width="180%" height="180%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
+        <feColorMatrix in="blur" type="matrix"
+          values=".3 0 .5 0 0  0 .6 1.2 0 0  .6 0 1.5 0 0  0 0 0 1.5 0" result="c"/>
+        <feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="wingGlow" x="-25%" y="-25%" width="150%" height="150%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur"/>
+        <feColorMatrix in="blur" type="matrix"
+          values="1 0 .4 0 .05  0 .4 1 0 .05  .4 0 1 0 .1  0 0 0 .9 0" result="c"/>
+        <feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <!-- chrome text filter -->
+      <filter id="chromeTxt" x="-10%" y="-10%" width="120%" height="120%">
+        <feGaussianBlur in="SourceAlpha" stdDeviation=".5" result="blur"/>
+        <feOffset dx="0" dy="1" in="blur" result="offset"/>
+        <feFlood flood-color="rgba(120,180,255,.5)" result="color"/>
+        <feComposite in="color" in2="offset" operator="in" result="shadow"/>
+        <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
 
-<filter id="glow">
-  <feGaussianBlur stdDeviation="6" result="blur"/>
-  <feMerge>
-    <feMergeNode in="blur"/>
-    <feMergeNode in="SourceGraphic"/>
-  </feMerge>
-</filter>
+    <!-- ══════════════════════════════════
+         WINGS  (behind phone body)
+         Each wing is a group so transform-origin works
+    ════════════════════════════════════ -->
 
-</defs>
+    <!-- LEFT WING group – pivot at phone centre ~(250,340) -->
+    <g id="left_wing_group" style="transform-origin:250px 340px; transition:transform .75s cubic-bezier(.34,1.56,.64,1), opacity .5s; opacity:0; transform:scale(0);">
+      <!-- main wing shape -->
+      <path id="left_wing"
+        d="M180.02,315.06c-1.46-11.86-4.26-25.53-9.4-40.17-4.46-12.69-8.92-25.39-19.66-39.32-5.34-6.92-15.25-18.08-30.77-27.35-3.22-1.92-19.31-11-42.74-13.68-10.77-1.23-19.88-.74-26.36,0-9.12,1.99-18.23,3.99-27.35,5.98-10.25,4.54-13.07,9.26-13.68,12.82-1.19,6.95,5.61,12,30.63,37.61,14.73,15.07,17.57,19.22,20.51,25.64,3.03,6.59,5.65,16.19,6.84,20.51,2.18,7.98,2.33,10.49,5.13,13.68,2.67,3.03,6.62,4.87,14.53,8.55,2.5,1.16,3.5,1.54,9,3.86,10.09,4.25,12.19,5.29,14.93,6.4,10.4,4.22,20.65,5.7,24.79,5.98,20.39,1.41,38.1-15.03,43.59-20.51-6.03,18.86-6.57,33.69-5.98,43.59,1.05,17.59,2.16,26.18,4.27,33.33,1.54,5.2,3.35,9.27,2.56,15.38-.32,2.48-1.04,8.04-5.13,11.97-5.35,5.14-9.99,1.23-19.66,5.98-5.69,2.8-9.55,5.8-14.53,10.26-5.91,5.3-10.01,10.58-12.68,14.53-7.2-14.92-13.55-18.44-18.08-18.8-7.14-.58-12.82.85-12.82.85-7.62.58-8.95.79-11.11,0-5.78-2.12-8.48-8.2-9.4-10.26-1.17-2.62-.98-3.46-2.7-14.46-.6-3.83-.2-7.61-2.42-12.04-.68-1.36-1.4-2.41-1.91-3.11-1.97-1.41-5.01-3.96-7.49-8-1.44-2.35-6.01-9.84-3.42-16.24,1.34-3.33,3.21-2.71,8.55-8.55,1.82-1.99,5.16-5.69,7.69-11.11,1.25-2.67,2.89-7.01,3.42-12.82,5.85-4.13,11.7-8.26,17.55-12.38"
+        fill="url(#wingGradPink)" stroke="#ffaadd" stroke-width="1.2" filter="url(#wingGlow)"/>
+      <!-- veins / inner wing detail lines (butterfly-style) -->
+      <path d="M180,315 C160,310 140,300 120,285 C100,270 80,255 60,230" fill="none" stroke="rgba(255,160,220,.5)" stroke-width=".8"/>
+      <path d="M175,320 C155,325 130,330 100,335 C75,338 50,340 20,338" fill="none" stroke="rgba(180,140,255,.5)" stroke-width=".8"/>
+      <path d="M170,340 C150,350 125,365 100,375 C80,382 55,390 30,388" fill="none" stroke="rgba(130,180,255,.5)" stroke-width=".8"/>
+      <!-- sparkle dots on wing -->
+      <path d="M180.02,315.06c-1.46-11.86-4.26-25.53-9.4-40.17-4.46-12.69-8.92-25.39-19.66-39.32-5.34-6.92-15.25-18.08-30.77-27.35-3.22-1.92-19.31-11-42.74-13.68-10.77-1.23-19.88-.74-26.36,0-9.12,1.99-18.23,3.99-27.35,5.98-10.25,4.54-13.07,9.26-13.68,12.82-1.19,6.95,5.61,12,30.63,37.61,14.73,15.07,17.57,19.22,20.51,25.64,3.03,6.59,5.65,16.19,6.84,20.51,2.18,7.98,2.33,10.49,5.13,13.68,2.67,3.03,6.62,4.87,14.53,8.55,2.5,1.16,3.5,1.54,9,3.86,10.09,4.25,12.19,5.29,14.93,6.4,10.4,4.22,20.65,5.7,24.79,5.98,20.39,1.41,38.1-15.03,43.59-20.51-6.03,18.86-6.57,33.69-5.98,43.59,1.05,17.59,2.16,26.18,4.27,33.33,1.54,5.2,3.35,9.27,2.56,15.38-.32,2.48-1.04,8.04-5.13,11.97-5.35,5.14-9.99,1.23-19.66,5.98-5.69,2.8-9.55,5.8-14.53,10.26-5.91,5.3-10.01,10.58-12.68,14.53-7.2-14.92-13.55-18.44-18.08-18.8-7.14-.58-12.82.85-12.82.85-7.62.58-8.95.79-11.11,0-5.78-2.12-8.48-8.2-9.4-10.26-1.17-2.62-.98-3.46-2.7-14.46-.6-3.83-.2-7.61-2.42-12.04-.68-1.36-1.4-2.41-1.91-3.11-1.97-1.41-5.01-3.96-7.49-8-1.44-2.35-6.01-9.84-3.42-16.24,1.34-3.33,3.21-2.71,8.55-8.55,1.82-1.99,5.16-5.69,7.69-11.11,1.25-2.67,2.89-7.01,3.42-12.82,5.85-4.13,11.7-8.26,17.55-12.38"
+        fill="url(#wingGlitter)" opacity=".6" pointer-events="none"/>
+      <!-- jewel dots on edge -->
+      <circle cx="90"  cy="215" r="3.5" fill="#d0b0ff" stroke="white" stroke-width=".8" opacity=".9"/>
+      <circle cx="60"  cy="240" r="2.5" fill="#b0d0ff" stroke="white" stroke-width=".6" opacity=".9"/>
+      <circle cx="50"  cy="320" r="3"   fill="#ffd0f8" stroke="white" stroke-width=".7" opacity=".9"/>
+      <circle cx="70"  cy="390" r="2.5" fill="#c0e0ff" stroke="white" stroke-width=".6" opacity=".9"/>
+      <!-- curl detail -->
+      <path d="M155,275 C148,268 142,272 145,280 C148,288 158,286 158,279" fill="none" stroke="rgba(180,140,255,.7)" stroke-width="1.2"/>
+    </g>
 
-<!-- PHONE BODY -->
+    <!-- RIGHT WING group – pivot at phone centre ~(250,340) -->
+    <g id="right_wing_group" style="transform-origin:250px 340px; transition:transform .75s cubic-bezier(.34,1.56,.64,1), opacity .5s; opacity:0; transform:scale(0);">
+      <path id="right_wing"
+        d="M319.91,314.92c1.37-12.09,3.98-26.02,8.78-40.94,4.16-12.93,8.33-25.88,18.36-40.07,4.98-7.05,14.24-18.42,28.73-27.87,3.01-1.96,18.04-11.21,39.9-13.94,10.05-1.26,18.56-.75,24.61,0,8.51,2.03,17.03,4.06,25.54,6.1,9.57,4.63,12.2,9.44,12.77,13.07,1.11,7.08-5.24,12.23-28.6,38.33-13.75,15.36-16.4,19.59-19.15,26.13-2.83,6.72-5.28,16.5-6.38,20.91-2.04,8.13-2.17,10.7-4.79,13.94-2.49,3.09-6.18,4.96-13.57,8.71-2.33,1.18-3.26,1.57-8.4,3.93-9.42,4.33-11.39,5.39-13.94,6.52-9.71,4.3-19.28,5.81-23.14,6.1-19.04,1.44-35.58-15.31-40.7-20.91,5.63,19.22,6.14,34.34,5.59,44.42-.98,17.92-2.02,26.68-3.99,33.97-1.43,5.3-3.13,9.45-2.39,15.68.3,2.53.97,8.2,4.79,12.19,5,5.24,9.33,1.26,18.36,6.1,5.32,2.85,8.92,5.91,13.57,10.45,5.52,5.4,9.34,10.78,11.84,14.81,6.72-15.21,12.65-18.79,16.89-19.16,6.67-.59,11.97.87,11.97.87,7.11.59,8.36.81,10.38,0,5.4-2.16,7.92-8.36,8.78-10.45,1.09-2.67.92-3.53,2.53-14.74.56-3.9.19-7.76,2.26-12.27.64-1.39,1.3-2.46,1.78-3.17,1.84-1.44,4.68-4.04,6.99-8.16,1.34-2.4,5.61-10.03,3.19-16.55-1.26-3.39-3-2.77-7.98-8.71-1.7-2.03-4.82-5.8-7.18-11.32-1.17-2.72-2.7-7.14-3.19-13.07-5.46-4.21-10.92-8.41-16.38-12.62"
+        fill="url(#wingGradPink)" stroke="#ffaadd" stroke-width="1.2" filter="url(#wingGlow)"/>
+      <!-- veins -->
+      <path d="M320,315 C340,310 360,300 380,285 C400,270 420,255 440,230" fill="none" stroke="rgba(255,160,220,.5)" stroke-width=".8"/>
+      <path d="M325,320 C345,325 370,330 400,335 C425,338 450,340 480,338" fill="none" stroke="rgba(180,140,255,.5)" stroke-width=".8"/>
+      <path d="M330,340 C350,350 375,365 400,375 C420,382 445,390 470,388" fill="none" stroke="rgba(130,180,255,.5)" stroke-width=".8"/>
+      <!-- sparkle -->
+      <path d="M319.91,314.92c1.37-12.09,3.98-26.02,8.78-40.94,4.16-12.93,8.33-25.88,18.36-40.07,4.98-7.05,14.24-18.42,28.73-27.87,3.01-1.96,18.04-11.21,39.9-13.94,10.05-1.26,18.56-.75,24.61,0,8.51,2.03,17.03,4.06,25.54,6.1,9.57,4.63,12.2,9.44,12.77,13.07,1.11,7.08-5.24,12.23-28.6,38.33-13.75,15.36-16.4,19.59-19.15,26.13-2.83,6.72-5.28,16.5-6.38,20.91-2.04,8.13-2.17,10.7-4.79,13.94-2.49,3.09-6.18,4.96-13.57,8.71-2.33,1.18-3.26,1.57-8.4,3.93-9.42,4.33-11.39,5.39-13.94,6.52-9.71,4.3-19.28,5.81-23.14,6.1-19.04,1.44-35.58-15.31-40.7-20.91,5.63,19.22,6.14,34.34,5.59,44.42-.98,17.92-2.02,26.68-3.99,33.97-1.43,5.3-3.13,9.45-2.39,15.68.3,2.53.97,8.2,4.79,12.19,5,5.24,9.33,1.26,18.36,6.1,5.32,2.85,8.92,5.91,13.57,10.45,5.52,5.4,9.34,10.78,11.84,14.81,6.72-15.21,12.65-18.79,16.89-19.16,6.67-.59,11.97.87,11.97.87,7.11.59,8.36.81,10.38,0,5.4-2.16,7.92-8.36,8.78-10.45,1.09-2.67.92-3.53,2.53-14.74.56-3.9.19-7.76,2.26-12.27.64-1.39,1.3-2.46,1.78-3.17,1.84-1.44,4.68-4.04,6.99-8.16,1.34-2.4,5.61-10.03,3.19-16.55-1.26-3.39-3-2.77-7.98-8.71-1.7-2.03-4.82-5.8-7.18-11.32-1.17-2.72-2.7-7.14-3.19-13.07-5.46-4.21-10.92-8.41-16.38-12.62"
+        fill="url(#wingGlitter)" opacity=".6" pointer-events="none"/>
+      <!-- jewels -->
+      <circle cx="410" cy="215" r="3.5" fill="#d0b0ff" stroke="white" stroke-width=".8" opacity=".9"/>
+      <circle cx="440" cy="240" r="2.5" fill="#b0d0ff" stroke="white" stroke-width=".6" opacity=".9"/>
+      <circle cx="450" cy="320" r="3"   fill="#ffd0f8" stroke="white" stroke-width=".7" opacity=".9"/>
+      <circle cx="430" cy="390" r="2.5" fill="#c0e0ff" stroke="white" stroke-width=".6" opacity=".9"/>
+      <!-- curl -->
+      <path d="M345,275 C352,268 358,272 355,280 C352,288 342,286 342,279" fill="none" stroke="rgba(180,140,255,.7)" stroke-width="1.2"/>
+    </g>
 
-<rect
-x="140"
-y="40"
-rx="100"
-ry="100"
-width="420"
-height="1080"
-fill="url(#phoneBody)"
-stroke="rgba(255,255,255,.9)"
-stroke-width="8"
-/>
+    <!-- ══════════════════════════════════
+         PHONE BODY
+    ════════════════════════════════════ -->
+    <path id="_x3C_background_x3E_"
+      d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z"/>
 
-<!-- GLITTER -->
+    <!-- glitter sheen on body -->
+    <path
+      d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z"
+      fill="url(#glitter)" opacity=".45" pointer-events="none"/>
 
-<circle cx="200" cy="100" r="5" fill="white"/>
-<circle cx="320" cy="160" r="4" fill="white"/>
-<circle cx="470" cy="120" r="6" fill="white"/>
-<circle cx="400" cy="300" r="4" fill="white"/>
-<circle cx="230" cy="520" r="5" fill="white"/>
-<circle cx="480" cy="670" r="5" fill="white"/>
-<circle cx="290" cy="940" r="4" fill="white"/>
+    <!-- highlight stripe -->
+    <path d="M210,182 Q218,265 206,400" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="10" stroke-linecap="round" pointer-events="none"/>
+    <path d="M213,182 Q221,265 209,400" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="3"  stroke-linecap="round" pointer-events="none"/>
 
-<!-- WING BUTTONS -->
+    <!-- WINX CLUB logo text on phone top -->
+    <text class="winx-logo" x="250" y="196" text-anchor="middle" fill="url(#silverGrad)" filter="url(#chromeTxt)" style="font-size:13px;letter-spacing:2px;">WINX CLUB</text>
 
-<path
-id="leftWingBtn"
-class="phone-btn wing-btn"
-d="M250 505
-Q210 470 180 520
-Q220 570 260 540
-Z"
-/>
+    <!-- fairy character silhouettes (decorative) on phone body sides -->
+    <!-- Left side fairy hint (simple star cluster) -->
+    <g opacity=".35" pointer-events="none">
+      <text x="195" y="440" font-size="18" fill="#ffd0f8">🧚</text>
+      <text x="192" y="490" font-size="14" fill="#d0c0ff">🦋</text>
+      <text x="194" y="535" font-size="12" fill="#ffc0f0">✦</text>
+    </g>
+    <!-- Right side -->
+    <g opacity=".35" pointer-events="none">
+      <text x="278" y="440" font-size="18" fill="#ffd0f8">🧚</text>
+      <text x="281" y="490" font-size="14" fill="#d0c0ff">🦋</text>
+      <text x="282" y="535" font-size="12" fill="#ffc0f0">✦</text>
+    </g>
 
-<path
-id="rightWingBtn"
-class="phone-btn wing-btn"
-d="M450 505
-Q490 470 520 520
-Q480 570 440 540
-Z"
-/>
+    <!-- ── SCREEN ── -->
+    <rect id="phone_screen" x="207.02" y="203.09" width="85.95" height="91.2" rx="3" ry="3"/>
+    <!-- screen glare -->
+    <rect x="209" y="205" width="26" height="6" rx="2" fill="rgba(200,220,255,.15)" pointer-events="none"/>
 
-<!-- CENTER GEM -->
+    <!-- ── DECORATION ARC ── -->
+    <path id="phone_decoration"
+      d="M191.03,337.56c7.25,8.16,13.45,14.61,17.97,19.18,12.32,12.45,16.07,14.85,17.97,15.98,3.5,2.08,10.64,6.22,20.22,6.39,7.26.13,12.58-2.09,19.1-4.8,7.81-3.25,13.5-7.22,16.85-9.59,5.96-4.21,10.25-8.18,13.48-11.19,5.04-4.69,9.18-9.15,12.36-12.79"/>
 
-<path
-d="M350 500
-Q300 530 350 610
-Q400 530 350 500Z"
-fill="url(#phoneBody)"
-stroke="white"
-stroke-width="6"
-/>
+    <!-- D-pad circles -->
+    <circle cx="250" cy="342" r="28" fill="url(#bodyGrad)" stroke="#ff50a8" stroke-width="1.2" opacity=".5" pointer-events="none"/>
+    <circle cx="250" cy="342" r="28" fill="url(#glitter)" opacity=".4" pointer-events="none"/>
+    <circle cx="250" cy="342" r="10" fill="url(#wingBtnGrad)" stroke="#ff60b8" stroke-width="1" pointer-events="none"/>
 
-<!-- NUMBER BUTTONS -->
+    <!-- D-PAD ARROWS (exact from layout) -->
+    <path id="up_arrow"    d="M246.63,333.78l3.21-6.14c1.5,1.8,2.67,3.88,3.42,6.09"/>
+    <path id="down_arrow"  d="M246.52,351.2c1.88,1.11,3.4,2.83,4.25,4.84,1.09-1.89,2-3.89,2.71-5.96"/>
+    <path id="right_arrow" d="M270.73,350.36l6.79,3.45c-2.58.65-5.16,1.3-7.75,1.96"/>
+    <path id="left_arrow"  d="M227.26,350.71l-7,3.02c2.66.57,5.32,1.14,7.98,1.71"/>
 
-<ellipse class="phone-btn num-btn" data-key="1" cx="245" cy="710" rx="52" ry="28"/>
-<ellipse class="phone-btn num-btn" data-key="2" cx="350" cy="710" rx="52" ry="28"/>
-<ellipse class="phone-btn num-btn" data-key="3" cx="455" cy="710" rx="52" ry="28"/>
+    <!-- ── WING BUTTONS (exact paths from layout) ── -->
+    <path id="left_wing_button"
+      d="M240.09,347.44c.51-.36,1.14-1.3-3-12.03-2.43-6.29-3.65-9.44-6.01-13.75-2.6-4.75-4.78-8.66-9.01-12.89-3.18-3.18-7.9-7.9-11.01-6.87-3.03,1-3.58,7.15-2,11.17,0,0,1.83,4.5,6.37,7.35.01,0,.02.02.02.02.27.17.48.29.62.37-.58.2-7.82,2.74-8.01,6.87-.11,2.41,2.26,4.22,7.01,7.73,2.94,2.18,5.68,3.78,10.01,6.02,9.06,4.68,13.58,7.02,15.02,6.02Z"/>
+    <path id="right_wing_button"
+      d="M260.54,347.56c-.49-.36-1.09-1.31,2.86-12.09,2.32-6.33,3.48-9.49,5.73-13.82,2.48-4.77,4.56-8.7,8.59-12.95,3.03-3.2,7.54-7.94,10.5-6.91,2.89,1,3.41,7.18,1.91,11.23,0,0-1.74,4.52-6.07,7.39-.01,0-.02.02-.02.02-.26.17-.45.29-.59.37.55.2,7.46,2.76,7.64,6.91.1,2.42-2.16,4.24-6.68,7.77-2.8,2.19-5.42,3.8-9.55,6.05-8.64,4.7-12.96,7.05-14.32,6.05Z"/>
 
-<ellipse class="phone-btn num-btn" data-key="4" cx="245" cy="805" rx="52" ry="28"/>
-<ellipse class="phone-btn num-btn" data-key="5" cx="350" cy="805" rx="52" ry="28"/>
-<ellipse class="phone-btn num-btn" data-key="6" cx="455" cy="805" rx="52" ry="28"/>
+    <!-- ── NUMPAD OVALS (exact paths from layout) ── -->
+    <path class="st2 numpad-btn" data-key="1" d="M204.52,375.8c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
+    <path class="st2 numpad-btn" data-key="2" d="M244.99,389.78c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
+    <path class="st2 numpad-btn" data-key="3" d="M284.81,375.22c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
+    <path class="st2 numpad-btn" data-key="4" d="M211.58,400.55c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
+    <path class="st2 numpad-btn" data-key="5" d="M244.99,413.13c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
+    <path class="st2 numpad-btn" data-key="6" d="M281.38,400.49c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
+    <path class="st2 numpad-btn" data-key="7" d="M216.36,425.89c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
+    <path class="st2 numpad-btn" data-key="8" d="M274.19,426.58c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
+    <path class="st2 numpad-btn" data-key="9" d="M231.41,447.45c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
+    <path class="st2 numpad-btn" data-key="0" d="M261.88,447.45c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
 
-<ellipse class="phone-btn num-btn" data-key="7" cx="245" cy="900" rx="52" ry="28"/>
-<ellipse class="phone-btn num-btn" data-key="8" cx="350" cy="900" rx="52" ry="28"/>
-<ellipse class="phone-btn num-btn" data-key="9" cx="455" cy="900" rx="52" ry="28"/>
-
-<ellipse class="phone-btn num-btn" data-key="*" cx="245" cy="995" rx="52" ry="28"/>
-<ellipse class="phone-btn num-btn" data-key="0" cx="350" cy="995" rx="52" ry="28"/>
-<ellipse class="phone-btn num-btn" data-key="#" cx="455" cy="995" rx="52" ry="28"/>
-
-<!-- NUMBERS -->
-
-<text class="num-text" x="235" y="720">1</text>
-<text class="num-text" x="340" y="720">2</text>
-<text class="num-text" x="445" y="720">3</text>
-
-<text class="num-text" x="235" y="815">4</text>
-<text class="num-text" x="340" y="815">5</text>
-<text class="num-text" x="445" y="815">6</text>
-
-<text class="num-text" x="235" y="910">7</text>
-<text class="num-text" x="340" y="910">8</text>
-<text class="num-text" x="445" y="910">9</text>
-
-<text class="num-text" x="230" y="1005">*</text>
-<text class="num-text" x="340" y="1005">0</text>
-<text class="num-text" x="448" y="1005">#</text>
-
-</svg>
-
-<!-- SCREEN -->
-
-<div class="screen">
-
-<div class="screen-content" id="screenContent">
-
-<div class="screenText" id="screenText">
-MAGIC<br>CALL
-</div>
-
-</div>
-
-</div>
-
-</div>
-
+    <!-- ── NUMBER LABELS (exact positions from layout) ── -->
+    <text class="st4" transform="translate(208 383.49)"><tspan x="0" y="0">1</tspan></text>
+    <text class="st4" transform="translate(248.13 396.9)"><tspan x="0" y="0">2</tspan></text>
+    <text class="st4" transform="translate(288.74 382.47)"><tspan x="0" y="0">3</tspan></text>
+    <text class="st4" transform="translate(214.14 407.25)"><tspan x="0" y="0">4</tspan></text>
+    <text class="st4" transform="translate(248.13 421.84)"><tspan x="0" y="0">5</tspan></text>
+    <text class="st4" transform="translate(285 407.94)"><tspan x="0" y="0">6</tspan></text>
+    <text class="st4" transform="translate(220.02 433.05)"><tspan x="0" y="0">7</tspan></text>
+    <text class="st4" transform="translate(277.76 433.05)"><tspan x="0" y="0">8</tspan></text>
+    <text class="st4" transform="translate(234.14 454.4)"><tspan x="0" y="0">9</tspan></text>
+    <text class="st4" transform="translate(265.53 454.4)"><tspan x="0" y="0">0</tspan></text>
+  </svg>
 </div>
 
 <script>
-
-/* SPARKLES */
-
-const sparkleLayer = document.getElementById('sparkles');
-
-for(let i=0;i<120;i++){
-
-  const s=document.createElement('div');
-
-  s.className='spark';
-
-  s.innerHTML=['✦','✧','★','♡'][Math.floor(Math.random()*4)];
-
-  s.style.left=Math.random()*100+'vw';
-  s.style.top=Math.random()*100+'vh';
-
-  s.style.fontSize=(Math.random()*18+8)+'px';
-
-  s.style.animationDuration=(Math.random()*5+2)+'s';
-  s.style.animationDelay=(-Math.random()*5)+'s';
-
-  sparkleLayer.appendChild(s);
-}
-
-/* WINGS */
-
-const leftWing=document.getElementById('leftWing');
-const rightWing=document.getElementById('rightWing');
-
-const leftWingBtn=document.getElementById('leftWingBtn');
-const rightWingBtn=document.getElementById('rightWingBtn');
-
-let leftOpen=false;
-let rightOpen=false;
-
-leftWingBtn.addEventListener('click',()=>{
-
-  leftOpen=!leftOpen;
-
-  leftWing.classList.toggle('active',leftOpen);
-
-  leftWingBtn.classList.toggle('active',leftOpen);
-
-});
-
-rightWingBtn.addEventListener('click',()=>{
-
-  rightOpen=!rightOpen;
-
-  rightWing.classList.toggle('active',rightOpen);
-
-  rightWingBtn.classList.toggle('active',rightOpen);
-
-});
-
-/* SCREEN CONTENT */
-
-const screen=document.getElementById('screenContent');
-
-const screenStuff=[
-
-  "PIXIE<br>MAIL",
-
-  "GLITTER<br>TXT",
-
-  "MOONLIGHT<br>CHAT",
-
-  "ENCHANTIX<br>ONLINE",
-
-  "MAGIC<br>SELFIE",
-
-  "♡ FAIRY<br>STATUS ♡",
-
-  "NEW<br>SPELL",
-
-  "STAR<br>CALL",
-
-  "COSMIC<br>VOICEMAIL",
-
-  "Y2K<br>GLAM",
-
-  "LOADING<br>CHARMS",
-
-  "♡♡♡"
-];
-
-document.querySelectorAll('.num-btn').forEach(btn=>{
-
-  btn.addEventListener('click',(e)=>{
-
-    const pick=screenStuff[
-      Math.floor(Math.random()*screenStuff.length)
-    ];
-
-    screen.innerHTML=`
-      <div class="screenText">${pick}</div>
-    `;
-
-    ripple(
-      e.clientX,
-      e.clientY
-    );
-
-    fairyDust(
-      e.clientX,
-      e.clientY
-    );
-
-  });
-
-});
-
-/* RIPPLE */
-
-function ripple(x,y){
-
-  const r=document.createElement('div');
-
-  r.className='ripple';
-
-  r.style.width='70px';
-  r.style.height='70px';
-
-  r.style.left=(x-35)+'px';
-  r.style.top=(y-35)+'px';
-
-  document.body.appendChild(r);
-
-  r.addEventListener('animationend',()=>r.remove());
-
-}
-
-/* FAIRY DUST */
-
-function fairyDust(x,y){
-
-  const chars=['✦','✧','★','♡'];
-
-  for(let i=0;i<12;i++){
-
-    const d=document.createElement('div');
-
-    d.className='dust';
-
-    d.innerHTML=chars[
-      Math.floor(Math.random()*chars.length)
-    ];
-
-    d.style.left=x+'px';
-    d.style.top=y+'px';
-
-    d.style.fontSize=(Math.random()*18+10)+'px';
-
-    d.style.setProperty(
-      '--x',
-      (Math.random()*160-80)+'px'
-    );
-
-    d.style.setProperty(
-      '--y',
-      (Math.random()*-180)+'px'
-    );
-
-    document.body.appendChild(d);
-
-    d.addEventListener('animationend',()=>d.remove());
-
+// ── glitter star field ──
+(function(){
+  const c=document.getElementById('stars');
+  const p=['#ff60b0','#ff90cc','#ffb3dc','#ffd6f0','#ffffff','#f8b0ff','#c0e8ff'];
+  const ch=['✦','✧','★','✺','♡','·','❋'];
+  for(let i=0;i<80;i++){
+    const s=document.createElement('div');
+    s.className='star';
+    s.textContent=ch[Math.floor(Math.random()*ch.length)];
+    s.style.cssText=`left:${Math.random()*100}vw;top:${Math.random()*100}vh;
+      --sz:${(Math.random()*14+5)}px;--c:${p[Math.floor(Math.random()*p.length)]};
+      --dur:${(Math.random()*3+1.2).toFixed(1)}s;--delay:-${(Math.random()*5).toFixed(1)}s;`;
+    c.appendChild(s);
   }
+})();
 
+// ── wing toggle ──
+const lwg = document.getElementById('left_wing_group');
+const rwg = document.getElementById('right_wing_group');
+const lwb = document.getElementById('left_wing_button');
+const rwb = document.getElementById('right_wing_button');
+const sEmoji = document.getElementById('screen-emoji');
+const sTxt   = document.getElementById('screen-text');
+const sSub   = document.getElementById('screen-sub');
+
+let leftOn=false, rightOn=false;
+
+// per-key screen content: [emoji, line1, line2]
+const keyContent = {
+  '1': [['🌸','BLOOM','fairy of fire!'],['🌺','WINX CLUB','season 1 ♡'],['💖','MISS U BB','call me pls!']],
+  '2': [['🦋','STELLA','fashion fairy✦'],['👗','new look 2moro','u coming?'],['⭐','SPARKLE','4ever!']],
+  '3': [['🌊','AISHA','fairy of waves'],['💙','msg rcvd','lol omg!!'],['🐠','ocean vibes','♡♡♡']],
+  '4': [['🌿','FLORA','nature fairy'],['🌷','garden party','come!!'],['🍃','bloom bloom','✦ grow ✦']],
+  '5': [['❄️','MUSA','music fairy'],['🎵','new ringtone','downloaded!'],['🎶','ur song♡','play it!']],
+  '6': [['🔮','TECNA','tech fairy'],['💻','wifi: WINX','pass:magic'],['⚡','signal full','4G online']],
+  '7': [['💜','RIVEN','call missed','1 missed call'],['🏰','alfea school','txt me after'],['🌙','nite nite♡','sweet dreamz']],
+  '8': [['✨','GLITTER','loading...','✦✦✦✦✦'],['💫','new spell','unlocked!'],['🌟','u got magic','believe it!']],
+  '9': [['🦄','MAGIC','activated','✦ winx! ✦'],['👑','fairy queen','status: yes'],['🌈','rainbow pwr','go go go!']],
+  '0': [['📱','DIALING','...magic...','please hold'],['💌','1 new txt','from: bloom'],['🔔','ringtone','fairy bells']],
+};
+
+function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
+
+function setScreen(key){
+  const pool=keyContent[key]||[['✦','WINX','magic!']];
+  const [e,l1,l2]=pick(pool);
+  sEmoji.textContent=e;
+  sTxt.textContent=l1;
+  sSub.textContent=l2||'';
 }
 
-</script>
+function fairyBurst(x,y){
+  const ch=['✦','✧','★','♡','✺','🌸','🦋'];
+  const col=['#ff60b0','#ffaadd','#c0e8ff','#ffd6f0','#f8b0ff','#80d0ff'];
+  for(let i=0;i<12;i++){
+    const el=document.createElement('div');
+    el.className='fairy-burst';
+    el.textContent=ch[Math.floor(Math.random()*ch.length)];
+    const ang=(Math.random()*360)*Math.PI/180;
+    const d=30+Math.random()*60;
+    el.style.cssText=`left:${x}px;top:${y}px;color:${col[Math.floor(Math.random()*col.length)]};
+      font-size:${10+Math.random()*16}px;
+      --tx:${Math.cos(ang)*d}px;--ty:${Math.sin(ang)*d-50}px;
+      animation-delay:${Math.random()*.15}s;
+      filter:drop-shadow(0 0 5px currentColor);`;
+    document.body.appendChild(el);
+    el.addEventListener('animationend',()=>el.remove());
+  }
+}
 
+function spawnRipple(x,y){
+  const r=document.createElement('div');
+  r.className='ripple';
+  const sz=70;
+  r.style.cssText=`left:${x-sz/2}px;top:${y-sz/2}px;width:${sz}px;height:${sz}px;`;
+  document.body.appendChild(r);
+  r.addEventListener('animationend',()=>r.remove());
+}
+
+function getBtnCenter(el){
+  const rect=el.getBoundingClientRect();
+  return [rect.left+rect.width/2, rect.top+rect.height/2];
+}
+
+// left wing toggle
+lwb.addEventListener('click',()=>{
+  leftOn=!leftOn;
+  lwg.style.opacity=leftOn?'1':'0';
+  lwg.style.transform=leftOn?'scale(1)':'scale(0)';
+  lwb.classList.toggle('toggled',leftOn);
+  const [cx,cy]=getBtnCenter(lwb);
+  spawnRipple(cx,cy); fairyBurst(cx,cy);
+  if(leftOn){sEmoji.textContent='🦋';sTxt.textContent='LEFT WING';sSub.textContent='✦ spread ✦';}
+  else{sEmoji.textContent='🌸';sTxt.textContent='WINX CLUB';sSub.textContent='✦ ready ✦';}
+});
+
+// right wing toggle
+rwb.addEventListener('click',()=>{
+  rightOn=!rightOn;
+  rwg.style.opacity=rightOn?'1':'0';
+  rwg.style.transform=rightOn?'scale(1)':'scale(0)';
+  rwb.classList.toggle('toggled',rightOn);
+  const [cx,cy]=getBtnCenter(rwb);
+  spawnRipple(cx,cy); fairyBurst(cx,cy);
+  if(rightOn){sEmoji.textContent='🦋';sTxt.textContent='RIGHT WING';sSub.textContent='✦ fly ✦';}
+  else{sEmoji.textContent='🌸';sTxt.textContent='WINX CLUB';sSub.textContent='✦ ready ✦';}
+});
+
+// numpad
+document.querySelectorAll('.numpad-btn').forEach(el=>{
+  el.addEventListener('click',e=>{
+    const [cx,cy]=getBtnCenter(e.currentTarget);
+    spawnRipple(cx,cy); fairyBurst(cx,cy);
+    setScreen(e.currentTarget.dataset.key);
+  });
+});
+
+// touch
+[lwb,rwb].forEach(btn=>{
+  btn.addEventListener('touchstart',e=>{
+    e.preventDefault();
+    btn.dispatchEvent(new MouseEvent('click'));
+  },{passive:false});
+});
+</script>
 </body>
 </html>
