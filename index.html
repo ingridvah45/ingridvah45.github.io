@@ -39,8 +39,8 @@ position:relative;z-index:2;width:min(680px,92vw);flex-shrink:0;
 
 .inner-lines{
 fill:none;
-stroke:rgba(180,40,110,.75);
-stroke-width:2.0;
+stroke:rgba(220,100,170,.42);
+stroke-width:1.6;
 stroke-miterlimit:10;
 stroke-linecap:round;
 stroke-linejoin:round;
@@ -49,8 +49,8 @@ filter:url(#softLine);
 
 #phone_decoration{
 fill:none;
-stroke:rgba(180,40,110,.70);
-stroke-width:2.0;
+stroke:rgba(220,100,170,.40);
+stroke-width:1.6;
 stroke-miterlimit:10;
 stroke-linecap:round;
 stroke-linejoin:round;
@@ -59,8 +59,8 @@ filter:url(#softLine);
 
 .body-border{
 fill:none;
-stroke:rgba(180,40,110,.50);
-stroke-width:1.1;
+stroke:rgba(220,100,170,.28);
+stroke-width:.9;
 stroke-miterlimit:10;
 stroke-linecap:round;
 stroke-linejoin:round;
@@ -69,8 +69,8 @@ filter:url(#softLine);
 
 .dpad-inner{
 fill:none;
-stroke:rgba(180,40,110,.65);
-stroke-width:1.8;
+stroke:rgba(220,100,170,.44);
+stroke-width:1.6;
 stroke-miterlimit:10;
 stroke-linecap:round;
 stroke-linejoin:round;
@@ -97,9 +97,9 @@ stroke:#ffffff;filter:drop-shadow(0 0 5px rgba(150,220,255,1));
 }
 
 #left_wing_button,#right_wing_button{
-fill:url(#wingBtnHot);stroke:#ff0070;stroke-width:2.0;
+fill:url(#wingBtnGrad);stroke:#ff50a0;stroke-width:1.4;
 stroke-linecap:round;stroke-linejoin:round;
-cursor:pointer;transition:filter .15s;filter:url(#btnGlowPink);
+cursor:pointer;transition:filter .15s;filter:url(#btnGlow);
 }
 #left_wing_button:hover,#right_wing_button:hover{filter:url(#btnGlowHot);}
 #left_wing_button.toggled,#right_wing_button.toggled{fill:url(#wingBtnBlue);filter:url(#btnGlowBlue);}
@@ -130,12 +130,12 @@ opacity:0;transform:scaleX(0);
 }
 #lwg.active,#rwg.active{opacity:1;transform:scaleX(1);}
 
-/* screen overlay: positioned as % of phone-wrap (SVG viewBox 500×700) */
+/* screen overlay — % of phone-wrap (SVG viewBox 500w×700h) */
 #screen-content{
 position:absolute;
 left:41.4%;top:29.0%;width:17.2%;height:13.0%;
 display:flex;flex-direction:column;align-items:center;justify-content:center;
-pointer-events:none;z-index:5;overflow:hidden;gap:3px;
+pointer-events:none;z-index:5;overflow:hidden;gap:2px;
 }
 #screen-line1,#screen-line2,#screen-line3{
 font-family:'VT323',monospace;text-align:center;line-height:1.15;max-width:100%;
@@ -143,9 +143,9 @@ background:linear-gradient(180deg,#fff 0%,#c8e0ff 25%,#7090c8 50%,#c8deff 75%,#f
 -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 filter:drop-shadow(0 1px 3px rgba(100,180,255,.9));
 }
-#screen-line1{font-size:22px;letter-spacing:1px;}
-#screen-line2{font-size:17px;}
-#screen-line3{font-size:14px;letter-spacing:.5px;}
+#screen-line1{font-size:clamp(10px,2vw,22px);letter-spacing:1px;}
+#screen-line2{font-size:clamp(9px,1.6vw,17px);}
+#screen-line3{font-size:clamp(8px,1.3vw,14px);letter-spacing:.5px;}
 
 /* app screen — pixel art style mini display */
 #app-screen{
@@ -163,24 +163,23 @@ z-index:6;
 pointer-events:none;
 }
 #app-title{
-font-size:16px;letter-spacing:2px;text-align:left;
-color:#ffffff;
-background:none;
--webkit-text-fill-color:#ffffff;
-filter:none;
+font-size:16px;letter-spacing:1px;text-align:center;
+background:linear-gradient(90deg,#ff80cc,#80ccff,#ff80cc);
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+filter:drop-shadow(0 0 4px rgba(255,150,200,.6));
 margin-bottom:2px;
-border-bottom:1px solid rgba(255,255,255,.4);
+border-bottom:1px solid rgba(255,150,200,.25);
 padding-bottom:2px;
 }
 .app-row{
 display:flex;align-items:center;gap:4px;
-color:rgba(255,255,255,.92);
+color:rgba(255,230,245,.85);
 font-size:11px;
 padding:1px 0;
-border-bottom:1px solid rgba(255,255,255,.1);
+border-bottom:1px solid rgba(255,150,200,.08);
 }
-.app-icon{font-size:11px;width:12px;text-align:center;opacity:.8;}
-.app-val{margin-left:auto;color:rgba(255,255,255,.65);font-size:11px;}
+.app-icon{font-size:12px;width:14px;text-align:center;}
+.app-val{margin-left:auto;color:rgba(150,210,255,.9);font-size:11px;}
 
 #snake-canvas{
 display:none;
@@ -239,9 +238,9 @@ animation:gsparkAnim var(--gd,.9s) ease-out forwards;
 
 #hint{
 position:relative;z-index:3;
-margin-top:20px;
+margin-top:12px;
 font-family:'VT323',monospace;
-font-size:26px;
+font-size:clamp(14px,1.8vw,26px);
 color:rgba(255,220,240,.85);
 letter-spacing:3px;
 text-shadow:0 0 16px rgba(255,100,180,.7);
@@ -257,9 +256,9 @@ pointer-events:none;
 <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
 <div id="phone-wrap">
   <div id="screen-content">
-    <div id="screen-line1">✦ FAIRY ✦</div>
-    <div id="screen-line2">PHONE</div>
-    <div id="screen-line3">· ready ·</div>
+    <div id="screen-line1" style="display:none">✦ FAIRY ✦</div>
+    <div id="screen-line2" style="display:none">PHONE</div>
+    <div id="screen-line3" style="display:none">· ready ·</div>
 
     <!-- app screen panel (shows over idle text) -->
     <div id="app-screen">
@@ -329,14 +328,6 @@ pointer-events:none;
   <stop offset="100%" stop-color="#40a8e0"/>
   </linearGradient>
 
-  <!-- brighter hot-pink gradient for wing buttons so they pop off the phone body -->
-  <linearGradient id="wingBtnHot" x1="0%" y1="0%" x2="100%" y2="100%">
-  <stop offset="0%"   stop-color="#ffffff"/>
-  <stop offset="25%"  stop-color="#ffaadd"/>
-  <stop offset="60%"  stop-color="#ff1888"/>
-  <stop offset="100%" stop-color="#99004a"/>
-  </linearGradient>
-
   <linearGradient id="bubbleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
   <stop offset="0%"   stop-color="rgba(220,244,255,.88)"/>
   <stop offset="40%"  stop-color="rgba(150,210,255,.72)"/>
@@ -383,7 +374,7 @@ pointer-events:none;
   </filter>
 
   <filter id="softLine" x="-8%" y="-8%" width="116%" height="116%">
-  <feGaussianBlur in="SourceGraphic" stdDeviation="2.0" result="blur"/>
+  <feGaussianBlur in="SourceGraphic" stdDeviation="4.5" result="blur"/>
   <feMerge>
   <feMergeNode in="blur"/>
   <feMergeNode in="SourceGraphic"/>
@@ -400,13 +391,6 @@ pointer-events:none;
   <filter id="btnGlow" x="-30%" y="-30%" width="160%" height="160%">
   <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur"/>
   <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-  </filter>
-  <!-- stronger pink glow for wing buttons -->
-  <filter id="btnGlowPink" x="-45%" y="-45%" width="190%" height="190%">
-  <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="blur"/>
-  <feColorMatrix in="blur" type="matrix"
-    values="1.6 0 .2 0 0  0 .1 .4 0 0  .3 0 .8 0 0  0 0 0 1.8 0" result="c"/>
-  <feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge>
   </filter>
   <filter id="btnGlowHot" x="-40%" y="-40%" width="180%" height="180%">
   <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
@@ -447,6 +431,11 @@ pointer-events:none;
   <rect x="305" y="0" width="400" height="700"/>
   </clipPath>
 
+  <!-- clip path matching the phone body outline — glitter stays inside -->
+  <clipPath id="bodyClip">
+  <path d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z"/>
+  </clipPath>
+
   </defs>
 
   <!-- LEFT WING -->
@@ -483,7 +472,7 @@ pointer-events:none;
   <path id="_x3C_background_x3E_" stroke-linecap="round" stroke-linejoin="round"
   d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z"/>
 
-  <path filter="url(#shimmer)" stroke-linecap="round" stroke-linejoin="round"
+  <path filter="url(#shimmer)" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#bodyClip)"
   d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z"
   fill="url(#glitter)" opacity=".6" pointer-events="none"/>
 
@@ -586,106 +575,112 @@ const appBodyEl    = document.getElementById('app-body');
 
 const apps = {
   '1':{
-    title:'SETTINGS',
+    title:'⚙ SETTINGS',
     rows:[
-      ['>','Profiles','General'],
-      ['>','Tones','  '],
-      ['>','Display','  '],
-      ['>','Time & date','  '],
-      ['>','Call settings','  '],
-      ['>','Security','  '],
-      ['>','Factory reset','  '],
+      ['✦','Fairy Mode','ON'],
+      ['🔊','Volume','♪♪♪♪♪'],
+      ['☀','Brightness','████░'],
+      ['📶','Signal','★★★★'],
+      ['🔒','Lock','OFF'],
+      ['🌙','Night Mode','ON'],
+      ['✨','Theme','WINX'],
+      ['🔋','Battery','82%'],
     ]
   },
   '2':{
-    title:'MESSAGES',
+    title:'💬 MESSAGES',
     rows:[
-      ['>','Inbox','3 new'],
-      ['>','Outbox','  '],
-      ['>','Sent items','  '],
-      ['>','Drafts','1'],
-      ['>','Templates','  '],
-      ['>','SIM messages','  '],
-      ['>','Settings','  '],
+      ['🌸','Bloom','luv u!! ♡ 2m'],
+      ['☀','Stella','omg new fit!!'],
+      ['🌊','Aisha','beach tmrw?'],
+      ['🌿','Flora','garden walk?'],
+      ['🎵','Musa','new playlist!'],
+      ['💻','Tecna','wifi fix done'],
+      ['✦','Winx Club','meeting 4pm'],
     ]
   },
   '3':{
-    title:'CALL LOG',
+    title:'📞 CALLS',
     rows:[
-      ['>','Missed calls','2'],
-      ['>','Received','  '],
-      ['>','Dialled','  '],
-      ['>','Delete all','  '],
-      ['>','Call timers','  '],
-      ['>','Call costs','  '],
+      ['📞','Bloom','3m ago'],
+      ['📞','Stella','1h ago'],
+      ['📵','Unknown','missed'],
+      ['📞','Flora','yesterday'],
+      ['📵','Tecna','missed'],
+      ['📞','Aisha','2 days ago'],
+      ['📞','Musa','2 days ago'],
     ]
   },
   '4':{
-    title:'GALLERY',
+    title:'🖼 PICTURES',
     rows:[
-      ['>','Images','12'],
-      ['>','Video clips','3'],
-      ['>','Sound clips','7'],
-      ['>','Themes','2'],
-      ['>','Memory card','  '],
-      ['>','Memory status','  '],
+      ['🌸','Bloom selfie','today'],
+      ['✨','Fairy dust','today'],
+      ['🌈','Alfea roof','ystrd'],
+      ['🦋','Butterflies','ystrd'],
+      ['💅','Stella fit','2d ago'],
+      ['🌊','Beach day','3d ago'],
+      ['🌿','Garden','3d ago'],
     ]
   },
   '5':{
-    title:'MUSIC',
+    title:'🎵 MUSIC',
     rows:[
-      ['►','Now playing','  '],
-      ['>','All tracks','14'],
-      ['>','Playlists','2'],
-      ['>','Artists','  '],
-      ['>','Albums','  '],
-      ['>','Shuffle all','  '],
+      ['▶','Magic Winx','Winx Club'],
+      ['♪','Fairy Tales','Bloom'],
+      ['♪','Shine Bright','Stella'],
+      ['♪','Ocean Waves','Aisha'],
+      ['♪','Petal Dance','Flora'],
+      ['♪','Heartbeat','Musa'],
+      ['♪','Pixel Dream','Tecna'],
     ]
   },
   '6':{
-    title:'DOWNLOADS',
+    title:'⬇ DOWNLOADS',
     rows:[
-      ['>','Games','3'],
-      ['>','Applications','2'],
-      ['>','Ringtones','8'],
-      ['>','Wallpapers','5'],
-      ['↓','Nokia Tones','67%'],
-      ['↓','Space Impact','34%'],
+      ['✅','Believix Spell','done'],
+      ['✅','Fairy Map','done'],
+      ['⏳','Magic Ring','67%'],
+      ['⏳','Winx Theme','34%'],
+      ['⏳','Charmix v2','12%'],
+      ['❌','Dark spell','blocked'],
+      ['✅','Stargate map','done'],
     ]
   },
   '7':{
-    title:'RINGTONES',
+    title:'🔔 RINGTONES',
     rows:[
-      ['♪','Nokia tune','active'],
-      ['♪','Ascending','  '],
-      ['♪','Piano','  '],
-      ['♪','Arpeggio','  '],
-      ['♪','Polka','  '],
-      ['♪','Mosquito','  '],
-      ['♪','Beep once','  '],
+      ['♪','Magic Winx ★','active'],
+      ['♪','Fairy Bell',''],
+      ['♪','Stardust',''],
+      ['♪','Bloom Theme',''],
+      ['♪','Ocean Call',''],
+      ['♪','Pixel Pop',''],
+      ['♪','Rainbow Glow',''],
     ]
   },
   '8':{
-    title:'CALENDAR',
+    title:'📝 REMINDERS',
     rows:[
-      ['>','Today','  '],
-      ['>','Week view','  '],
-      ['>','Month view','  '],
-      ['!','Reminder','08:00'],
-      ['!','Meeting','13:30'],
-      ['!','Alarm 1','07:00'],
-      ['!','Alarm 2','off'],
+      ['⏰','Alfea class','8:00 AM'],
+      ['⏰','Bloom call','12:30 PM'],
+      ['💊','Fairy dose','2:00 PM'],
+      ['⏰','Wing practice','4:00 PM'],
+      ['⏰','Stella lunch','5:30 PM'],
+      ['🌙','Night potion','9:00 PM'],
+      ['⏰','Study spells','10 PM'],
     ]
   },
   '9':{
-    title:'BATTERY',
+    title:'🔋 BATTERY',
     rows:[
-      ['|','Level','82%'],
-      ['>','Talk time','3h 40m'],
-      ['>','Standby','8 days'],
-      ['>','Type','Li-Ion'],
-      ['>','Charging','Yes'],
-      ['>','Save power','Off'],
+      ['🔋','Level','82%'],
+      ['⚡','Status','Charging'],
+      ['⏱','Time left','3h 40m'],
+      ['✦','Fairy Power','HIGH'],
+      ['📶','Signal draw','low'],
+      ['☀','Screen draw','med'],
+      ['🎵','Music draw','low'],
     ]
   }
 };
@@ -827,7 +822,8 @@ function showIdleScreen(){
   line1.textContent='✦ FAIRY ✦';line2.textContent='PHONE';line3.textContent='· ready ·';
 }
 
-gameState='idle';showIdleScreen();
+gameState='idle';
+// screen starts black — no showIdleScreen() on load
 
 // NUMPAD — 1-9 show app screens, 0 loads snake
 document.querySelectorAll('.numpad-btn').forEach(el=>{
@@ -876,7 +872,7 @@ lwb.addEventListener('click',()=>{
   } else {
     line1.style.display='';line2.style.display='';line3.style.display='';
     appScreenEl.style.display='none';
-    line1.textContent='✦ WINGS ✦';line2.textContent=leftOn?'left open':'left closed';line3.textContent='· magic ·';
+    line1.textContent='✦ WINGS ✦';line2.textContent=leftOn?'left open':'left closed';line3.textContent='';
   }
 });
 rwb.addEventListener('click',()=>{
@@ -888,7 +884,7 @@ rwb.addEventListener('click',()=>{
   } else {
     line1.style.display='';line2.style.display='';line3.style.display='';
     appScreenEl.style.display='none';
-    line1.textContent='✦ WINGS ✦';line2.textContent=rightOn?'right open':'right closed';line3.textContent='· magic ·';
+    line1.textContent='✦ WINGS ✦';line2.textContent=rightOn?'right open':'right closed';line3.textContent='';
   }
 });
 
