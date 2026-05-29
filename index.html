@@ -9,6 +9,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
 body{
+height:100vh;
 min-height:100vh;
 background:radial-gradient(ellipse at 25% 15%,#ff80cc 0%,#ff40a8 30%,#cc1880 65%,#880050 100%);
 display:flex;align-items:center;justify-content:center;
@@ -28,20 +29,18 @@ filter:drop-shadow(0 0 4px var(--c,#ffb3dc));
 }
 
 #phone-wrap{
-position:relative;z-index:2;width:1000px;flex-shrink:0;
+position:relative;z-index:2;width:min(680px,92vw);flex-shrink:0;
 }
 #phone-svg{width:100%;height:auto;overflow:visible;}
 
-/* body fill — no filter (removes white shadow cast) */
 #_x3C_background_x3E_{fill:url(#bodyGrad);stroke:none;}
 
 #phone_screen{fill:url(#screenGrad);stroke:rgba(255,180,220,.6);stroke-width:.8;}
 
-/* inner lines — very soft, heavily blurred so they blend seamlessly */
 .inner-lines{
 fill:none;
-stroke:rgba(200,80,160,.28);
-stroke-width:1.4;
+stroke:rgba(180,40,110,.75);
+stroke-width:2.0;
 stroke-miterlimit:10;
 stroke-linecap:round;
 stroke-linejoin:round;
@@ -50,8 +49,8 @@ filter:url(#softLine);
 
 #phone_decoration{
 fill:none;
-stroke:rgba(200,80,160,.28);
-stroke-width:1.4;
+stroke:rgba(180,40,110,.70);
+stroke-width:2.0;
 stroke-miterlimit:10;
 stroke-linecap:round;
 stroke-linejoin:round;
@@ -60,8 +59,8 @@ filter:url(#softLine);
 
 .body-border{
 fill:none;
-stroke:rgba(200,80,160,.2);
-stroke-width:.8;
+stroke:rgba(180,40,110,.50);
+stroke-width:1.1;
 stroke-miterlimit:10;
 stroke-linecap:round;
 stroke-linejoin:round;
@@ -70,8 +69,8 @@ filter:url(#softLine);
 
 .dpad-inner{
 fill:none;
-stroke:rgba(200,80,160,.3);
-stroke-width:1.4;
+stroke:rgba(180,40,110,.65);
+stroke-width:1.8;
 stroke-miterlimit:10;
 stroke-linecap:round;
 stroke-linejoin:round;
@@ -87,17 +86,20 @@ stroke-linecap:round;
 stroke-linejoin:round;
 }
 
+/* arrows — same blue as numpad buttons */
 #up_arrow,#down_arrow,#left_arrow,#right_arrow{
-fill:none;stroke:#ff2090;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;
-filter:drop-shadow(0 0 3px rgba(255,30,140,.9));
+fill:none;stroke:rgba(100,200,255,.9);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;
+filter:drop-shadow(0 0 3px rgba(80,180,255,.85));
 cursor:pointer;
 }
-#up_arrow:hover,#down_arrow:hover,#left_arrow:hover,#right_arrow:hover{stroke:#ffffff;}
+#up_arrow:hover,#down_arrow:hover,#left_arrow:hover,#right_arrow:hover{
+stroke:#ffffff;filter:drop-shadow(0 0 5px rgba(150,220,255,1));
+}
 
 #left_wing_button,#right_wing_button{
-fill:url(#wingBtnGrad);stroke:#ff50a0;stroke-width:1.4;
+fill:url(#wingBtnHot);stroke:#ff0070;stroke-width:2.0;
 stroke-linecap:round;stroke-linejoin:round;
-cursor:pointer;transition:filter .15s;filter:url(#btnGlow);
+cursor:pointer;transition:filter .15s;filter:url(#btnGlowPink);
 }
 #left_wing_button:hover,#right_wing_button:hover{filter:url(#btnGlowHot);}
 #left_wing_button.toggled,#right_wing_button.toggled{fill:url(#wingBtnBlue);filter:url(#btnGlowBlue);}
@@ -128,10 +130,10 @@ opacity:0;transform:scaleX(0);
 }
 #lwg.active,#rwg.active{opacity:1;transform:scaleX(1);}
 
-/* screen overlay: 207.02*2=414, 203.09*2=406, 85.95*2=172, 91.2*2=182 */
+/* screen overlay: positioned as % of phone-wrap (SVG viewBox 500×700) */
 #screen-content{
 position:absolute;
-left:414px;top:406px;width:172px;height:182px;
+left:41.4%;top:29.0%;width:17.2%;height:13.0%;
 display:flex;flex-direction:column;align-items:center;justify-content:center;
 pointer-events:none;z-index:5;overflow:hidden;gap:3px;
 }
@@ -145,10 +147,45 @@ filter:drop-shadow(0 1px 3px rgba(100,180,255,.9));
 #screen-line2{font-size:17px;}
 #screen-line3{font-size:14px;letter-spacing:.5px;}
 
+/* app screen — pixel art style mini display */
+#app-screen{
+display:none;
+position:absolute;top:0;left:0;width:100%;height:100%;
+flex-direction:column;
+font-family:'VT323',monospace;
+color:#ffffff;
+font-size:12px;
+padding:6px 5px;
+overflow:hidden;
+gap:1px;
+background:transparent;
+z-index:6;
+pointer-events:none;
+}
+#app-title{
+font-size:16px;letter-spacing:2px;text-align:left;
+color:#ffffff;
+background:none;
+-webkit-text-fill-color:#ffffff;
+filter:none;
+margin-bottom:2px;
+border-bottom:1px solid rgba(255,255,255,.4);
+padding-bottom:2px;
+}
+.app-row{
+display:flex;align-items:center;gap:4px;
+color:rgba(255,255,255,.92);
+font-size:11px;
+padding:1px 0;
+border-bottom:1px solid rgba(255,255,255,.1);
+}
+.app-icon{font-size:11px;width:12px;text-align:center;opacity:.8;}
+.app-val{margin-left:auto;color:rgba(255,255,255,.65);font-size:11px;}
+
 #snake-canvas{
 display:none;
 position:absolute;top:0;left:0;
-width:172px;height:182px;
+width:100%;height:100%;
 image-rendering:pixelated;
 }
 
@@ -164,7 +201,7 @@ pointer-events:none;
 
 #snake-over{
 display:none;
-position:absolute;top:0;left:0;width:172px;height:182px;
+position:absolute;top:0;left:0;width:100%;height:100%;
 flex-direction:column;align-items:center;justify-content:center;
 background:rgba(5,0,15,.85);gap:3px;z-index:7;
 pointer-events:none;
@@ -217,12 +254,19 @@ pointer-events:none;
 
 <div class="stars" id="stars"></div>
 
-<div style="display:flex;flex-direction:column;align-items:center;">
+<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
 <div id="phone-wrap">
   <div id="screen-content">
     <div id="screen-line1">✦ FAIRY ✦</div>
     <div id="screen-line2">PHONE</div>
     <div id="screen-line3">· ready ·</div>
+
+    <!-- app screen panel (shows over idle text) -->
+    <div id="app-screen">
+      <div id="app-title">SETTINGS</div>
+      <div id="app-body"></div>
+    </div>
+
     <canvas id="snake-canvas" width="172" height="182"></canvas>
     <div id="snake-score">★0</div>
     <div id="snake-over">
@@ -235,24 +279,22 @@ pointer-events:none;
   <svg id="phone-svg" viewBox="0 0 500 700" xmlns="http://www.w3.org/2000/svg">
   <defs>
 
-  <!-- body gradient: darker, richer pink — no white at top -->
+  <!-- body: mid-tone pink — not too light, not too dark, lines visible -->
   <linearGradient id="bodyGrad" x1="5%" y1="0%" x2="95%" y2="100%">
-  <stop offset="0%"   stop-color="#ffaadd"/>
-  <stop offset="15%"  stop-color="#ff80cc"/>
-  <stop offset="35%"  stop-color="#ff50b8"/>
-  <stop offset="55%"  stop-color="#e82898"/>
-  <stop offset="75%"  stop-color="#cc1070"/>
-  <stop offset="100%" stop-color="#960050"/>
+  <stop offset="0%"   stop-color="#ffccee"/>
+  <stop offset="18%"  stop-color="#ff99d8"/>
+  <stop offset="38%"  stop-color="#ff66bb"/>
+  <stop offset="58%"  stop-color="#e8389a"/>
+  <stop offset="78%"  stop-color="#cc1878"/>
+  <stop offset="100%" stop-color="#a01060"/>
   </linearGradient>
 
-  <!-- specular: subtle, reduced opacity so no white cast -->
   <radialGradient id="specGrad" cx="28%" cy="18%" r="45%">
   <stop offset="0%"   stop-color="white" stop-opacity=".22"/>
   <stop offset="50%"  stop-color="white" stop-opacity=".06"/>
   <stop offset="100%" stop-color="white" stop-opacity="0"/>
   </radialGradient>
 
-  <!-- rim light: very subtle -->
   <radialGradient id="rimGrad" cx="80%" cy="88%" r="40%">
   <stop offset="0%"   stop-color="#ffd0f0" stop-opacity=".15"/>
   <stop offset="100%" stop-color="#ffd0f0" stop-opacity="0"/>
@@ -263,7 +305,6 @@ pointer-events:none;
   <stop offset="100%" stop-color="#060010"/>
   </linearGradient>
 
-  <!-- Wings: iridescent fairy gradient with more color variation -->
   <linearGradient id="wingFillTop" x1="0%" y1="0%" x2="100%" y2="100%">
   <stop offset="0%"   stop-color="#ffaadd" stop-opacity=".95"/>
   <stop offset="25%"  stop-color="#ff80cc" stop-opacity=".9"/>
@@ -288,13 +329,20 @@ pointer-events:none;
   <stop offset="100%" stop-color="#40a8e0"/>
   </linearGradient>
 
+  <!-- brighter hot-pink gradient for wing buttons so they pop off the phone body -->
+  <linearGradient id="wingBtnHot" x1="0%" y1="0%" x2="100%" y2="100%">
+  <stop offset="0%"   stop-color="#ffffff"/>
+  <stop offset="25%"  stop-color="#ffaadd"/>
+  <stop offset="60%"  stop-color="#ff1888"/>
+  <stop offset="100%" stop-color="#99004a"/>
+  </linearGradient>
+
   <linearGradient id="bubbleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
   <stop offset="0%"   stop-color="rgba(220,244,255,.88)"/>
   <stop offset="40%"  stop-color="rgba(150,210,255,.72)"/>
   <stop offset="100%" stop-color="rgba(100,185,255,.80)"/>
   </linearGradient>
 
-  <!-- glitter pattern for body (slightly warmer to match darker pink) -->
   <pattern id="glitter" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
   <rect width="10" height="10" fill="none"/>
   <circle cx="1"   cy="1"   r="1.2" fill="white"   opacity=".85"/>
@@ -311,7 +359,6 @@ pointer-events:none;
   <circle cx="6.5" cy="6.5" r=".4"  fill="#ffeeff" opacity=".8"/>
   </pattern>
 
-  <!-- wing glitter — sparkly, delicate -->
   <pattern id="wingGlitter" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
   <rect width="12" height="12" fill="none"/>
   <circle cx="1.5" cy="1.5" r="1.1" fill="white" opacity=".92"/>
@@ -326,10 +373,6 @@ pointer-events:none;
   <circle cx="3.5" cy="4.5" r=".35" fill="#c8e8ff"  opacity=".88"/>
   </pattern>
 
-  <!-- FILTERS -->
-
-  <!-- NO bevel filter on body at all — prevents white shadow cast -->
-
   <filter id="shimmer" x="0%" y="0%" width="100%" height="100%">
   <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="1" seed="2" result="noise">
   <animate attributeName="seed" values="1;8;3;6;2" dur="2.5s" repeatCount="indefinite"/>
@@ -339,16 +382,14 @@ pointer-events:none;
   <feBlend in="SourceGraphic" in2="bright" mode="screen"/>
   </filter>
 
-  <!-- softLine: heavy blur so inner lines fully melt into the surface -->
   <filter id="softLine" x="-8%" y="-8%" width="116%" height="116%">
-  <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="blur"/>
+  <feGaussianBlur in="SourceGraphic" stdDeviation="2.0" result="blur"/>
   <feMerge>
   <feMergeNode in="blur"/>
   <feMergeNode in="SourceGraphic"/>
   </feMerge>
   </filter>
 
-  <!-- Wing glow — warm fairy shimmer -->
   <filter id="wingGlow" x="-25%" y="-25%" width="150%" height="150%">
   <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
   <feColorMatrix in="blur" type="matrix"
@@ -359,6 +400,13 @@ pointer-events:none;
   <filter id="btnGlow" x="-30%" y="-30%" width="160%" height="160%">
   <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur"/>
   <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <!-- stronger pink glow for wing buttons -->
+  <filter id="btnGlowPink" x="-45%" y="-45%" width="190%" height="190%">
+  <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="blur"/>
+  <feColorMatrix in="blur" type="matrix"
+    values="1.6 0 .2 0 0  0 .1 .4 0 0  .3 0 .8 0 0  0 0 0 1.8 0" result="c"/>
+  <feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge>
   </filter>
   <filter id="btnGlowHot" x="-40%" y="-40%" width="180%" height="180%">
   <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
@@ -401,54 +449,44 @@ pointer-events:none;
 
   </defs>
 
-  <!-- LEFT WING — fairy style, no straight lines inside -->
+  <!-- LEFT WING -->
   <g id="lwg" clip-path="url(#leftWingClip)">
-  <!-- main wing fill -->
   <path stroke-linecap="round" stroke-linejoin="round"
   d="M180.02,315.06c-1.46-11.86-4.26-25.53-9.4-40.17-4.46-12.69-8.92-25.39-19.66-39.32-5.34-6.92-15.25-18.08-30.77-27.35-3.22-1.92-19.31-11-42.74-13.68-10.77-1.23-19.88-.74-26.36,0-9.12,1.99-18.23,3.99-27.35,5.98-10.25,4.54-13.07,9.26-13.68,12.82-1.19,6.95,5.61,12,30.63,37.61,14.73,15.07,17.57,19.22,20.51,25.64,3.03,6.59,5.65,16.19,6.84,20.51,2.18,7.98,2.33,10.49,5.13,13.68,2.67,3.03,6.62,4.87,14.53,8.55,2.5,1.16,3.5,1.54,9,3.86,10.09,4.25,12.19,5.29,14.93,6.4,10.4,4.22,20.65,5.7,24.79,5.98,20.39,1.41,38.1-15.03,43.59-20.51-6.03,18.86-6.57,33.69-5.98,43.59,1.05,17.59,2.16,26.18,4.27,33.33,1.54,5.2,3.35,9.27,2.56,15.38-.32,2.48-1.04,8.04-5.13,11.97-5.35,5.14-9.99,1.23-19.66,5.98-5.69,2.8-9.55,5.8-14.53,10.26-5.91,5.3-10.01,10.58-12.68,14.53-7.2-14.92-13.55-18.44-18.08-18.8-7.14-.58-12.82.85-12.82.85-7.62.58-8.95.79-11.11,0-5.78-2.12-8.48-8.2-9.4-10.26-1.17-2.62-.98-3.46-2.7-14.46-.6-3.83-.2-7.61-2.42-12.04-.68-1.36-1.4-2.41-1.91-3.11-1.97-1.41-5.01-3.96-7.49-8-1.44-2.35-6.01-9.84-3.42-16.24,1.34-3.33,3.21-2.71,8.55-8.55,1.82-1.99,5.16-5.69,7.69-11.11,1.25-2.67,2.89-7.01,3.42-12.82L180.02,315.06Z"
   fill="url(#wingFillTop)" stroke="url(#wingStroke)" stroke-width="1.4" filter="url(#wingGlow)"/>
-  <!-- glitter sparkle overlay -->
-  <path
-  d="M180.02,315.06c-1.46-11.86-4.26-25.53-9.4-40.17-4.46-12.69-8.92-25.39-19.66-39.32-5.34-6.92-15.25-18.08-30.77-27.35-3.22-1.92-19.31-11-42.74-13.68-10.77-1.23-19.88-.74-26.36,0-9.12,1.99-18.23,3.99-27.35,5.98-10.25,4.54-13.07,9.26-13.68,12.82-1.19,6.95,5.61,12,30.63,37.61,14.73,15.07,17.57,19.22,20.51,25.64,3.03,6.59,5.65,16.19,6.84,20.51,2.18,7.98,2.33,10.49,5.13,13.68,2.67,3.03,6.62,4.87,14.53,8.55,2.5,1.16,3.5,1.54,9,3.86,10.09,4.25,12.19,5.29,14.93,6.4,10.4,4.22,20.65,5.7,24.79,5.98,20.39,1.41,38.1-15.03,43.59-20.51-6.03,18.86-6.57,33.69-5.98,43.59,1.05,17.59,2.16,26.18,4.27,33.33,1.54,5.2,3.35,9.27,2.56,15.38-.32,2.48-1.04,8.04-5.13,11.97-5.35,5.14-9.99,1.23-19.66,5.98-5.69,2.8-9.55,5.8-14.53,10.26-5.91,5.3-10.01,10.58-12.68,14.53-7.2-14.92-13.55-18.44-18.08-18.8-7.14-.58-12.82.85-12.82.85-7.62.58-8.95.79-11.11,0-5.78-2.12-8.48-8.2-9.4-10.26-1.17-2.62-.98-3.46-2.7-14.46-.6-3.83-.2-7.61-2.42-12.04-.68-1.36-1.4-2.41-1.91-3.11-1.97-1.41-5.01-3.96-7.49-8-1.44-2.35-6.01-9.84-3.42-16.24,1.34-3.33,3.21-2.71,8.55-8.55,1.82-1.99,5.16-5.69,7.69-11.11,1.25-2.67,2.89-7.01,3.42-12.82L180.02,315.06Z"
+  <path d="M180.02,315.06c-1.46-11.86-4.26-25.53-9.4-40.17-4.46-12.69-8.92-25.39-19.66-39.32-5.34-6.92-15.25-18.08-30.77-27.35-3.22-1.92-19.31-11-42.74-13.68-10.77-1.23-19.88-.74-26.36,0-9.12,1.99-18.23,3.99-27.35,5.98-10.25,4.54-13.07,9.26-13.68,12.82-1.19,6.95,5.61,12,30.63,37.61,14.73,15.07,17.57,19.22,20.51,25.64,3.03,6.59,5.65,16.19,6.84,20.51,2.18,7.98,2.33,10.49,5.13,13.68,2.67,3.03,6.62,4.87,14.53,8.55,2.5,1.16,3.5,1.54,9,3.86,10.09,4.25,12.19,5.29,14.93,6.4,10.4,4.22,20.65,5.7,24.79,5.98,20.39,1.41,38.1-15.03,43.59-20.51-6.03,18.86-6.57,33.69-5.98,43.59,1.05,17.59,2.16,26.18,4.27,33.33,1.54,5.2,3.35,9.27,2.56,15.38-.32,2.48-1.04,8.04-5.13,11.97-5.35,5.14-9.99,1.23-19.66,5.98-5.69,2.8-9.55,5.8-14.53,10.26-5.91,5.3-10.01,10.58-12.68,14.53-7.2-14.92-13.55-18.44-18.08-18.8-7.14-.58-12.82.85-12.82.85-7.62.58-8.95.79-11.11,0-5.78-2.12-8.48-8.2-9.4-10.26-1.17-2.62-.98-3.46-2.7-14.46-.6-3.83-.2-7.61-2.42-12.04-.68-1.36-1.4-2.41-1.91-3.11-1.97-1.41-5.01-3.96-7.49-8-1.44-2.35-6.01-9.84-3.42-16.24,1.34-3.33,3.21-2.71,8.55-8.55,1.82-1.99,5.16-5.69,7.69-11.11,1.25-2.67,2.89-7.01,3.42-12.82L180.02,315.06Z"
   fill="url(#wingGlitter)" opacity=".65" pointer-events="none"/>
-  <!-- fairy wing vein curves — soft organic curves, no straight lines -->
   <path d="M172,290 C148,275 115,262 80,258" fill="none" stroke="rgba(255,180,240,.45)" stroke-width="1" stroke-linecap="round"/>
   <path d="M168,320 C140,318 108,320 72,315" fill="none" stroke="rgba(200,160,255,.4)"  stroke-width="1" stroke-linecap="round"/>
   <path d="M160,355 C136,360 108,362 78,358" fill="none" stroke="rgba(150,200,255,.38)" stroke-width="1" stroke-linecap="round"/>
   <path d="M148,388 C128,396 104,400 80,396" fill="none" stroke="rgba(180,200,255,.35)" stroke-width="1" stroke-linecap="round"/>
-  <!-- inner shimmer lobe -->
   <ellipse cx="118" cy="295" rx="28" ry="18" fill="rgba(255,220,255,.12)" pointer-events="none"/>
   <ellipse cx="100" cy="340" rx="22" ry="28" fill="rgba(200,210,255,.10)" pointer-events="none"/>
   </g>
 
-  <!-- RIGHT WING — fairy style, no straight lines inside -->
+  <!-- RIGHT WING -->
   <g id="rwg" clip-path="url(#rightWingClip)">
   <path stroke-linecap="round" stroke-linejoin="round"
   d="M319.91,314.92c1.37-12.09,3.98-26.02,8.78-40.94,4.16-12.93,8.33-25.88,18.36-40.07,4.98-7.05,14.24-18.42,28.73-27.87,3.01-1.96,18.04-11.21,39.9-13.94,10.05-1.26,18.56-.75,24.61,0,8.51,2.03,17.03,4.06,25.54,6.1,9.57,4.63,12.2,9.44,12.77,13.07,1.11,7.08-5.24,12.23-28.6,38.33-13.75,15.36-16.4,19.59-19.15,26.13-2.83,6.72-5.28,16.5-6.38,20.91-2.04,8.13-2.17,10.7-4.79,13.94-2.49,3.09-6.18,4.96-13.57,8.71-2.33,1.18-3.26,1.57-8.4,3.93-9.42,4.33-11.39,5.39-13.94,6.52-9.71,4.3-19.28,5.81-23.14,6.1-19.04,1.44-35.58-15.31-40.7-20.91,5.63,19.22,6.14,34.34,5.59,44.42-.98,17.92-2.02,26.68-3.99,33.97-1.43,5.3-3.13,9.45-2.39,15.68.3,2.53.97,8.2,4.79,12.19,5,5.24,9.33,1.26,18.36,6.1,5.32,2.85,8.92,5.91,13.57,10.45,5.52,5.4,9.34,10.78,11.84,14.81,6.72-15.21,12.65-18.79,16.89-19.16,6.67-.59,11.97.87,11.97.87,7.11.59,8.36.81,10.38,0,5.4-2.16,7.92-8.36,8.78-10.45,1.09-2.67.92-3.53,2.53-14.74.56-3.9.19-7.76,2.26-12.27.64-1.39,1.3-2.46,1.78-3.17,1.84-1.44,4.68-4.04,6.99-8.16,1.34-2.4,5.61-10.03,3.19-16.55-1.26-3.39-3-2.77-7.98-8.71-1.7-2.03-4.82-5.8-7.18-11.32-1.17-2.72-2.7-7.14-3.19-13.07L319.91,314.92Z"
   fill="url(#wingFillTop)" stroke="url(#wingStroke)" stroke-width="1.4" filter="url(#wingGlow)"/>
-  <path
-  d="M319.91,314.92c1.37-12.09,3.98-26.02,8.78-40.94,4.16-12.93,8.33-25.88,18.36-40.07,4.98-7.05,14.24-18.42,28.73-27.87,3.01-1.96,18.04-11.21,39.9-13.94,10.05-1.26,18.56-.75,24.61,0,8.51,2.03,17.03,4.06,25.54,6.1,9.57,4.63,12.2,9.44,12.77,13.07,1.11,7.08-5.24,12.23-28.6,38.33-13.75,15.36-16.4,19.59-19.15,26.13-2.83,6.72-5.28,16.5-6.38,20.91-2.04,8.13-2.17,10.7-4.79,13.94-2.49,3.09-6.18,4.96-13.57,8.71-2.33,1.18-3.26,1.57-8.4,3.93-9.42,4.33-11.39,5.39-13.94,6.52-9.71,4.3-19.28,5.81-23.14,6.1-19.04,1.44-35.58-15.31-40.7-20.91,5.63,19.22,6.14,34.34,5.59,44.42-.98,17.92-2.02,26.68-3.99,33.97-1.43,5.3-3.13,9.45-2.39,15.68.3,2.53.97,8.2,4.79,12.19,5,5.24,9.33,1.26,18.36,6.1,5.32,2.85,8.92,5.91,13.57,10.45,5.52,5.4,9.34,10.78,11.84,14.81,6.72-15.21,12.65-18.79,16.89-19.16,6.67-.59,11.97.87,11.97.87,7.11.59,8.36.81,10.38,0,5.4-2.16,7.92-8.36,8.78-10.45,1.09-2.67.92-3.53,2.53-14.74.56-3.9.19-7.76,2.26-12.27.64-1.39,1.3-2.46,1.78-3.17,1.84-1.44,4.68-4.04,6.99-8.16,1.34-2.4,5.61-10.03,3.19-16.55-1.26-3.39-3-2.77-7.98-8.71-1.7-2.03-4.82-5.8-7.18-11.32-1.17-2.72-2.7-7.14-3.19-13.07L319.91,314.92Z"
+  <path d="M319.91,314.92c1.37-12.09,3.98-26.02,8.78-40.94,4.16-12.93,8.33-25.88,18.36-40.07,4.98-7.05,14.24-18.42,28.73-27.87,3.01-1.96,18.04-11.21,39.9-13.94,10.05-1.26,18.56-.75,24.61,0,8.51,2.03,17.03,4.06,25.54,6.1,9.57,4.63,12.2,9.44,12.77,13.07,1.11,7.08-5.24,12.23-28.6,38.33-13.75,15.36-16.4,19.59-19.15,26.13-2.83,6.72-5.28,16.5-6.38,20.91-2.04,8.13-2.17,10.7-4.79,13.94-2.49,3.09-6.18,4.96-13.57,8.71-2.33,1.18-3.26,1.57-8.4,3.93-9.42,4.33-11.39,5.39-13.94,6.52-9.71,4.3-19.28,5.81-23.14,6.1-19.04,1.44-35.58-15.31-40.7-20.91,5.63,19.22,6.14,34.34,5.59,44.42-.98,17.92-2.02,26.68-3.99,33.97-1.43,5.3-3.13,9.45-2.39,15.68.3,2.53.97,8.2,4.79,12.19,5,5.24,9.33,1.26,18.36,6.1,5.32,2.85,8.92,5.91,13.57,10.45,5.52,5.4,9.34,10.78,11.84,14.81,6.72-15.21,12.65-18.79,16.89-19.16,6.67-.59,11.97.87,11.97.87,7.11.59,8.36.81,10.38,0,5.4-2.16,7.92-8.36,8.78-10.45,1.09-2.67.92-3.53,2.53-14.74.56-3.9.19-7.76,2.26-12.27.64-1.39,1.3-2.46,1.78-3.17,1.84-1.44,4.68-4.04,6.99-8.16,1.34-2.4,5.61-10.03,3.19-16.55-1.26-3.39-3-2.77-7.98-8.71-1.7-2.03-4.82-5.8-7.18-11.32-1.17-2.72-2.7-7.14-3.19-13.07L319.91,314.92Z"
   fill="url(#wingGlitter)" opacity=".65" pointer-events="none"/>
-  <!-- fairy wing vein curves right side -->
   <path d="M328,290 C352,275 385,262 420,258" fill="none" stroke="rgba(255,180,240,.45)" stroke-width="1" stroke-linecap="round"/>
   <path d="M332,320 C360,318 392,320 428,315" fill="none" stroke="rgba(200,160,255,.4)"  stroke-width="1" stroke-linecap="round"/>
   <path d="M340,355 C364,360 392,362 422,358" fill="none" stroke="rgba(150,200,255,.38)" stroke-width="1" stroke-linecap="round"/>
   <path d="M352,388 C372,396 396,400 420,396" fill="none" stroke="rgba(180,200,255,.35)" stroke-width="1" stroke-linecap="round"/>
-  <!-- inner shimmer lobes -->
   <ellipse cx="382" cy="295" rx="28" ry="18" fill="rgba(255,220,255,.12)" pointer-events="none"/>
   <ellipse cx="400" cy="340" rx="22" ry="28" fill="rgba(200,210,255,.10)" pointer-events="none"/>
   </g>
 
-  <!-- PHONE BODY — no filter, no white cast -->
+  <!-- PHONE BODY -->
   <path id="_x3C_background_x3E_" stroke-linecap="round" stroke-linejoin="round"
   d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z"/>
 
-  <!-- glitter shimmer overlay on body -->
   <path filter="url(#shimmer)" stroke-linecap="round" stroke-linejoin="round"
   d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z"
   fill="url(#glitter)" opacity=".6" pointer-events="none"/>
 
-  <!-- specular gloss: very faint, no white cast -->
   <path pointer-events="none" stroke-linecap="round" stroke-linejoin="round"
   d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z"
   fill="url(#specGrad)"/>
@@ -482,7 +520,7 @@ pointer-events:none;
   <path class="dpad-inner" stroke-linecap="round" stroke-linejoin="round" d="M237.7,350.99c-8.89-2.33-17.86-4.18-26.89-5.53,1.47,6.53,6.74,13.51,12.3,14.99,5.56,1.48,10.91-4.29,14.59-9.45Z"/>
   <path class="dpad-inner" stroke-linecap="round" stroke-linejoin="round" d="M259.62,350.9c9.27-2.43,18.63-4.35,28.05-5.77-1.53,6.81-7.03,14.09-12.83,15.63-5.8,1.54-11.39-4.48-15.22-9.86Z"/>
 
-  <!-- ARROWS — with larger invisible hit targets for easier clicking -->
+  <!-- invisible large hit targets for arrows -->
   <rect x="242" y="322" width="16" height="16" fill="transparent" id="up_arrow_hit"    style="cursor:pointer;"/>
   <rect x="242" y="348" width="16" height="16" fill="transparent" id="down_arrow_hit"  style="cursor:pointer;"/>
   <rect x="265" y="344" width="20" height="14" fill="transparent" id="right_arrow_hit" style="cursor:pointer;"/>
@@ -541,20 +579,145 @@ pointer-events:none;
   }
 })();
 
-// ══════════════════════════
-// SNAKE — bigger cells, slower
-// Canvas 172×182, CELL=10 → 17 cols × 18 rows
-// ══════════════════════════
-const COLS=17, ROWS=18, CELL=10;
-const canvas=document.getElementById('snake-canvas');
-const ctx=canvas.getContext('2d');
-const scoreEl=document.getElementById('snake-score');
-const overEl=document.getElementById('snake-over');
-const overScoreTxt=document.getElementById('over-score-txt');
-const line1=document.getElementById('screen-line1');
-const line2=document.getElementById('screen-line2');
-const line3=document.getElementById('screen-line3');
-const hint=document.getElementById('hint');
+// ── APP SCREENS ──
+const appScreenEl  = document.getElementById('app-screen');
+const appTitleEl   = document.getElementById('app-title');
+const appBodyEl    = document.getElementById('app-body');
+
+const apps = {
+  '1':{
+    title:'SETTINGS',
+    rows:[
+      ['>','Profiles','General'],
+      ['>','Tones','  '],
+      ['>','Display','  '],
+      ['>','Time & date','  '],
+      ['>','Call settings','  '],
+      ['>','Security','  '],
+      ['>','Factory reset','  '],
+    ]
+  },
+  '2':{
+    title:'MESSAGES',
+    rows:[
+      ['>','Inbox','3 new'],
+      ['>','Outbox','  '],
+      ['>','Sent items','  '],
+      ['>','Drafts','1'],
+      ['>','Templates','  '],
+      ['>','SIM messages','  '],
+      ['>','Settings','  '],
+    ]
+  },
+  '3':{
+    title:'CALL LOG',
+    rows:[
+      ['>','Missed calls','2'],
+      ['>','Received','  '],
+      ['>','Dialled','  '],
+      ['>','Delete all','  '],
+      ['>','Call timers','  '],
+      ['>','Call costs','  '],
+    ]
+  },
+  '4':{
+    title:'GALLERY',
+    rows:[
+      ['>','Images','12'],
+      ['>','Video clips','3'],
+      ['>','Sound clips','7'],
+      ['>','Themes','2'],
+      ['>','Memory card','  '],
+      ['>','Memory status','  '],
+    ]
+  },
+  '5':{
+    title:'MUSIC',
+    rows:[
+      ['►','Now playing','  '],
+      ['>','All tracks','14'],
+      ['>','Playlists','2'],
+      ['>','Artists','  '],
+      ['>','Albums','  '],
+      ['>','Shuffle all','  '],
+    ]
+  },
+  '6':{
+    title:'DOWNLOADS',
+    rows:[
+      ['>','Games','3'],
+      ['>','Applications','2'],
+      ['>','Ringtones','8'],
+      ['>','Wallpapers','5'],
+      ['↓','Nokia Tones','67%'],
+      ['↓','Space Impact','34%'],
+    ]
+  },
+  '7':{
+    title:'RINGTONES',
+    rows:[
+      ['♪','Nokia tune','active'],
+      ['♪','Ascending','  '],
+      ['♪','Piano','  '],
+      ['♪','Arpeggio','  '],
+      ['♪','Polka','  '],
+      ['♪','Mosquito','  '],
+      ['♪','Beep once','  '],
+    ]
+  },
+  '8':{
+    title:'CALENDAR',
+    rows:[
+      ['>','Today','  '],
+      ['>','Week view','  '],
+      ['>','Month view','  '],
+      ['!','Reminder','08:00'],
+      ['!','Meeting','13:30'],
+      ['!','Alarm 1','07:00'],
+      ['!','Alarm 2','off'],
+    ]
+  },
+  '9':{
+    title:'BATTERY',
+    rows:[
+      ['|','Level','82%'],
+      ['>','Talk time','3h 40m'],
+      ['>','Standby','8 days'],
+      ['>','Type','Li-Ion'],
+      ['>','Charging','Yes'],
+      ['>','Save power','Off'],
+    ]
+  }
+};
+
+function showApp(key){
+  const app = apps[key];
+  if(!app) return;
+  // hide idle text
+  line1.style.display='none';line2.style.display='none';line3.style.display='none';
+  canvas.style.display='none';scoreEl.style.display='none';overEl.style.display='none';
+  appScreenEl.style.display='flex';
+  appTitleEl.textContent = app.title;
+  appBodyEl.innerHTML = '';
+  app.rows.forEach(([icon,label,val])=>{
+    const row = document.createElement('div');
+    row.className = 'app-row';
+    row.innerHTML = `<span class="app-icon">${icon}</span><span>${label}</span>${val?`<span class="app-val">${val}</span>`:''}`;
+    appBodyEl.appendChild(row);
+  });
+}
+
+// ── SNAKE ──
+const COLS=17,ROWS=18,CELL=10;
+const canvas    = document.getElementById('snake-canvas');
+const ctx       = canvas.getContext('2d');
+const scoreEl   = document.getElementById('snake-score');
+const overEl    = document.getElementById('snake-over');
+const overScoreTxt = document.getElementById('over-score-txt');
+const line1 = document.getElementById('screen-line1');
+const line2 = document.getElementById('screen-line2');
+const line3 = document.getElementById('screen-line3');
+const hint  = document.getElementById('hint');
 
 let snake,dir,nextDir,food,score,gameLoop,gameState;
 
@@ -563,6 +726,7 @@ function loadGame(){
   dir={x:0,y:0};nextDir={x:0,y:0};
   food=spawnFood();score=0;gameState='loaded';
   line1.style.display='none';line2.style.display='none';line3.style.display='none';
+  appScreenEl.style.display='none';
   overEl.style.display='none';
   canvas.style.display='block';scoreEl.style.display='block';
   scoreEl.textContent='★0';
@@ -574,7 +738,7 @@ function startGame(dx,dy){
   nextDir={x:dx,y:dy};dir={x:dx,y:dy};
   gameState='running';hint.style.display='none';
   clearInterval(gameLoop);
-  gameLoop=setInterval(tick,260); // slower: 260ms per tick
+  gameLoop=setInterval(tick,260);
 }
 
 function spawnFood(){
@@ -598,20 +762,17 @@ function tick(){
 }
 
 function draw(){
-  ctx.fillStyle='#080010';
-  ctx.fillRect(0,0,172,182);
-  // food — bigger pink circle
+  ctx.fillStyle='#080010';ctx.fillRect(0,0,172,182);
   ctx.fillStyle='#ff70c0';ctx.shadowColor='#ff40a0';ctx.shadowBlur=6;
   ctx.beginPath();
-  ctx.arc(food.x*CELL+CELL/2,food.y*CELL+CELL/2,CELL/2-0.5,0,Math.PI*2);
+  ctx.arc(food.x*CELL+CELL/2,food.y*CELL+CELL/2,CELL/2-.5,0,Math.PI*2);
   ctx.fill();ctx.shadowBlur=0;
-  // snake — bigger blue squares
   snake.forEach((seg,i)=>{
     const isHead=i===0;
     ctx.fillStyle=isHead?'#00d8ff':'#0090d0';
     ctx.shadowColor=isHead?'#00d8ff':'transparent';
     ctx.shadowBlur=isHead?7:0;
-    const pad=isHead?0:0.5;
+    const pad=isHead?0:.5;
     ctx.fillRect(seg.x*CELL+pad,seg.y*CELL+pad,CELL-pad*2,CELL-pad*2);
   });
   ctx.shadowBlur=0;
@@ -659,37 +820,8 @@ function ripple(x,y){
 }
 function center(el){const rc=el.getBoundingClientRect();return[rc.left+rc.width/2,rc.top+rc.height/2];}
 
-// IDLE SCREEN MESSAGES — now any number shows on screen
-const msgs={
-  '1':[['✦ BLOOM ✦','fairy of fire','winx s01 ♡'],['✦ MISS U ✦','call me pls!','xoxo bloom'],['★ POWER ★','believix!','go winx!!']],
-  '2':[['✧ STELLA ✧','fashion queen','sun fairy'],  ['♡ GLAM ♡','new outfit!','fabulous~'],  ['★ SHINE ★','solaria pwr','dazzle!!']],
-  '3':[['✦ AISHA ✦','fairy of waves','ocean ♡♡'],   ['✧ DANCE ✧','groove time!','feel it~'],  ['★ MORPH ★','morphix pwr','splash!!']],
-  '4':[['✦ FLORA ✦','nature fairy','garden ♡'],     ['✧ BLOOM ✧','new flower!','growing~'],   ['★ PETAL ★','charmix!','blossom!!']],
-  '5':[['✦ MUSA ✦','music fairy','melody ♡'],       ['✧ SONG ✧','new ringtone','download~'],  ['★ BEAT ★','harmonic!','play it!!']],
-  '6':[['✦ TECNA ✦','tech fairy','wifi full ♡'],    ['✧ CYBER ✧','connected!','online~'],     ['★ POWER ★','technomagic','loading!!']],
-  '7':[['✧ ALFEA ✧','school day','late 4 class'],   ['✦ NITE ✦','sweet dreamz','nite nite~'], ['★ MAGIC ★','study time','fairies!!']],
-  '8':[['✦ SPELL ✦','new power!','unlocked ♡'],     ['✧ GLITTER✧','sparkle pwr','shimmer~'],  ['★ WINX ★','transform!','magic!!']],
-  '9':[['✦ ENCHIX✦','fairy queen','royalty ♡'],     ['✧ DREAM ✧','fairy world','believe~'],   ['★ RAINBOW★','colour pwr','fly!!']],
-};
-function pick(a){return a[Math.floor(Math.random()*a.length)];}
-
-function showIdleMsg(key){
-  // always show message on screen when number is pressed (even during loaded state)
-  if(gameState==='running') return;
-  const pool=msgs[key];if(!pool) return;
-  // if game is loaded/over, bring back idle screen first
-  if(gameState==='loaded'||gameState==='over'){
-    clearInterval(gameLoop);gameState='idle';
-    canvas.style.display='none';scoreEl.style.display='none';overEl.style.display='none';
-    line1.style.display='';line2.style.display='';line3.style.display='';
-    hint.textContent='✦ press 0 to load snake, then arrow to start ✦';
-    hint.style.display='block';
-  }
-  const[a,b,c]=pick(pool);
-  line1.textContent=a;line2.textContent=b;line3.textContent=c;
-}
-
 function showIdleScreen(){
+  appScreenEl.style.display='none';
   canvas.style.display='none';scoreEl.style.display='none';overEl.style.display='none';
   line1.style.display='';line2.style.display='';line3.style.display='';
   line1.textContent='✦ FAIRY ✦';line2.textContent='PHONE';line3.textContent='· ready ·';
@@ -697,43 +829,65 @@ function showIdleScreen(){
 
 gameState='idle';showIdleScreen();
 
-// NUMPAD
+// NUMPAD — 1-9 show app screens, 0 loads snake
 document.querySelectorAll('.numpad-btn').forEach(el=>{
   el.addEventListener('click',e=>{
     const key=e.currentTarget.dataset.key;
     const[cx,cy]=center(e.currentTarget);
     ripple(cx,cy);fairyBurst(cx,cy);
-    if(key==='0') loadGame();
-    else showIdleMsg(key);
+    if(key==='0'){
+      loadGame();
+    } else {
+      if(gameState==='running') return; // don't interrupt snake
+      gameState='idle';
+      clearInterval(gameLoop);
+      showApp(key);
+      hint.textContent='✦ press 0 to load snake ✦';
+      hint.style.display='block';
+    }
   });
 });
 
-// ARROW direction function — used by both the path and the invisible hit rect
-function handleArrow(dx,dy){setDir(dx,dy);}
+// arrow direction handler — used by svg paths, hit rects, wing buttons, and keyboard
+function handleArrow(dx,dy){
+  const[cx,cy]=[window.innerWidth/2, window.innerHeight/2];
+  ripple(cx,cy);
+  setDir(dx,dy);
+}
 
-// Arrow visible paths
+// arrow visible paths
 document.getElementById('up_arrow').addEventListener('click',   ()=>handleArrow(0,-1));
 document.getElementById('down_arrow').addEventListener('click',  ()=>handleArrow(0,1));
 document.getElementById('right_arrow').addEventListener('click', ()=>handleArrow(1,0));
 document.getElementById('left_arrow').addEventListener('click',  ()=>handleArrow(-1,0));
-// Arrow invisible large hit rects
+// arrow large invisible hit rects
 document.getElementById('up_arrow_hit').addEventListener('click',   ()=>handleArrow(0,-1));
 document.getElementById('down_arrow_hit').addEventListener('click',  ()=>handleArrow(0,1));
 document.getElementById('right_arrow_hit').addEventListener('click', ()=>handleArrow(1,0));
 document.getElementById('left_arrow_hit').addEventListener('click',  ()=>handleArrow(-1,0));
 
-// WING BUTTONS
+// WING BUTTONS — left=snake up/right, right=snake down/left, toggled state changes direction
 lwb.addEventListener('click',()=>{
   leftOn=!leftOn;lwg.classList.toggle('active',leftOn);lwb.classList.toggle('toggled',leftOn);
   const[cx,cy]=center(lwb);ripple(cx,cy);fairyBurst(cx,cy);
-  if(gameState!=='running'&&gameState!=='loaded'){
+  // also steer snake: left wing button = go left
+  if(gameState==='running'||gameState==='loaded'){
+    setDir(-1,0);
+  } else {
+    line1.style.display='';line2.style.display='';line3.style.display='';
+    appScreenEl.style.display='none';
     line1.textContent='✦ WINGS ✦';line2.textContent=leftOn?'left open':'left closed';line3.textContent='· magic ·';
   }
 });
 rwb.addEventListener('click',()=>{
   rightOn=!rightOn;rwg.classList.toggle('active',rightOn);rwb.classList.toggle('toggled',rightOn);
   const[cx,cy]=center(rwb);ripple(cx,cy);fairyBurst(cx,cy);
-  if(gameState!=='running'&&gameState!=='loaded'){
+  // right wing button = go right
+  if(gameState==='running'||gameState==='loaded'){
+    setDir(1,0);
+  } else {
+    line1.style.display='';line2.style.display='';line3.style.display='';
+    appScreenEl.style.display='none';
     line1.textContent='✦ WINGS ✦';line2.textContent=rightOn?'right open':'right closed';line3.textContent='· magic ·';
   }
 });
@@ -751,7 +905,7 @@ document.addEventListener('keydown',e=>{
   b.addEventListener('touchstart',e=>{e.preventDefault();b.dispatchEvent(new MouseEvent('click'));},{passive:false});
 });
 
-// GLITTER SPILL
+// GLITTER SPILL (unchanged)
 const phoneSvg=document.getElementById('phone-svg');
 const glitterColors=['#ffffff','#ffd6f4','#ffb3e6','#ffc8ff','#d4b0ff','#b8d8ff','#ffe0ff','#fff0b8'];
 let lastGlitterTime=0;
