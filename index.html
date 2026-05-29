@@ -69,7 +69,14 @@ body{height:100vh;min-height:100vh;background:radial-gradient(ellipse at 25% 15%
 </style>
 </head>
 <body>
-<button id="manual-toggle" onclick="document.getElementById('manual-panel').classList.toggle('open')">&#10022; Kasutusjuhend &#10022;</button>
+  <!-- Loovkood 2026 info box — paste at the start of <body> -->
+<div style="position:fixed;top:5%;left:5%;background:rgba(0,0,0,0.45);padding:12px 16px;border-radius:6px;font-family:Arial,sans-serif;color:white;font-size:10pt;line-height:1.7;z-index:9999;">
+  <a href="http://saaremaa.edu.ee/loovkood-2026" style="color:white;text-decoration:none;display:block;margin-bottom:6px;">&larr; Tagasi</a>
+  <div><strong>Projekti nimi:</strong> Sädelev haldjatelefon</div>
+  <div><strong>Autor:</strong> Ingrid Vaher</div>
+  <div><strong>Juhendaja:</strong> Kristjan Kesküla</div>
+  <div style="margin-top:6px;">Ruum &amp; Disain<br>Saaremaa Gümnaasium<br>2026</div>
+</div><button id="manual-toggle" onclick="document.getElementById('manual-panel').classList.toggle('open')">&#10022; Kasutusjuhend &#10022;</button>
 <div id="manual-panel">
   <h2>&#10022; Kasutusjuhend &#10022;</h2>
   <p>Tere tulemast Haldjatelefoni juurde! Siin on juhised, kuidas telefoni kasutada.</p>
