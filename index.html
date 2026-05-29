@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Winx Phone</title>
+<title>Fairy Phone</title>
 <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -27,39 +27,64 @@ filter:drop-shadow(0 0 4px var(--c,#ffb3dc));
 50%{opacity:1;transform:scale(1.2);}
 }
 
-/* phone wrapper — 1000px = ~2× the original 500-unit viewBox */
 #phone-wrap{
 position:relative;z-index:2;width:1000px;flex-shrink:0;
 }
 #phone-svg{width:100%;height:auto;overflow:visible;}
 
+/* body fill — no filter (removes white shadow cast) */
 #_x3C_background_x3E_{fill:url(#bodyGrad);stroke:none;}
 
 #phone_screen{fill:url(#screenGrad);stroke:rgba(255,180,220,.6);stroke-width:.8;}
 
+/* inner lines — very soft, heavily blurred so they blend seamlessly */
 .inner-lines{
-fill:none;stroke:rgba(255,140,200,.35);stroke-width:1.8;stroke-miterlimit:10;
-stroke-linecap:round;stroke-linejoin:round;filter:url(#softLine);
+fill:none;
+stroke:rgba(200,80,160,.28);
+stroke-width:1.4;
+stroke-miterlimit:10;
+stroke-linecap:round;
+stroke-linejoin:round;
+filter:url(#softLine);
 }
 
 #phone_decoration{
-fill:none;stroke:rgba(255,140,200,.35);stroke-width:1.8;stroke-miterlimit:10;
-stroke-linecap:round;stroke-linejoin:round;filter:url(#softLine);
+fill:none;
+stroke:rgba(200,80,160,.28);
+stroke-width:1.4;
+stroke-miterlimit:10;
+stroke-linecap:round;
+stroke-linejoin:round;
+filter:url(#softLine);
 }
 
 .body-border{
-fill:none;stroke:rgba(255,160,210,.4);stroke-width:1;stroke-miterlimit:10;
-stroke-linecap:round;stroke-linejoin:round;filter:url(#softLine);
+fill:none;
+stroke:rgba(200,80,160,.2);
+stroke-width:.8;
+stroke-miterlimit:10;
+stroke-linecap:round;
+stroke-linejoin:round;
+filter:url(#softLine);
 }
 
 .dpad-inner{
-fill:none;stroke:rgba(255,140,200,.38);stroke-width:1.8;stroke-miterlimit:10;
-stroke-linecap:round;stroke-linejoin:round;filter:url(#softLine);
+fill:none;
+stroke:rgba(200,80,160,.3);
+stroke-width:1.4;
+stroke-miterlimit:10;
+stroke-linecap:round;
+stroke-linejoin:round;
+filter:url(#softLine);
 }
 
 .dpad-tab{
-fill:url(#wingBtnGrad);stroke:rgba(255,160,210,.3);stroke-width:.6;stroke-miterlimit:10;
-stroke-linecap:round;stroke-linejoin:round;
+fill:url(#wingBtnGrad);
+stroke:rgba(255,160,210,.3);
+stroke-width:.6;
+stroke-miterlimit:10;
+stroke-linecap:round;
+stroke-linejoin:round;
 }
 
 #up_arrow,#down_arrow,#left_arrow,#right_arrow{
@@ -67,9 +92,7 @@ fill:none;stroke:#ff2090;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:r
 filter:drop-shadow(0 0 3px rgba(255,30,140,.9));
 cursor:pointer;
 }
-#up_arrow:hover,#down_arrow:hover,#left_arrow:hover,#right_arrow:hover{
-stroke:#ffffff;
-}
+#up_arrow:hover,#down_arrow:hover,#left_arrow:hover,#right_arrow:hover{stroke:#ffffff;}
 
 #left_wing_button,#right_wing_button{
 fill:url(#wingBtnGrad);stroke:#ff50a0;stroke-width:1.4;
@@ -105,9 +128,7 @@ opacity:0;transform:scaleX(0);
 }
 #lwg.active,#rwg.active{opacity:1;transform:scaleX(1);}
 
-/* screen overlay
-   screen rect in SVG: x=207.02 y=203.09 w=85.95 h=91.2
-   at 1000px wide (2×): left=414px top=406px w=172px h=182px */
+/* screen overlay: 207.02*2=414, 203.09*2=406, 85.95*2=172, 91.2*2=182 */
 #screen-content{
 position:absolute;
 left:414px;top:406px;width:172px;height:182px;
@@ -179,7 +200,6 @@ animation:gsparkAnim var(--gd,.9s) ease-out forwards;
 100%{opacity:0;transform:translate(var(--gx,0px),var(--gy,30px)) scale(0);}
 }
 
-/* hint text below phone */
 #hint{
 position:relative;z-index:3;
 margin-top:20px;
@@ -200,8 +220,8 @@ pointer-events:none;
 <div style="display:flex;flex-direction:column;align-items:center;">
 <div id="phone-wrap">
   <div id="screen-content">
-    <div id="screen-line1">✦ WINX ✦</div>
-    <div id="screen-line2">CLUB</div>
+    <div id="screen-line1">✦ FAIRY ✦</div>
+    <div id="screen-line2">PHONE</div>
     <div id="screen-line3">· ready ·</div>
     <canvas id="snake-canvas" width="172" height="182"></canvas>
     <div id="snake-score">★0</div>
@@ -215,124 +235,124 @@ pointer-events:none;
   <svg id="phone-svg" viewBox="0 0 500 700" xmlns="http://www.w3.org/2000/svg">
   <defs>
 
+  <!-- body gradient: darker, richer pink — no white at top -->
   <linearGradient id="bodyGrad" x1="5%" y1="0%" x2="95%" y2="100%">
-  <stop offset="0%" stop-color="#fff5fb"/>
-  <stop offset="8%" stop-color="#ffe8f6"/>
-  <stop offset="20%" stop-color="#ffcce8"/>
-  <stop offset="38%" stop-color="#ff99d4"/>
-  <stop offset="55%" stop-color="#ff66bb"/>
-  <stop offset="72%" stop-color="#e83898"/>
-  <stop offset="88%" stop-color="#c01870"/>
+  <stop offset="0%"   stop-color="#ffaadd"/>
+  <stop offset="15%"  stop-color="#ff80cc"/>
+  <stop offset="35%"  stop-color="#ff50b8"/>
+  <stop offset="55%"  stop-color="#e82898"/>
+  <stop offset="75%"  stop-color="#cc1070"/>
   <stop offset="100%" stop-color="#960050"/>
   </linearGradient>
 
+  <!-- specular: subtle, reduced opacity so no white cast -->
   <radialGradient id="specGrad" cx="28%" cy="18%" r="45%">
-  <stop offset="0%" stop-color="white" stop-opacity=".55"/>
-  <stop offset="40%" stop-color="white" stop-opacity=".18"/>
+  <stop offset="0%"   stop-color="white" stop-opacity=".22"/>
+  <stop offset="50%"  stop-color="white" stop-opacity=".06"/>
   <stop offset="100%" stop-color="white" stop-opacity="0"/>
   </radialGradient>
 
+  <!-- rim light: very subtle -->
   <radialGradient id="rimGrad" cx="80%" cy="88%" r="40%">
-  <stop offset="0%" stop-color="#ffd0f0" stop-opacity=".35"/>
+  <stop offset="0%"   stop-color="#ffd0f0" stop-opacity=".15"/>
   <stop offset="100%" stop-color="#ffd0f0" stop-opacity="0"/>
   </radialGradient>
 
   <linearGradient id="screenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-  <stop offset="0%" stop-color="#180620"/>
+  <stop offset="0%"   stop-color="#180620"/>
   <stop offset="100%" stop-color="#060010"/>
   </linearGradient>
 
-  <linearGradient id="wingFill" x1="0%" y1="0%" x2="70%" y2="100%">
-  <stop offset="0%" stop-color="#ff88cc"/>
-  <stop offset="35%" stop-color="#ffb8e4"/>
-  <stop offset="65%" stop-color="#90c8ff"/>
-  <stop offset="100%" stop-color="#50a0ff"/>
+  <!-- Wings: iridescent fairy gradient with more color variation -->
+  <linearGradient id="wingFillTop" x1="0%" y1="0%" x2="100%" y2="100%">
+  <stop offset="0%"   stop-color="#ffaadd" stop-opacity=".95"/>
+  <stop offset="25%"  stop-color="#ff80cc" stop-opacity=".9"/>
+  <stop offset="50%"  stop-color="#d8a8ff" stop-opacity=".88"/>
+  <stop offset="75%"  stop-color="#a8d8ff" stop-opacity=".9"/>
+  <stop offset="100%" stop-color="#80c0ff" stop-opacity=".92"/>
   </linearGradient>
+
   <linearGradient id="wingStroke" x1="0%" y1="0%" x2="100%" y2="100%">
-  <stop offset="0%" stop-color="#ff90cc"/>
+  <stop offset="0%"   stop-color="#ff90cc"/>
   <stop offset="100%" stop-color="#70c0ff"/>
   </linearGradient>
 
   <linearGradient id="wingBtnGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-  <stop offset="0%" stop-color="#ffe4f8"/>
-  <stop offset="50%" stop-color="#ff70c0"/>
+  <stop offset="0%"   stop-color="#ffe4f8"/>
+  <stop offset="50%"  stop-color="#ff70c0"/>
   <stop offset="100%" stop-color="#cc1880"/>
   </linearGradient>
   <linearGradient id="wingBtnBlue" x1="0%" y1="0%" x2="100%" y2="100%">
-  <stop offset="0%" stop-color="#e4f8ff"/>
-  <stop offset="50%" stop-color="#80d8ff"/>
+  <stop offset="0%"   stop-color="#e4f8ff"/>
+  <stop offset="50%"  stop-color="#80d8ff"/>
   <stop offset="100%" stop-color="#40a8e0"/>
   </linearGradient>
 
   <linearGradient id="bubbleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-  <stop offset="0%" stop-color="rgba(220,244,255,.88)"/>
-  <stop offset="40%" stop-color="rgba(150,210,255,.72)"/>
+  <stop offset="0%"   stop-color="rgba(220,244,255,.88)"/>
+  <stop offset="40%"  stop-color="rgba(150,210,255,.72)"/>
   <stop offset="100%" stop-color="rgba(100,185,255,.80)"/>
   </linearGradient>
 
+  <!-- glitter pattern for body (slightly warmer to match darker pink) -->
   <pattern id="glitter" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
   <rect width="10" height="10" fill="none"/>
-  <circle cx="1" cy="1" r="1.2" fill="white" opacity=".95"/>
-  <circle cx="5" cy="1.5" r=".7" fill="#ffe8fc" opacity=".9"/>
-  <circle cx="9" cy=".8" r="1" fill="white" opacity=".9"/>
-  <circle cx="2.5" cy="5" r=".6" fill="#ffd8f8" opacity=".88"/>
-  <circle cx="7" cy="4" r=".9" fill="white" opacity=".92"/>
-  <circle cx=".5" cy="8.5" r=".7" fill="#f8d0ff" opacity=".85"/>
-  <circle cx="5" cy="8" r="1" fill="white" opacity=".92"/>
-  <circle cx="9" cy="7.5" r=".6" fill="#ffc8f4" opacity=".9"/>
-  <circle cx="3" cy="9.5" r=".8" fill="white" opacity=".88"/>
-  <circle cx="8" cy="9.5" r=".5" fill="#ffdcff" opacity=".9"/>
-  <circle cx="4" cy="3.5" r=".4" fill="white" opacity=".85"/>
-  <circle cx="6.5" cy="6.5" r=".4" fill="#fff0ff" opacity=".9"/>
+  <circle cx="1"   cy="1"   r="1.2" fill="white"   opacity=".85"/>
+  <circle cx="5"   cy="1.5" r=".7"  fill="#ffccee" opacity=".8"/>
+  <circle cx="9"   cy=".8"  r="1"   fill="white"   opacity=".8"/>
+  <circle cx="2.5" cy="5"   r=".6"  fill="#ffbbdd" opacity=".78"/>
+  <circle cx="7"   cy="4"   r=".9"  fill="white"   opacity=".82"/>
+  <circle cx=".5"  cy="8.5" r=".7"  fill="#f8c0ff" opacity=".75"/>
+  <circle cx="5"   cy="8"   r="1"   fill="white"   opacity=".82"/>
+  <circle cx="9"   cy="7.5" r=".6"  fill="#ffb8ee" opacity=".8"/>
+  <circle cx="3"   cy="9.5" r=".8"  fill="white"   opacity=".78"/>
+  <circle cx="8"   cy="9.5" r=".5"  fill="#ffccff" opacity=".8"/>
+  <circle cx="4"   cy="3.5" r=".4"  fill="white"   opacity=".75"/>
+  <circle cx="6.5" cy="6.5" r=".4"  fill="#ffeeff" opacity=".8"/>
   </pattern>
 
-  <pattern id="wingGlitter" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
-  <rect width="14" height="14" fill="none"/>
-  <circle cx="2" cy="2" r="1" fill="white" opacity=".9"/>
-  <circle cx="7" cy="4" r=".6" fill="#c8e8ff" opacity=".85"/>
-  <circle cx="12" cy="1" r=".7" fill="white" opacity=".8"/>
-  <circle cx="4" cy="10" r=".5" fill="#ffd0f8" opacity=".85"/>
-  <circle cx="11" cy="11" r=".8" fill="white" opacity=".8"/>
-  <circle cx="1" cy="13" r=".5" fill="#d8f0ff" opacity=".85"/>
-  <circle cx="13" cy="8" r=".6" fill="white" opacity=".75"/>
-  <circle cx="6" cy="13" r=".45" fill="#ffc8f0" opacity=".9"/>
-  <circle cx="9" cy="7" r=".4" fill="white" opacity=".8"/>
+  <!-- wing glitter — sparkly, delicate -->
+  <pattern id="wingGlitter" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
+  <rect width="12" height="12" fill="none"/>
+  <circle cx="1.5" cy="1.5" r="1.1" fill="white" opacity=".92"/>
+  <circle cx="6"   cy="3"   r=".65" fill="#e8d8ff" opacity=".88"/>
+  <circle cx="10"  cy="1"   r=".8"  fill="white"   opacity=".85"/>
+  <circle cx="3"   cy="8"   r=".55" fill="#ffd8f8"  opacity=".88"/>
+  <circle cx="9"   cy="9"   r=".9"  fill="white"   opacity=".85"/>
+  <circle cx=".8"  cy="11"  r=".55" fill="#d8f0ff"  opacity=".88"/>
+  <circle cx="11"  cy="6"   r=".65" fill="white"   opacity=".8"/>
+  <circle cx="5"   cy="11"  r=".5"  fill="#ffc8f8"  opacity=".92"/>
+  <circle cx="7.5" cy="6"   r=".45" fill="white"   opacity=".85"/>
+  <circle cx="3.5" cy="4.5" r=".35" fill="#c8e8ff"  opacity=".88"/>
   </pattern>
 
-  <!-- BEVEL: removed the deep drop-shadow, only kept the highlight/rim -->
-  <filter id="bevel" x="-6%" y="-6%" width="112%" height="112%">
-  <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blurH"/>
-  <feOffset dx="-5" dy="-6" in="blurH" result="hiH"/>
-  <feFlood flood-color="white" flood-opacity="1" result="white"/>
-  <feComposite in="white" in2="hiH" operator="in" result="hi"/>
-  <feGaussianBlur in="SourceAlpha" stdDeviation=".8" result="blurR"/>
-  <feOffset dx="-2" dy="-2" in="blurR" result="hiR"/>
-  <feFlood flood-color="rgba(255,245,255,1)" flood-opacity="1" result="rimC"/>
-  <feComposite in="rimC" in2="hiR" operator="in" result="rim"/>
-  <feMerge>
-  <feMergeNode in="SourceGraphic"/>
-  <feMergeNode in="rim"/>
-  <feMergeNode in="hi"/>
-  </feMerge>
-  </filter>
+  <!-- FILTERS -->
+
+  <!-- NO bevel filter on body at all — prevents white shadow cast -->
 
   <filter id="shimmer" x="0%" y="0%" width="100%" height="100%">
   <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="1" seed="2" result="noise">
   <animate attributeName="seed" values="1;8;3;6;2" dur="2.5s" repeatCount="indefinite"/>
   </feTurbulence>
   <feColorMatrix in="noise" type="saturate" values="0" result="grey"/>
-  <feComposite in="SourceGraphic" in2="grey" operator="arithmetic" k1="0" k2="1" k3=".6" k4="0" result="bright"/>
+  <feComposite in="SourceGraphic" in2="grey" operator="arithmetic" k1="0" k2="1" k3=".55" k4="0" result="bright"/>
   <feBlend in="SourceGraphic" in2="bright" mode="screen"/>
   </filter>
 
-  <filter id="softLine" x="-5%" y="-5%" width="110%" height="110%">
-  <feGaussianBlur in="SourceGraphic" stdDeviation="2.2" result="blur"/>
-  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+  <!-- softLine: heavy blur so inner lines fully melt into the surface -->
+  <filter id="softLine" x="-8%" y="-8%" width="116%" height="116%">
+  <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="blur"/>
+  <feMerge>
+  <feMergeNode in="blur"/>
+  <feMergeNode in="SourceGraphic"/>
+  </feMerge>
   </filter>
 
-  <filter id="wingGlow" x="-20%" y="-20%" width="140%" height="140%">
-  <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur"/>
-  <feColorMatrix in="blur" type="matrix" values="1 0 .4 0 .05 0 .4 1 0 .05 .5 0 1 0 .1 0 0 0 .85 0" result="c"/>
+  <!-- Wing glow — warm fairy shimmer -->
+  <filter id="wingGlow" x="-25%" y="-25%" width="150%" height="150%">
+  <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
+  <feColorMatrix in="blur" type="matrix"
+    values="1.1 0 .3 0 .05  0 .3 .9 0 .05  .4 0 1.1 0 .08  0 0 0 .8 0" result="c"/>
   <feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge>
   </filter>
 
@@ -342,22 +362,26 @@ pointer-events:none;
   </filter>
   <filter id="btnGlowHot" x="-40%" y="-40%" width="180%" height="180%">
   <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
-  <feColorMatrix in="blur" type="matrix" values="1.4 0 .4 0 0 0 .2 .8 0 0 .4 0 1.2 0 0 0 0 0 1.8 0" result="c"/>
+  <feColorMatrix in="blur" type="matrix"
+    values="1.4 0 .4 0 0  0 .2 .8 0 0  .4 0 1.2 0 0  0 0 0 1.8 0" result="c"/>
   <feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge>
   </filter>
   <filter id="btnGlowBlue" x="-40%" y="-40%" width="180%" height="180%">
   <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
-  <feColorMatrix in="blur" type="matrix" values=".2 0 .4 0 0 0 .5 1 0 0 .5 0 1.5 0 0 0 0 0 1.8 0" result="c"/>
+  <feColorMatrix in="blur" type="matrix"
+    values=".2 0 .4 0 0  0 .5 1 0 0  .5 0 1.5 0 0  0 0 0 1.8 0" result="c"/>
   <feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge>
   </filter>
   <filter id="bubbleGlow" x="-30%" y="-30%" width="160%" height="160%">
   <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
-  <feColorMatrix in="blur" type="matrix" values=".3 0 .5 0 0 0 .5 1 0 0 .5 0 1.2 0 0 0 0 0 1 0" result="c"/>
+  <feColorMatrix in="blur" type="matrix"
+    values=".3 0 .5 0 0  0 .5 1 0 0  .5 0 1.2 0 0  0 0 0 1 0" result="c"/>
   <feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge>
   </filter>
   <filter id="bubbleGlowHot" x="-40%" y="-40%" width="180%" height="180%">
   <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
-  <feColorMatrix in="blur" type="matrix" values=".3 0 .5 0 0 0 .6 1.2 0 0 .6 0 1.5 0 0 0 0 0 1.5 0" result="c"/>
+  <feColorMatrix in="blur" type="matrix"
+    values=".3 0 .5 0 0  0 .6 1.2 0 0  .6 0 1.5 0 0  0 0 0 1.5 0" result="c"/>
   <feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge>
   </filter>
   <filter id="chromeFlt" x="-20%" y="-20%" width="140%" height="140%">
@@ -377,57 +401,71 @@ pointer-events:none;
 
   </defs>
 
-  <!-- LEFT WING — no decorative circles -->
+  <!-- LEFT WING — fairy style, no straight lines inside -->
   <g id="lwg" clip-path="url(#leftWingClip)">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M180.02,315.06c-1.46-11.86-4.26-25.53-9.4-40.17-4.46-12.69-8.92-25.39-19.66-39.32-5.34-6.92-15.25-18.08-30.77-27.35-3.22-1.92-19.31-11-42.74-13.68-10.77-1.23-19.88-.74-26.36,0-9.12,1.99-18.23,3.99-27.35,5.98-10.25,4.54-13.07,9.26-13.68,12.82-1.19,6.95,5.61,12,30.63,37.61,14.73,15.07,17.57,19.22,20.51,25.64,3.03,6.59,5.65,16.19,6.84,20.51,2.18,7.98,2.33,10.49,5.13,13.68,2.67,3.03,6.62,4.87,14.53,8.55,2.5,1.16,3.5,1.54,9,3.86,10.09,4.25,12.19,5.29,14.93,6.4,10.4,4.22,20.65,5.7,24.79,5.98,20.39,1.41,38.1-15.03,43.59-20.51-6.03,18.86-6.57,33.69-5.98,43.59,1.05,17.59,2.16,26.18,4.27,33.33,1.54,5.2,3.35,9.27,2.56,15.38-.32,2.48-1.04,8.04-5.13,11.97-5.35,5.14-9.99,1.23-19.66,5.98-5.69,2.8-9.55,5.8-14.53,10.26-5.91,5.3-10.01,10.58-12.68,14.53-7.2-14.92-13.55-18.44-18.08-18.8-7.14-.58-12.82.85-12.82.85-7.62.58-8.95.79-11.11,0-5.78-2.12-8.48-8.2-9.4-10.26-1.17-2.62-.98-3.46-2.7-14.46-.6-3.83-.2-7.61-2.42-12.04-.68-1.36-1.4-2.41-1.91-3.11-1.97-1.41-5.01-3.96-7.49-8-1.44-2.35-6.01-9.84-3.42-16.24,1.34-3.33,3.21-2.71,8.55-8.55,1.82-1.99,5.16-5.69,7.69-11.11,1.25-2.67,2.89-7.01,3.42-12.82L180.02,315.06Z"
-  fill="url(#wingFill)" stroke="url(#wingStroke)" stroke-width="1.4" filter="url(#wingGlow)"/>
-  <path stroke-linecap="round" stroke-linejoin="round" d="M180.02,315.06c-1.46-11.86-4.26-25.53-9.4-40.17-4.46-12.69-8.92-25.39-19.66-39.32-5.34-6.92-15.25-18.08-30.77-27.35-3.22-1.92-19.31-11-42.74-13.68-10.77-1.23-19.88-.74-26.36,0-9.12,1.99-18.23,3.99-27.35,5.98-10.25,4.54-13.07,9.26-13.68,12.82-1.19,6.95,5.61,12,30.63,37.61,14.73,15.07,17.57,19.22,20.51,25.64,3.03,6.59,5.65,16.19,6.84,20.51,2.18,7.98,2.33,10.49,5.13,13.68,2.67,3.03,6.62,4.87,14.53,8.55,2.5,1.16,3.5,1.54,9,3.86,10.09,4.25,12.19,5.29,14.93,6.4,10.4,4.22,20.65,5.7,24.79,5.98,20.39,1.41,38.1-15.03,43.59-20.51-6.03,18.86-6.57,33.69-5.98,43.59,1.05,17.59,2.16,26.18,4.27,33.33,1.54,5.2,3.35,9.27,2.56,15.38-.32,2.48-1.04,8.04-5.13,11.97-5.35,5.14-9.99,1.23-19.66,5.98-5.69,2.8-9.55,5.8-14.53,10.26-5.91,5.3-10.01,10.58-12.68,14.53-7.2-14.92-13.55-18.44-18.08-18.8-7.14-.58-12.82.85-12.82.85-7.62.58-8.95.79-11.11,0-5.78-2.12-8.48-8.2-9.4-10.26-1.17-2.62-.98-3.46-2.7-14.46-.6-3.83-.2-7.61-2.42-12.04-.68-1.36-1.4-2.41-1.91-3.11-1.97-1.41-5.01-3.96-7.49-8-1.44-2.35-6.01-9.84-3.42-16.24,1.34-3.33,3.21-2.71,8.55-8.55,1.82-1.99,5.16-5.69,7.69-11.11,1.25-2.67,2.89-7.01,3.42-12.82L180.02,315.06Z"
-  fill="url(#wingGlitter)" opacity=".6" pointer-events="none"/>
-  <path d="M178,314 C154,307 126,296 102,278" fill="none" stroke="rgba(255,185,235,.65)" stroke-width="1.2"/>
-  <path d="M174,322 C148,328 116,334 84,336" fill="none" stroke="rgba(185,155,255,.6)" stroke-width="1.2"/>
-  <path d="M166,344 C145,354 116,368 86,376" fill="none" stroke="rgba(120,195,255,.6)" stroke-width="1.2"/>
+  <!-- main wing fill -->
+  <path stroke-linecap="round" stroke-linejoin="round"
+  d="M180.02,315.06c-1.46-11.86-4.26-25.53-9.4-40.17-4.46-12.69-8.92-25.39-19.66-39.32-5.34-6.92-15.25-18.08-30.77-27.35-3.22-1.92-19.31-11-42.74-13.68-10.77-1.23-19.88-.74-26.36,0-9.12,1.99-18.23,3.99-27.35,5.98-10.25,4.54-13.07,9.26-13.68,12.82-1.19,6.95,5.61,12,30.63,37.61,14.73,15.07,17.57,19.22,20.51,25.64,3.03,6.59,5.65,16.19,6.84,20.51,2.18,7.98,2.33,10.49,5.13,13.68,2.67,3.03,6.62,4.87,14.53,8.55,2.5,1.16,3.5,1.54,9,3.86,10.09,4.25,12.19,5.29,14.93,6.4,10.4,4.22,20.65,5.7,24.79,5.98,20.39,1.41,38.1-15.03,43.59-20.51-6.03,18.86-6.57,33.69-5.98,43.59,1.05,17.59,2.16,26.18,4.27,33.33,1.54,5.2,3.35,9.27,2.56,15.38-.32,2.48-1.04,8.04-5.13,11.97-5.35,5.14-9.99,1.23-19.66,5.98-5.69,2.8-9.55,5.8-14.53,10.26-5.91,5.3-10.01,10.58-12.68,14.53-7.2-14.92-13.55-18.44-18.08-18.8-7.14-.58-12.82.85-12.82.85-7.62.58-8.95.79-11.11,0-5.78-2.12-8.48-8.2-9.4-10.26-1.17-2.62-.98-3.46-2.7-14.46-.6-3.83-.2-7.61-2.42-12.04-.68-1.36-1.4-2.41-1.91-3.11-1.97-1.41-5.01-3.96-7.49-8-1.44-2.35-6.01-9.84-3.42-16.24,1.34-3.33,3.21-2.71,8.55-8.55,1.82-1.99,5.16-5.69,7.69-11.11,1.25-2.67,2.89-7.01,3.42-12.82L180.02,315.06Z"
+  fill="url(#wingFillTop)" stroke="url(#wingStroke)" stroke-width="1.4" filter="url(#wingGlow)"/>
+  <!-- glitter sparkle overlay -->
+  <path
+  d="M180.02,315.06c-1.46-11.86-4.26-25.53-9.4-40.17-4.46-12.69-8.92-25.39-19.66-39.32-5.34-6.92-15.25-18.08-30.77-27.35-3.22-1.92-19.31-11-42.74-13.68-10.77-1.23-19.88-.74-26.36,0-9.12,1.99-18.23,3.99-27.35,5.98-10.25,4.54-13.07,9.26-13.68,12.82-1.19,6.95,5.61,12,30.63,37.61,14.73,15.07,17.57,19.22,20.51,25.64,3.03,6.59,5.65,16.19,6.84,20.51,2.18,7.98,2.33,10.49,5.13,13.68,2.67,3.03,6.62,4.87,14.53,8.55,2.5,1.16,3.5,1.54,9,3.86,10.09,4.25,12.19,5.29,14.93,6.4,10.4,4.22,20.65,5.7,24.79,5.98,20.39,1.41,38.1-15.03,43.59-20.51-6.03,18.86-6.57,33.69-5.98,43.59,1.05,17.59,2.16,26.18,4.27,33.33,1.54,5.2,3.35,9.27,2.56,15.38-.32,2.48-1.04,8.04-5.13,11.97-5.35,5.14-9.99,1.23-19.66,5.98-5.69,2.8-9.55,5.8-14.53,10.26-5.91,5.3-10.01,10.58-12.68,14.53-7.2-14.92-13.55-18.44-18.08-18.8-7.14-.58-12.82.85-12.82.85-7.62.58-8.95.79-11.11,0-5.78-2.12-8.48-8.2-9.4-10.26-1.17-2.62-.98-3.46-2.7-14.46-.6-3.83-.2-7.61-2.42-12.04-.68-1.36-1.4-2.41-1.91-3.11-1.97-1.41-5.01-3.96-7.49-8-1.44-2.35-6.01-9.84-3.42-16.24,1.34-3.33,3.21-2.71,8.55-8.55,1.82-1.99,5.16-5.69,7.69-11.11,1.25-2.67,2.89-7.01,3.42-12.82L180.02,315.06Z"
+  fill="url(#wingGlitter)" opacity=".65" pointer-events="none"/>
+  <!-- fairy wing vein curves — soft organic curves, no straight lines -->
+  <path d="M172,290 C148,275 115,262 80,258" fill="none" stroke="rgba(255,180,240,.45)" stroke-width="1" stroke-linecap="round"/>
+  <path d="M168,320 C140,318 108,320 72,315" fill="none" stroke="rgba(200,160,255,.4)"  stroke-width="1" stroke-linecap="round"/>
+  <path d="M160,355 C136,360 108,362 78,358" fill="none" stroke="rgba(150,200,255,.38)" stroke-width="1" stroke-linecap="round"/>
+  <path d="M148,388 C128,396 104,400 80,396" fill="none" stroke="rgba(180,200,255,.35)" stroke-width="1" stroke-linecap="round"/>
+  <!-- inner shimmer lobe -->
+  <ellipse cx="118" cy="295" rx="28" ry="18" fill="rgba(255,220,255,.12)" pointer-events="none"/>
+  <ellipse cx="100" cy="340" rx="22" ry="28" fill="rgba(200,210,255,.10)" pointer-events="none"/>
   </g>
 
-  <!-- RIGHT WING — no decorative circles -->
+  <!-- RIGHT WING — fairy style, no straight lines inside -->
   <g id="rwg" clip-path="url(#rightWingClip)">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M319.91,314.92c1.37-12.09,3.98-26.02,8.78-40.94,4.16-12.93,8.33-25.88,18.36-40.07,4.98-7.05,14.24-18.42,28.73-27.87,3.01-1.96,18.04-11.21,39.9-13.94,10.05-1.26,18.56-.75,24.61,0,8.51,2.03,17.03,4.06,25.54,6.1,9.57,4.63,12.2,9.44,12.77,13.07,1.11,7.08-5.24,12.23-28.6,38.33-13.75,15.36-16.4,19.59-19.15,26.13-2.83,6.72-5.28,16.5-6.38,20.91-2.04,8.13-2.17,10.7-4.79,13.94-2.49,3.09-6.18,4.96-13.57,8.71-2.33,1.18-3.26,1.57-8.4,3.93-9.42,4.33-11.39,5.39-13.94,6.52-9.71,4.3-19.28,5.81-23.14,6.1-19.04,1.44-35.58-15.31-40.7-20.91,5.63,19.22,6.14,34.34,5.59,44.42-.98,17.92-2.02,26.68-3.99,33.97-1.43,5.3-3.13,9.45-2.39,15.68.3,2.53.97,8.2,4.79,12.19,5,5.24,9.33,1.26,18.36,6.1,5.32,2.85,8.92,5.91,13.57,10.45,5.52,5.4,9.34,10.78,11.84,14.81,6.72-15.21,12.65-18.79,16.89-19.16,6.67-.59,11.97.87,11.97.87,7.11.59,8.36.81,10.38,0,5.4-2.16,7.92-8.36,8.78-10.45,1.09-2.67.92-3.53,2.53-14.74.56-3.9.19-7.76,2.26-12.27.64-1.39,1.3-2.46,1.78-3.17,1.84-1.44,4.68-4.04,6.99-8.16,1.34-2.4,5.61-10.03,3.19-16.55-1.26-3.39-3-2.77-7.98-8.71-1.7-2.03-4.82-5.8-7.18-11.32-1.17-2.72-2.7-7.14-3.19-13.07L319.91,314.92Z"
-  fill="url(#wingFill)" stroke="url(#wingStroke)" stroke-width="1.4" filter="url(#wingGlow)"/>
-  <path stroke-linecap="round" stroke-linejoin="round" d="M319.91,314.92c1.37-12.09,3.98-26.02,8.78-40.94,4.16-12.93,8.33-25.88,18.36-40.07,4.98-7.05,14.24-18.42,28.73-27.87,3.01-1.96,18.04-11.21,39.9-13.94,10.05-1.26,18.56-.75,24.61,0,8.51,2.03,17.03,4.06,25.54,6.1,9.57,4.63,12.2,9.44,12.77,13.07,1.11,7.08-5.24,12.23-28.6,38.33-13.75,15.36-16.4,19.59-19.15,26.13-2.83,6.72-5.28,16.5-6.38,20.91-2.04,8.13-2.17,10.7-4.79,13.94-2.49,3.09-6.18,4.96-13.57,8.71-2.33,1.18-3.26,1.57-8.4,3.93-9.42,4.33-11.39,5.39-13.94,6.52-9.71,4.3-19.28,5.81-23.14,6.1-19.04,1.44-35.58-15.31-40.7-20.91,5.63,19.22,6.14,34.34,5.59,44.42-.98,17.92-2.02,26.68-3.99,33.97-1.43,5.3-3.13,9.45-2.39,15.68.3,2.53.97,8.2,4.79,12.19,5,5.24,9.33,1.26,18.36,6.1,5.32,2.85,8.92,5.91,13.57,10.45,5.52,5.4,9.34,10.78,11.84,14.81,6.72-15.21,12.65-18.79,16.89-19.16,6.67-.59,11.97.87,11.97.87,7.11.59,8.36.81,10.38,0,5.4-2.16,7.92-8.36,8.78-10.45,1.09-2.67.92-3.53,2.53-14.74.56-3.9.19-7.76,2.26-12.27.64-1.39,1.3-2.46,1.78-3.17,1.84-1.44,4.68-4.04,6.99-8.16,1.34-2.4,5.61-10.03,3.19-16.55-1.26-3.39-3-2.77-7.98-8.71-1.7-2.03-4.82-5.8-7.18-11.32-1.17-2.72-2.7-7.14-3.19-13.07L319.91,314.92Z"
-  fill="url(#wingGlitter)" opacity=".6" pointer-events="none"/>
-  <path d="M322,314 C346,307 374,296 398,278" fill="none" stroke="rgba(255,185,235,.65)" stroke-width="1.2"/>
-  <path d="M326,322 C352,328 384,334 416,336" fill="none" stroke="rgba(185,155,255,.6)" stroke-width="1.2"/>
-  <path d="M334,344 C355,354 384,368 414,376" fill="none" stroke="rgba(120,195,255,.6)" stroke-width="1.2"/>
+  <path stroke-linecap="round" stroke-linejoin="round"
+  d="M319.91,314.92c1.37-12.09,3.98-26.02,8.78-40.94,4.16-12.93,8.33-25.88,18.36-40.07,4.98-7.05,14.24-18.42,28.73-27.87,3.01-1.96,18.04-11.21,39.9-13.94,10.05-1.26,18.56-.75,24.61,0,8.51,2.03,17.03,4.06,25.54,6.1,9.57,4.63,12.2,9.44,12.77,13.07,1.11,7.08-5.24,12.23-28.6,38.33-13.75,15.36-16.4,19.59-19.15,26.13-2.83,6.72-5.28,16.5-6.38,20.91-2.04,8.13-2.17,10.7-4.79,13.94-2.49,3.09-6.18,4.96-13.57,8.71-2.33,1.18-3.26,1.57-8.4,3.93-9.42,4.33-11.39,5.39-13.94,6.52-9.71,4.3-19.28,5.81-23.14,6.1-19.04,1.44-35.58-15.31-40.7-20.91,5.63,19.22,6.14,34.34,5.59,44.42-.98,17.92-2.02,26.68-3.99,33.97-1.43,5.3-3.13,9.45-2.39,15.68.3,2.53.97,8.2,4.79,12.19,5,5.24,9.33,1.26,18.36,6.1,5.32,2.85,8.92,5.91,13.57,10.45,5.52,5.4,9.34,10.78,11.84,14.81,6.72-15.21,12.65-18.79,16.89-19.16,6.67-.59,11.97.87,11.97.87,7.11.59,8.36.81,10.38,0,5.4-2.16,7.92-8.36,8.78-10.45,1.09-2.67.92-3.53,2.53-14.74.56-3.9.19-7.76,2.26-12.27.64-1.39,1.3-2.46,1.78-3.17,1.84-1.44,4.68-4.04,6.99-8.16,1.34-2.4,5.61-10.03,3.19-16.55-1.26-3.39-3-2.77-7.98-8.71-1.7-2.03-4.82-5.8-7.18-11.32-1.17-2.72-2.7-7.14-3.19-13.07L319.91,314.92Z"
+  fill="url(#wingFillTop)" stroke="url(#wingStroke)" stroke-width="1.4" filter="url(#wingGlow)"/>
+  <path
+  d="M319.91,314.92c1.37-12.09,3.98-26.02,8.78-40.94,4.16-12.93,8.33-25.88,18.36-40.07,4.98-7.05,14.24-18.42,28.73-27.87,3.01-1.96,18.04-11.21,39.9-13.94,10.05-1.26,18.56-.75,24.61,0,8.51,2.03,17.03,4.06,25.54,6.1,9.57,4.63,12.2,9.44,12.77,13.07,1.11,7.08-5.24,12.23-28.6,38.33-13.75,15.36-16.4,19.59-19.15,26.13-2.83,6.72-5.28,16.5-6.38,20.91-2.04,8.13-2.17,10.7-4.79,13.94-2.49,3.09-6.18,4.96-13.57,8.71-2.33,1.18-3.26,1.57-8.4,3.93-9.42,4.33-11.39,5.39-13.94,6.52-9.71,4.3-19.28,5.81-23.14,6.1-19.04,1.44-35.58-15.31-40.7-20.91,5.63,19.22,6.14,34.34,5.59,44.42-.98,17.92-2.02,26.68-3.99,33.97-1.43,5.3-3.13,9.45-2.39,15.68.3,2.53.97,8.2,4.79,12.19,5,5.24,9.33,1.26,18.36,6.1,5.32,2.85,8.92,5.91,13.57,10.45,5.52,5.4,9.34,10.78,11.84,14.81,6.72-15.21,12.65-18.79,16.89-19.16,6.67-.59,11.97.87,11.97.87,7.11.59,8.36.81,10.38,0,5.4-2.16,7.92-8.36,8.78-10.45,1.09-2.67.92-3.53,2.53-14.74.56-3.9.19-7.76,2.26-12.27.64-1.39,1.3-2.46,1.78-3.17,1.84-1.44,4.68-4.04,6.99-8.16,1.34-2.4,5.61-10.03,3.19-16.55-1.26-3.39-3-2.77-7.98-8.71-1.7-2.03-4.82-5.8-7.18-11.32-1.17-2.72-2.7-7.14-3.19-13.07L319.91,314.92Z"
+  fill="url(#wingGlitter)" opacity=".65" pointer-events="none"/>
+  <!-- fairy wing vein curves right side -->
+  <path d="M328,290 C352,275 385,262 420,258" fill="none" stroke="rgba(255,180,240,.45)" stroke-width="1" stroke-linecap="round"/>
+  <path d="M332,320 C360,318 392,320 428,315" fill="none" stroke="rgba(200,160,255,.4)"  stroke-width="1" stroke-linecap="round"/>
+  <path d="M340,355 C364,360 392,362 422,358" fill="none" stroke="rgba(150,200,255,.38)" stroke-width="1" stroke-linecap="round"/>
+  <path d="M352,388 C372,396 396,400 420,396" fill="none" stroke="rgba(180,200,255,.35)" stroke-width="1" stroke-linecap="round"/>
+  <!-- inner shimmer lobes -->
+  <ellipse cx="382" cy="295" rx="28" ry="18" fill="rgba(255,220,255,.12)" pointer-events="none"/>
+  <ellipse cx="400" cy="340" rx="22" ry="28" fill="rgba(200,210,255,.10)" pointer-events="none"/>
   </g>
 
-  <!-- PHONE BODY -->
-  <path id="_x3C_background_x3E_" filter="url(#bevel)" stroke-linecap="round" stroke-linejoin="round"
+  <!-- PHONE BODY — no filter, no white cast -->
+  <path id="_x3C_background_x3E_" stroke-linecap="round" stroke-linejoin="round"
   d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z"/>
 
-  <path id="glitter-body" filter="url(#shimmer)" stroke-linecap="round" stroke-linejoin="round"
+  <!-- glitter shimmer overlay on body -->
+  <path filter="url(#shimmer)" stroke-linecap="round" stroke-linejoin="round"
   d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z"
-  fill="url(#glitter)" opacity=".7" pointer-events="none"/>
+  fill="url(#glitter)" opacity=".6" pointer-events="none"/>
 
+  <!-- specular gloss: very faint, no white cast -->
   <path pointer-events="none" stroke-linecap="round" stroke-linejoin="round"
   d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z"
   fill="url(#specGrad)"/>
 
-  <path pointer-events="none" stroke-linecap="round" stroke-linejoin="round"
-  d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z"
-  fill="url(#rimGrad)"/>
-
   <path class="body-border" stroke-linecap="round" stroke-linejoin="round"
   d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z"/>
 
-  <text x="196" y="435" font-size="9" font-family="sans-serif" fill="rgba(255,230,245,.55)" pointer-events="none">✦</text>
-  <text x="199" y="462" font-size="7" font-family="sans-serif" fill="rgba(210,235,255,.5)" pointer-events="none">✧</text>
+  <text x="196" y="435" font-size="9"  font-family="sans-serif" fill="rgba(255,230,245,.55)" pointer-events="none">✦</text>
+  <text x="199" y="462" font-size="7"  font-family="sans-serif" fill="rgba(210,235,255,.5)"  pointer-events="none">✧</text>
   <text x="195" y="492" font-size="10" font-family="sans-serif" fill="rgba(255,225,245,.55)" pointer-events="none">★</text>
-  <text x="198" y="520" font-size="7" font-family="sans-serif" fill="rgba(210,235,255,.5)" pointer-events="none">✦</text>
-  <text x="196" y="548" font-size="9" font-family="sans-serif" fill="rgba(255,230,245,.45)" pointer-events="none">✧</text>
-  <text x="288" y="435" font-size="9" font-family="sans-serif" fill="rgba(255,230,245,.55)" pointer-events="none">✦</text>
-  <text x="290" y="462" font-size="7" font-family="sans-serif" fill="rgba(210,235,255,.5)" pointer-events="none">✧</text>
+  <text x="198" y="520" font-size="7"  font-family="sans-serif" fill="rgba(210,235,255,.5)"  pointer-events="none">✦</text>
+  <text x="196" y="548" font-size="9"  font-family="sans-serif" fill="rgba(255,230,245,.45)" pointer-events="none">✧</text>
+  <text x="288" y="435" font-size="9"  font-family="sans-serif" fill="rgba(255,230,245,.55)" pointer-events="none">✦</text>
+  <text x="290" y="462" font-size="7"  font-family="sans-serif" fill="rgba(210,235,255,.5)"  pointer-events="none">✧</text>
   <text x="287" y="492" font-size="10" font-family="sans-serif" fill="rgba(255,225,245,.55)" pointer-events="none">★</text>
-  <text x="290" y="520" font-size="7" font-family="sans-serif" fill="rgba(210,235,255,.5)" pointer-events="none">✦</text>
-  <text x="288" y="548" font-size="9" font-family="sans-serif" fill="rgba(255,230,245,.45)" pointer-events="none">✧</text>
+  <text x="290" y="520" font-size="7"  font-family="sans-serif" fill="rgba(210,235,255,.5)"  pointer-events="none">✦</text>
+  <text x="288" y="548" font-size="9"  font-family="sans-serif" fill="rgba(255,230,245,.45)" pointer-events="none">✧</text>
 
   <rect id="phone_screen" x="207.02" y="203.09" width="85.95" height="91.2"/>
   <rect x="209" y="205" width="25" height="6" rx="2" fill="rgba(200,220,255,.14)" pointer-events="none"/>
@@ -444,12 +482,18 @@ pointer-events:none;
   <path class="dpad-inner" stroke-linecap="round" stroke-linejoin="round" d="M237.7,350.99c-8.89-2.33-17.86-4.18-26.89-5.53,1.47,6.53,6.74,13.51,12.3,14.99,5.56,1.48,10.91-4.29,14.59-9.45Z"/>
   <path class="dpad-inner" stroke-linecap="round" stroke-linejoin="round" d="M259.62,350.9c9.27-2.43,18.63-4.35,28.05-5.77-1.53,6.81-7.03,14.09-12.83,15.63-5.8,1.54-11.39-4.48-15.22-9.86Z"/>
 
+  <!-- ARROWS — with larger invisible hit targets for easier clicking -->
+  <rect x="242" y="322" width="16" height="16" fill="transparent" id="up_arrow_hit"    style="cursor:pointer;"/>
+  <rect x="242" y="348" width="16" height="16" fill="transparent" id="down_arrow_hit"  style="cursor:pointer;"/>
+  <rect x="265" y="344" width="20" height="14" fill="transparent" id="right_arrow_hit" style="cursor:pointer;"/>
+  <rect x="213" y="344" width="20" height="14" fill="transparent" id="left_arrow_hit"  style="cursor:pointer;"/>
+
   <path id="up_arrow"    d="M246.63,333.78l3.21-6.14c1.5,1.8,2.67,3.88,3.42,6.09"/>
   <path id="down_arrow"  d="M246.52,351.2c1.88,1.11,3.4,2.83,4.25,4.84,1.09-1.89,2-3.89,2.71-5.96"/>
   <path id="right_arrow" d="M270.73,350.36l6.79,3.45c-2.58.65-5.16,1.3-7.75,1.96"/>
   <path id="left_arrow"  d="M227.26,350.71l-7,3.02c2.66.57,5.32,1.14,7.98,1.71"/>
 
-  <path id="left_wing_button" stroke-linecap="round" stroke-linejoin="round"
+  <path id="left_wing_button"  stroke-linecap="round" stroke-linejoin="round"
   d="M240.09,347.44c.51-.36,1.14-1.3-3-12.03-2.43-6.29-3.65-9.44-6.01-13.75-2.6-4.75-4.78-8.66-9.01-12.89-3.18-3.18-7.9-7.9-11.01-6.87-3.03,1-3.58,7.15-2,11.17,0,0,1.83,4.5,6.37,7.35.01,0,.02.02.02.02.27.17.48.29.62.37-.58.2-7.82,2.74-8.01,6.87-.11,2.41,2.26,4.22,7.01,7.73,2.94,2.18,5.68,3.78,10.01,6.02,9.06,4.68,13.58,7.02,15.02,6.02Z"/>
   <path id="right_wing_button" stroke-linecap="round" stroke-linejoin="round"
   d="M260.54,347.56c-.49-.36-1.09-1.31,2.86-12.09,2.32-6.33,3.48-9.49,5.73-13.82,2.48-4.77,4.56-8.7,8.59-12.95,3.03-3.2,7.54-7.94,10.5-6.91,2.89,1,3.41,7.18,1.91,11.23,0,0-1.74,4.52-6.07,7.39-.01,0-.02.02-.02.02-.26.17-.45.29-.59.37.55.2,7.46,2.76,7.64,6.91.1,2.42-2.16,4.24-6.68,7.77-2.8,2.19-5.42,3.8-9.55,6.05-8.64,4.7-12.96,7.05-14.32,6.05Z"/>
@@ -497,151 +541,104 @@ pointer-events:none;
   }
 })();
 
-// SNAKE GAME
-// Canvas is 172×182px (screen at 2× scale)
-// Grid: 28 cols × 30 rows at 6px per cell (28*6=168, 30*6=180, leaves small margin)
-const COLS = 28;
-const ROWS = 30;
-const CELL = 6;
+// ══════════════════════════
+// SNAKE — bigger cells, slower
+// Canvas 172×182, CELL=10 → 17 cols × 18 rows
+// ══════════════════════════
+const COLS=17, ROWS=18, CELL=10;
+const canvas=document.getElementById('snake-canvas');
+const ctx=canvas.getContext('2d');
+const scoreEl=document.getElementById('snake-score');
+const overEl=document.getElementById('snake-over');
+const overScoreTxt=document.getElementById('over-score-txt');
+const line1=document.getElementById('screen-line1');
+const line2=document.getElementById('screen-line2');
+const line3=document.getElementById('screen-line3');
+const hint=document.getElementById('hint');
 
-const canvas       = document.getElementById('snake-canvas');
-const ctx          = canvas.getContext('2d');
-const scoreEl      = document.getElementById('snake-score');
-const overEl       = document.getElementById('snake-over');
-const overScoreTxt = document.getElementById('over-score-txt');
-const line1        = document.getElementById('screen-line1');
-const line2        = document.getElementById('screen-line2');
-const line3        = document.getElementById('screen-line3');
-const hint         = document.getElementById('hint');
+let snake,dir,nextDir,food,score,gameLoop,gameState;
 
-// gameState: 'idle' | 'loaded' | 'running' | 'over'
-let snake, dir, nextDir, food, score, gameLoop, gameState;
-
-// Called when 0 is pressed — load game but wait for arrow to start
 function loadGame(){
-  snake    = [{x:14, y:15},{x:13,y:15},{x:12,y:15}];
-  dir      = {x:0, y:0};   // stationary until arrow pressed
-  nextDir  = {x:0, y:0};
-  food     = spawnFood();
-  score    = 0;
-  gameState = 'loaded';
-
-  line1.style.display = 'none';
-  line2.style.display = 'none';
-  line3.style.display = 'none';
-  overEl.style.display = 'none';
-  canvas.style.display = 'block';
-  scoreEl.style.display = 'block';
-  scoreEl.textContent = '★0';
-  hint.textContent = '✦ press an arrow to start ✦';
-
-  clearInterval(gameLoop);
-  draw(); // show initial frame
+  snake=[{x:8,y:9},{x:7,y:9},{x:6,y:9}];
+  dir={x:0,y:0};nextDir={x:0,y:0};
+  food=spawnFood();score=0;gameState='loaded';
+  line1.style.display='none';line2.style.display='none';line3.style.display='none';
+  overEl.style.display='none';
+  canvas.style.display='block';scoreEl.style.display='block';
+  scoreEl.textContent='★0';
+  hint.textContent='✦ press an arrow to start ✦';
+  clearInterval(gameLoop);draw();
 }
 
-// Called on first arrow press when state is 'loaded'
-function startGame(dx, dy){
-  nextDir   = {x:dx, y:dy};
-  dir       = {x:dx, y:dy};
-  gameState = 'running';
-  hint.style.display = 'none';
+function startGame(dx,dy){
+  nextDir={x:dx,y:dy};dir={x:dx,y:dy};
+  gameState='running';hint.style.display='none';
   clearInterval(gameLoop);
-  gameLoop = setInterval(tick, 200); // slower speed
+  gameLoop=setInterval(tick,260); // slower: 260ms per tick
 }
 
 function spawnFood(){
   let f;
-  do {
-    f = {x: Math.floor(Math.random()*COLS), y: Math.floor(Math.random()*ROWS)};
-  } while(snake.some(s=>s.x===f.x && s.y===f.y));
+  do{f={x:Math.floor(Math.random()*COLS),y:Math.floor(Math.random()*ROWS)};}
+  while(snake.some(s=>s.x===f.x&&s.y===f.y));
   return f;
 }
 
 function tick(){
-  dir = {...nextDir};
-  // if still no direction, do nothing (shouldn't happen once running)
-  if(dir.x===0 && dir.y===0) return;
-
-  const head = {x: snake[0].x + dir.x, y: snake[0].y + dir.y};
-
-  // wall collision
-  if(head.x < 0 || head.x >= COLS || head.y < 0 || head.y >= ROWS){
-    endGame(); return;
-  }
-  // self collision
-  if(snake.some(s=>s.x===head.x && s.y===head.y)){
-    endGame(); return;
-  }
-
+  dir={...nextDir};
+  if(dir.x===0&&dir.y===0) return;
+  const head={x:snake[0].x+dir.x,y:snake[0].y+dir.y};
+  if(head.x<0||head.x>=COLS||head.y<0||head.y>=ROWS){endGame();return;}
+  if(snake.some(s=>s.x===head.x&&s.y===head.y)){endGame();return;}
   snake.unshift(head);
-
-  if(head.x===food.x && head.y===food.y){
-    score++;
-    scoreEl.textContent = '★'+score;
-    food = spawnFood();
-  } else {
-    snake.pop();
-  }
-
+  if(head.x===food.x&&head.y===food.y){
+    score++;scoreEl.textContent='★'+score;food=spawnFood();
+  }else{snake.pop();}
   draw();
 }
 
 function draw(){
-  // background
-  ctx.fillStyle = '#080010';
-  ctx.fillRect(0, 0, 172, 182);
-
-  // food — pink circle
-  ctx.fillStyle = '#ff70c0';
-  ctx.shadowColor = '#ff40a0';
-  ctx.shadowBlur = 4;
+  ctx.fillStyle='#080010';
+  ctx.fillRect(0,0,172,182);
+  // food — bigger pink circle
+  ctx.fillStyle='#ff70c0';ctx.shadowColor='#ff40a0';ctx.shadowBlur=6;
   ctx.beginPath();
-  ctx.arc(food.x*CELL + CELL/2, food.y*CELL + CELL/2, CELL/2 - 0.5, 0, Math.PI*2);
-  ctx.fill();
-  ctx.shadowBlur = 0;
-
-  // snake — blue segments
-  snake.forEach((seg, i) => {
-    const isHead = i === 0;
-    ctx.fillStyle    = isHead ? '#00d8ff' : '#0090d0';
-    ctx.shadowColor  = isHead ? '#00d8ff' : 'transparent';
-    ctx.shadowBlur   = isHead ? 5 : 0;
-    const pad = isHead ? 0 : 0.5;
-    ctx.fillRect(seg.x*CELL + pad, seg.y*CELL + pad, CELL - pad*2, CELL - pad*2);
+  ctx.arc(food.x*CELL+CELL/2,food.y*CELL+CELL/2,CELL/2-0.5,0,Math.PI*2);
+  ctx.fill();ctx.shadowBlur=0;
+  // snake — bigger blue squares
+  snake.forEach((seg,i)=>{
+    const isHead=i===0;
+    ctx.fillStyle=isHead?'#00d8ff':'#0090d0';
+    ctx.shadowColor=isHead?'#00d8ff':'transparent';
+    ctx.shadowBlur=isHead?7:0;
+    const pad=isHead?0:0.5;
+    ctx.fillRect(seg.x*CELL+pad,seg.y*CELL+pad,CELL-pad*2,CELL-pad*2);
   });
-  ctx.shadowBlur = 0;
+  ctx.shadowBlur=0;
 }
 
 function endGame(){
-  clearInterval(gameLoop);
-  gameState = 'over';
-  canvas.style.display = 'none';
-  scoreEl.style.display = 'none';
-  overScoreTxt.textContent = '★ ' + score;
-  overEl.style.display = 'flex';
-  hint.style.display = 'block';
-  hint.textContent = '✦ press 0 to play again ✦';
+  clearInterval(gameLoop);gameState='over';
+  canvas.style.display='none';scoreEl.style.display='none';
+  overScoreTxt.textContent='★ '+score;
+  overEl.style.display='flex';hint.style.display='block';
+  hint.textContent='✦ press 0 to play again ✦';
 }
 
-function setDir(dx, dy){
-  if(gameState === 'loaded'){
-    startGame(dx, dy);
-    return;
-  }
-  if(gameState !== 'running') return;
-  // prevent reversing
-  if(dx === -dir.x && dy === -dir.y) return;
-  nextDir = {x:dx, y:dy};
+function setDir(dx,dy){
+  if(gameState==='loaded'){startGame(dx,dy);return;}
+  if(gameState!=='running') return;
+  if(dx===-dir.x&&dy===-dir.y) return;
+  nextDir={x:dx,y:dy};
 }
 
 // WING BUTTONS
-const lwg = document.getElementById('lwg');
-const rwg = document.getElementById('rwg');
-const lwb = document.getElementById('left_wing_button');
-const rwb = document.getElementById('right_wing_button');
-let leftOn=false, rightOn=false;
+const lwg=document.getElementById('lwg');
+const rwg=document.getElementById('rwg');
+const lwb=document.getElementById('left_wing_button');
+const rwb=document.getElementById('right_wing_button');
+let leftOn=false,rightOn=false;
 
-// EFFECTS
 function fairyBurst(x,y){
   const ch=['✦','✧','★','✺','·'];
   const col=['#ff70b8','#ffaadd','#c4e8ff','#ffdcf4','#f8b4ff','#88d4ff'];
@@ -652,8 +649,7 @@ function fairyBurst(x,y){
     el.style.cssText=`left:${x}px;top:${y}px;color:${col[Math.floor(Math.random()*col.length)]};`
       +`font-size:${9+Math.random()*14}px;--tx:${Math.cos(ang)*d}px;--ty:${Math.sin(ang)*d-48}px;`
       +`animation-delay:${Math.random()*.14}s;filter:drop-shadow(0 0 5px currentColor);`;
-    document.body.appendChild(el);
-    el.addEventListener('animationend',()=>el.remove());
+    document.body.appendChild(el);el.addEventListener('animationend',()=>el.remove());
   }
 }
 function ripple(x,y){
@@ -663,7 +659,7 @@ function ripple(x,y){
 }
 function center(el){const rc=el.getBoundingClientRect();return[rc.left+rc.width/2,rc.top+rc.height/2];}
 
-// IDLE SCREEN MESSAGES
+// IDLE SCREEN MESSAGES — now any number shows on screen
 const msgs={
   '1':[['✦ BLOOM ✦','fairy of fire','winx s01 ♡'],['✦ MISS U ✦','call me pls!','xoxo bloom'],['★ POWER ★','believix!','go winx!!']],
   '2':[['✧ STELLA ✧','fashion queen','sun fairy'],  ['♡ GLAM ♡','new outfit!','fabulous~'],  ['★ SHINE ★','solaria pwr','dazzle!!']],
@@ -678,76 +674,79 @@ const msgs={
 function pick(a){return a[Math.floor(Math.random()*a.length)];}
 
 function showIdleMsg(key){
-  if(gameState==='running'||gameState==='loaded') return;
-  const pool=msgs[key]; if(!pool) return;
+  // always show message on screen when number is pressed (even during loaded state)
+  if(gameState==='running') return;
+  const pool=msgs[key];if(!pool) return;
+  // if game is loaded/over, bring back idle screen first
+  if(gameState==='loaded'||gameState==='over'){
+    clearInterval(gameLoop);gameState='idle';
+    canvas.style.display='none';scoreEl.style.display='none';overEl.style.display='none';
+    line1.style.display='';line2.style.display='';line3.style.display='';
+    hint.textContent='✦ press 0 to load snake, then arrow to start ✦';
+    hint.style.display='block';
+  }
   const[a,b,c]=pick(pool);
   line1.textContent=a;line2.textContent=b;line3.textContent=c;
 }
 
 function showIdleScreen(){
-  canvas.style.display='none';
-  scoreEl.style.display='none';
-  overEl.style.display='none';
+  canvas.style.display='none';scoreEl.style.display='none';overEl.style.display='none';
   line1.style.display='';line2.style.display='';line3.style.display='';
-  line1.textContent='✦ WINX ✦';line2.textContent='CLUB';line3.textContent='· ready ·';
+  line1.textContent='✦ FAIRY ✦';line2.textContent='PHONE';line3.textContent='· ready ·';
 }
 
-gameState='idle';
-showIdleScreen();
+gameState='idle';showIdleScreen();
 
-// NUMPAD BUTTONS
+// NUMPAD
 document.querySelectorAll('.numpad-btn').forEach(el=>{
   el.addEventListener('click',e=>{
     const key=e.currentTarget.dataset.key;
     const[cx,cy]=center(e.currentTarget);
     ripple(cx,cy);fairyBurst(cx,cy);
-    if(key==='0'){
-      loadGame();
-    } else {
-      showIdleMsg(key);
-    }
+    if(key==='0') loadGame();
+    else showIdleMsg(key);
   });
 });
 
-// ARROW BUTTONS
-document.getElementById('up_arrow').addEventListener('click',   ()=>setDir(0,-1));
-document.getElementById('down_arrow').addEventListener('click',  ()=>setDir(0,1));
-document.getElementById('left_arrow').addEventListener('click',  ()=>setDir(-1,0));
-document.getElementById('right_arrow').addEventListener('click', ()=>setDir(1,0));
+// ARROW direction function — used by both the path and the invisible hit rect
+function handleArrow(dx,dy){setDir(dx,dy);}
+
+// Arrow visible paths
+document.getElementById('up_arrow').addEventListener('click',   ()=>handleArrow(0,-1));
+document.getElementById('down_arrow').addEventListener('click',  ()=>handleArrow(0,1));
+document.getElementById('right_arrow').addEventListener('click', ()=>handleArrow(1,0));
+document.getElementById('left_arrow').addEventListener('click',  ()=>handleArrow(-1,0));
+// Arrow invisible large hit rects
+document.getElementById('up_arrow_hit').addEventListener('click',   ()=>handleArrow(0,-1));
+document.getElementById('down_arrow_hit').addEventListener('click',  ()=>handleArrow(0,1));
+document.getElementById('right_arrow_hit').addEventListener('click', ()=>handleArrow(1,0));
+document.getElementById('left_arrow_hit').addEventListener('click',  ()=>handleArrow(-1,0));
 
 // WING BUTTONS
 lwb.addEventListener('click',()=>{
-  leftOn=!leftOn;
-  lwg.classList.toggle('active',leftOn);
-  lwb.classList.toggle('toggled',leftOn);
+  leftOn=!leftOn;lwg.classList.toggle('active',leftOn);lwb.classList.toggle('toggled',leftOn);
   const[cx,cy]=center(lwb);ripple(cx,cy);fairyBurst(cx,cy);
   if(gameState!=='running'&&gameState!=='loaded'){
-    line1.textContent='✦ WINGS ✦';
-    line2.textContent=leftOn?'left open':'left closed';
-    line3.textContent='· magic ·';
+    line1.textContent='✦ WINGS ✦';line2.textContent=leftOn?'left open':'left closed';line3.textContent='· magic ·';
   }
 });
 rwb.addEventListener('click',()=>{
-  rightOn=!rightOn;
-  rwg.classList.toggle('active',rightOn);
-  rwb.classList.toggle('toggled',rightOn);
+  rightOn=!rightOn;rwg.classList.toggle('active',rightOn);rwb.classList.toggle('toggled',rightOn);
   const[cx,cy]=center(rwb);ripple(cx,cy);fairyBurst(cx,cy);
   if(gameState!=='running'&&gameState!=='loaded'){
-    line1.textContent='✦ WINGS ✦';
-    line2.textContent=rightOn?'right open':'right closed';
-    line3.textContent='· magic ·';
+    line1.textContent='✦ WINGS ✦';line2.textContent=rightOn?'right open':'right closed';line3.textContent='· magic ·';
   }
 });
 
-// KEYBOARD ARROWS
+// KEYBOARD
 document.addEventListener('keydown',e=>{
-  if(e.key==='ArrowUp')    {e.preventDefault();setDir(0,-1);}
-  if(e.key==='ArrowDown')  {e.preventDefault();setDir(0,1);}
-  if(e.key==='ArrowLeft')  {e.preventDefault();setDir(-1,0);}
-  if(e.key==='ArrowRight') {e.preventDefault();setDir(1,0);}
+  if(e.key==='ArrowUp')    {e.preventDefault();handleArrow(0,-1);}
+  if(e.key==='ArrowDown')  {e.preventDefault();handleArrow(0,1);}
+  if(e.key==='ArrowLeft')  {e.preventDefault();handleArrow(-1,0);}
+  if(e.key==='ArrowRight') {e.preventDefault();handleArrow(1,0);}
 });
 
-// TOUCH SUPPORT
+// TOUCH
 [lwb,rwb].forEach(b=>{
   b.addEventListener('touchstart',e=>{e.preventDefault();b.dispatchEvent(new MouseEvent('click'));},{passive:false});
 });
@@ -757,26 +756,21 @@ const phoneSvg=document.getElementById('phone-svg');
 const glitterColors=['#ffffff','#ffd6f4','#ffb3e6','#ffc8ff','#d4b0ff','#b8d8ff','#ffe0ff','#fff0b8'];
 let lastGlitterTime=0;
 phoneSvg.addEventListener('mousemove',e=>{
-  const now=Date.now();
-  if(now-lastGlitterTime<40) return;
-  lastGlitterTime=now;
+  const now=Date.now();if(now-lastGlitterTime<40) return;lastGlitterTime=now;
   const rect=phoneSvg.getBoundingClientRect();
   const mx=e.clientX,my=e.clientY;
-  const relX=(mx-rect.left)/rect.width;
-  const relY=(my-rect.top)/rect.height;
+  const relX=(mx-rect.left)/rect.width,relY=(my-rect.top)/rect.height;
   if(relX<0.27||relX>0.73||relY<0.14||relY>0.95) return;
   const count=2+Math.floor(Math.random()*3);
   for(let i=0;i<count;i++){
     const spark=document.createElement('div');spark.className='gspark';
-    const sz=3+Math.random()*6;
-    const col=glitterColors[Math.floor(Math.random()*glitterColors.length)];
+    const sz=3+Math.random()*6,col=glitterColors[Math.floor(Math.random()*glitterColors.length)];
     const ang=Math.random()*Math.PI*2,dist=15+Math.random()*40,dur=(.5+Math.random()*.6).toFixed(2);
     spark.style.cssText=`left:${mx}px;top:${my}px;width:${sz}px;height:${sz}px;`
       +`background:${col};box-shadow:0 0 ${sz*1.5}px ${col};`
       +`--gx:${(Math.cos(ang)*dist).toFixed(1)}px;--gy:${(Math.sin(ang)*dist+10).toFixed(1)}px;`
       +`--gd:${dur}s;animation-delay:${(Math.random()*.08).toFixed(2)}s;`;
-    document.body.appendChild(spark);
-    spark.addEventListener('animationend',()=>spark.remove());
+    document.body.appendChild(spark);spark.addEventListener('animationend',()=>spark.remove());
   }
 });
 </script>
