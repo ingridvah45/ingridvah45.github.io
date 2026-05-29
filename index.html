@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{height:100vh;min-height:100vh;background:radial-gradient(ellipse at 25% 15%,#ff80cc 0%,#ff40a8 30%,#cc1880 65%,#880050 100%);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;}
+body{height:100vh;min-height:100vh;background:radial-gradient(ellipse at 25% 15%,#ffd0ea 0%,#ffa8d4 30%,#ff80c0 65%,#e060a0 100%);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;}
 .stars{position:fixed;inset:0;pointer-events:none;z-index:0;}
 .star{position:absolute;animation:twinkle var(--dur,2s) ease-in-out infinite var(--delay,0s);opacity:0;font-size:var(--sz,10px);color:var(--c,#ffb3dc);filter:drop-shadow(0 0 4px var(--c,#ffb3dc));}
 @keyframes twinkle{0%,100%{opacity:0;transform:scale(.3);}50%{opacity:1;transform:scale(1.2);}}
@@ -57,10 +57,50 @@ body{height:100vh;min-height:100vh;background:radial-gradient(ellipse at 25% 15%
 @keyframes fburstAnim{0%{opacity:1;transform:translate(0,0) scale(.5);}100%{opacity:0;transform:translate(var(--tx,0px),var(--ty,-55px)) scale(1.5) rotate(35deg);}}
 .gspark{position:fixed;pointer-events:none;z-index:997;border-radius:50%;animation:gsparkAnim var(--gd,.9s) ease-out forwards;}
 @keyframes gsparkAnim{0%{opacity:1;transform:translate(0,0) scale(1);}100%{opacity:0;transform:translate(var(--gx,0px),var(--gy,30px)) scale(0);}}
-#hint{position:relative;z-index:3;margin-top:12px;font-family:'VT323',monospace;font-size:clamp(14px,1.8vw,26px);color:rgba(255,220,240,.85);letter-spacing:3px;text-shadow:0 0 16px rgba(255,100,180,.7);text-align:center;pointer-events:none;}
+#hint{display:none !important;}
+#manual-toggle{position:fixed;top:14px;right:14px;z-index:50;font-family:'VT323',monospace;font-size:18px;letter-spacing:2px;padding:8px 14px;background:linear-gradient(135deg,#fff4fa,#ffc8e4);color:#a01060;border:2px solid #ff80c0;border-radius:14px;cursor:pointer;box-shadow:0 0 14px rgba(255,150,210,.7);transition:transform .15s;}
+#manual-toggle:hover{transform:scale(1.05);}
+#manual-panel{position:fixed;top:60px;right:14px;z-index:49;width:min(340px,90vw);max-height:80vh;overflow-y:auto;display:none;background:linear-gradient(160deg,rgba(255,240,248,.97),rgba(255,210,232,.97));border:2px solid #ff80c0;border-radius:18px;padding:16px 18px;font-family:'VT323',monospace;color:#7a0a48;box-shadow:0 8px 30px rgba(180,40,120,.35);}
+#manual-panel.open{display:block;}
+#manual-panel h2{font-size:22px;margin-bottom:8px;color:#a01060;letter-spacing:1px;text-align:center;}
+#manual-panel h3{font-size:17px;margin-top:10px;margin-bottom:3px;color:#c01878;letter-spacing:1px;}
+#manual-panel p,#manual-panel li{font-size:15px;line-height:1.35;}
+#manual-panel ul{padding-left:18px;margin-bottom:4px;}
 </style>
 </head>
 <body>
+<button id="manual-toggle" onclick="document.getElementById('manual-panel').classList.toggle('open')">&#10022; Kasutusjuhend &#10022;</button>
+<div id="manual-panel">
+  <h2>&#10022; Kasutusjuhend &#10022;</h2>
+  <p>Tere tulemast Haldjatelefoni juurde! Siin on juhised, kuidas telefoni kasutada.</p>
+  <h3>Tiivad</h3>
+  <ul>
+    <li><b>Vasak roosa nupp</b> – avab või sulgeb vasaku tiiva.</li>
+    <li><b>Parem roosa nupp</b> – avab või sulgeb parema tiiva.</li>
+    <li>Vajuta nuppu uuesti, et tiib kinni panna. Nupp muutub siniseks, kui tiib on lahti.</li>
+  </ul>
+  <h3>Numbrinupud (0–9)</h3>
+  <ul>
+    <li>Numbrid <b>1–9</b> avavad ekraanil erinevad rakendused (Seaded, Sõnumid, Kontaktid jne).</li>
+    <li>Number <b>0</b> laadib Mao mängu (Snake).</li>
+    <li>Vajuta sama numbrit uuesti, et rakendusest väljuda.</li>
+  </ul>
+  <h3>Nooled</h3>
+  <ul>
+    <li><b>Üles / Alla</b> – liigu menüüs üles ja alla.</li>
+    <li><b>Vasakule / Paremale</b> – kasuta Mao mängus mao suuna muutmiseks.</li>
+  </ul>
+  <h3>Mao mäng</h3>
+  <ul>
+    <li>Vajuta <b>0</b>, et madu laadida.</li>
+    <li>Vajuta ükskõik millist noolt, et mäng algaks.</li>
+    <li>Juhi madu noolenuppudega ja söö tähti, et punkte koguda.</li>
+    <li>Ära põrka vastu seina ega iseennast – muidu on <b>MÄNG LÄBI</b>.</li>
+    <li>Pärast kaotust vajuta <b>0</b>, et uuesti alustada.</li>
+  </ul>
+  <h3>Vihje</h3>
+  <p>Klõpsa ekraanil ja nuppudel ringi – telefon sätleb ja särab vastu! &#10022;</p>
+</div>
 <div class="stars" id="stars"></div>
 <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
 <div id="phone-wrap">
