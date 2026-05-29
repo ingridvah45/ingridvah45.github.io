@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="et">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Fairy Phone</title>
+<title>Haldjatelefon</title>
 <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -37,7 +37,6 @@ body{height:100vh;min-height:100vh;background:radial-gradient(ellipse at 25% 15%
 #screen-line1{font-size:clamp(10px,2vw,22px);letter-spacing:1px;}
 #screen-line2{font-size:clamp(9px,1.6vw,17px);}
 #screen-line3{font-size:clamp(8px,1.3vw,14px);letter-spacing:.5px;}
-/* Nokia-style app screen */
 #app-screen{display:none;position:absolute;top:0;left:0;width:100%;height:100%;flex-direction:column;font-family:'VT323',monospace;color:#c8e8c0;font-size:12px;padding:4px 4px;overflow:hidden;gap:0px;background:transparent;z-index:6;pointer-events:none;}
 #app-title{font-size:13px;letter-spacing:0px;text-align:left;color:#ffffff;background:none;-webkit-text-fill-color:#ffffff;filter:none;margin-bottom:1px;border-bottom:1px solid rgba(180,220,160,.55);padding-bottom:1px;padding-left:1px;}
 .app-row{display:flex;align-items:center;gap:3px;color:#b8d8b0;font-size:11px;padding:0px 0;line-height:1.25;}
@@ -66,19 +65,19 @@ body{height:100vh;min-height:100vh;background:radial-gradient(ellipse at 25% 15%
 <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
 <div id="phone-wrap">
   <div id="screen-content">
-    <div id="screen-line1" style="display:none">&#10022; FAIRY &#10022;</div>
-    <div id="screen-line2" style="display:none">PHONE</div>
-    <div id="screen-line3" style="display:none">· ready ·</div>
+    <div id="screen-line1" style="display:none">&#10022; HALDJAS &#10022;</div>
+    <div id="screen-line2" style="display:none">TELEFON</div>
+    <div id="screen-line3" style="display:none">· valmis ·</div>
     <div id="app-screen">
-      <div id="app-title">SETTINGS</div>
+      <div id="app-title">SEADED</div>
       <div id="app-body"></div>
     </div>
     <canvas id="snake-canvas" width="172" height="182"></canvas>
     <div id="snake-score">&#9733;0</div>
     <div id="snake-over">
-      <span class="over-title">GAME OVER</span>
+      <span class="over-title">MÄNG LÄBI</span>
       <span class="over-score" id="over-score-txt">&#9733; 0</span>
-      <span class="over-hint">press 0 to retry</span>
+      <span class="over-hint">vajuta 0 uuesti</span>
     </div>
   </div>
   <svg id="phone-svg" viewBox="0 0 500 700" xmlns="http://www.w3.org/2000/svg">
@@ -278,7 +277,7 @@ body{height:100vh;min-height:100vh;background:radial-gradient(ellipse at 25% 15%
   <text class="numLabel" x="267.8" y="452"><tspan>0</tspan></text>
   </svg>
 </div>
-<div id="hint">&#10022; press 0 to load snake, then arrow to start &#10022;</div>
+<div id="hint">&#10022; vajuta 0, et laadida madu, siis noolt, et alustada &#10022;</div>
 </div>
 
 <script>
@@ -303,41 +302,41 @@ const appBodyEl   = document.getElementById('app-body');
 
 // Nokia 2000s style menus
 const apps = {
-  '1':{title:'Settings',rows:[
-    ['','Profiles','General'],['','Tones','->'],['','Display','->'],
-    ['','Time & Date','->'],['','Security','->'],['','Network','->'],['','Memory','->']
+  '1':{title:'Seaded',rows:[
+    ['','Profiilid','Üldine'],['','Helid','->'],['','Ekraan','->'],
+    ['','Aeg ja kuupäev','->'],['','Turvalisus','->'],['','Võrk','->'],['','Mälu','->']
   ]},
-  '2':{title:'Messages',rows:[
-    ['','Inbox','3 new'],['','Outbox',''],['','Sent items',''],
-    ['','Drafts','1'],['','Templates','->'],['','Settings','->'],['','Info msgs','->']
+  '2':{title:'Sõnumid',rows:[
+    ['','Sisendkast','3 uut'],['','Väljundkast',''],['','Saadetud',''],
+    ['','Mustandid','1'],['','Mallid','->'],['','Seaded','->'],['','Infosõnumid','->']
   ]},
-  '3':{title:'Call register',rows:[
-    ['','Missed calls','2'],['','Received','5'],['','Dialled','8'],
-    ['','Delete all','->'],['','Call duration','->'],['','GPRS data','->'],['','Call costs','->']
+  '3':{title:'Kõnede logi',rows:[
+    ['','Vastamata kõned','2'],['','Vastuvõetud','5'],['','Valitud','8'],
+    ['','Kustuta kõik','->'],['','Kõne kestus','->'],['','GPRS andmed','->'],['','Kõnede kulud','->']
   ]},
-  '4':{title:'Gallery',rows:[
-    ['','Images','12'],['','Video clips','3'],['','Themes','4'],
-    ['','Graphics','->'],['','Tones','->'],['','Recordings','2'],['','Memory card','->']
+  '4':{title:'Galerii',rows:[
+    ['','Pildid','12'],['','Videoklipid','3'],['','Teemad','4'],
+    ['','Graafika','->'],['','Helid','->'],['','Salvestused','2'],['','Mälukaart','->']
   ]},
-  '5':{title:'Music player',rows:[
-    ['','Now playing','->'],['','Artists','->'],['','Albums','->'],
-    ['','Tracks','47'],['','Playlists','->'],['','Equaliser','Normal'],['','Shuffle','Off']
+  '5':{title:'Muusikamängija',rows:[
+    ['','Praegu mängib','->'],['','Esitajad','->'],['','Albumid','->'],
+    ['','Lood','47'],['','Esitusloendid','->'],['','Ekvalaiser','Tavaline'],['','Juhujärjekord','Väljas']
   ]},
-  '6':{title:'Downloads',rows:[
-    ['','Tones','->'],['','Images','->'],['','Games','->'],
-    ['','Applications','->'],['','Video','->'],['','Themes','->'],['','Settings','->']
+  '6':{title:'Allalaadimised',rows:[
+    ['','Helid','->'],['','Pildid','->'],['','Mängud','->'],
+    ['','Rakendused','->'],['','Video','->'],['','Teemad','->'],['','Seaded','->']
   ]},
-  '7':{title:'Ringtones',rows:[
-    ['*','Nokia tune','active'],['','Ascending',''],['','Standard',''],
-    ['','Beep once',''],['','Silent',''],['','My ringtone 1',''],['','My ringtone 2','']
+  '7':{title:'Helinad',rows:[
+    ['*','Nokia viis','aktiivne'],['','Tõusev',''],['','Standard',''],
+    ['','Üks piiks',''],['','Vaikne',''],['','Minu helin 1',''],['','Minu helin 2','']
   ]},
-  '8':{title:'Reminders',rows:[
-    ['','Mon  08:00','Alarm'],['','Mon  12:30','Meeting'],['','Mon  14:00','Reminder'],
-    ['','Mon  16:00','Practice'],['','Tue  09:00','Class'],['','Tue  18:00','Dinner'],['','Wed  10:00','Call back']
+  '8':{title:'Meeldetuletused',rows:[
+    ['','E  08:00','Äratus'],['','E  12:30','Koosolek'],['','E  14:00','Meeldetuletus'],
+    ['','E  16:00','Treening'],['','T  09:00','Tund'],['','T  18:00','Õhtusöök'],['','K  10:00','Helista tagasi']
   ]},
-  '9':{title:'Battery info',rows:[
-    ['','Charge level','82%'],['','Status','Charging'],['','Talk time','4h 20m'],
-    ['','Standby','8d 12h'],['','Network','GSM 900'],['','Signal','4 bars'],['','GPRS','Ready']
+  '9':{title:'Aku info',rows:[
+    ['','Laetuse tase','82%'],['','Olek','Laeb'],['','Kõneaeg','4t 20m'],
+    ['','Ooterežiim','8p 12t'],['','Võrk','GSM 900'],['','Signaal','4 pulka'],['','GPRS','Valmis']
   ]}
 };
 
@@ -379,7 +378,7 @@ function loadGame(){
   overEl.style.display='none';
   canvas.style.display='block';scoreEl.style.display='block';
   scoreEl.textContent='\u2605 0';
-  hint.textContent='\u2726 press an arrow to start \u2726';
+  hint.textContent='\u2726 vajuta noolt, et alustada \u2726';
   hint.style.display='block';
   clearInterval(gameLoop);draw();
 }
@@ -432,7 +431,7 @@ function endGame(){
   canvas.style.display='none';scoreEl.style.display='none';
   overScoreTxt.textContent='\u2605 '+score;
   overEl.style.display='flex';hint.style.display='block';
-  hint.textContent='\u2726 press 0 to play again \u2726';
+  hint.textContent='\u2726 vajuta 0, et uuesti mängida \u2726';
 }
 
 function setDir(dx,dy){
@@ -472,7 +471,7 @@ function showIdleScreen(){
   appScreenEl.style.display='none';
   canvas.style.display='none';scoreEl.style.display='none';overEl.style.display='none';
   line1.style.display='';line2.style.display='';line3.style.display='';
-  line1.textContent='\u2726 FAIRY \u2726';line2.textContent='PHONE';line3.textContent='\u00b7 ready \u00b7';
+  line1.textContent='\u2726 HALDJAS \u2726';line2.textContent='TELEFON';line3.textContent='\u00b7 valmis \u00b7';
 }
 
 gameState='idle';
@@ -487,7 +486,7 @@ document.querySelectorAll('.numpad-btn').forEach(el=>{
       if(gameState==='running')return;
       gameState='idle';clearInterval(gameLoop);
       showApp(key);
-      hint.textContent='\u2726 press 0 to load snake \u2726';
+      hint.textContent='\u2726 vajuta 0, et laadida madu \u2726';
       hint.style.display='block';
     }
   });
@@ -514,7 +513,7 @@ lwb.addEventListener('click',()=>{
   else{
     line1.style.display='';line2.style.display='';line3.style.display='';
     appScreenEl.style.display='none';
-    line1.textContent='\u2726 WINGS \u2726';line2.textContent=leftOn?'left open':'left closed';line3.textContent='';
+    line1.textContent='\u2726 TIIVAD \u2726';line2.textContent=leftOn?'vasak avatud':'vasak suletud';line3.textContent='';
   }
 });
 rwb.addEventListener('click',()=>{
@@ -524,7 +523,7 @@ rwb.addEventListener('click',()=>{
   else{
     line1.style.display='';line2.style.display='';line3.style.display='';
     appScreenEl.style.display='none';
-    line1.textContent='\u2726 WINGS \u2726';line2.textContent=rightOn?'right open':'right closed';line3.textContent='';
+    line1.textContent='\u2726 TIIVAD \u2726';line2.textContent=rightOn?'parem avatud':'parem suletud';line3.textContent='';
   }
 });
 
