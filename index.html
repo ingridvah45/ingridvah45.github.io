@@ -7,363 +7,132 @@
 <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-
-body{
-height:100vh;
-min-height:100vh;
-background:radial-gradient(ellipse at 25% 15%,#ff80cc 0%,#ff40a8 30%,#cc1880 65%,#880050 100%);
-display:flex;align-items:center;justify-content:center;
-overflow:hidden;position:relative;
-}
-
+body{height:100vh;min-height:100vh;background:radial-gradient(ellipse at 25% 15%,#ff80cc 0%,#ff40a8 30%,#cc1880 65%,#880050 100%);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;}
 .stars{position:fixed;inset:0;pointer-events:none;z-index:0;}
-.star{
-position:absolute;
-animation:twinkle var(--dur,2s) ease-in-out infinite var(--delay,0s);
-opacity:0;font-size:var(--sz,10px);color:var(--c,#ffb3dc);
-filter:drop-shadow(0 0 4px var(--c,#ffb3dc));
-}
-@keyframes twinkle{
-0%,100%{opacity:0;transform:scale(.3);}
-50%{opacity:1;transform:scale(1.2);}
-}
-
-#phone-wrap{
-position:relative;z-index:2;width:min(680px,92vw);flex-shrink:0;
-}
+.star{position:absolute;animation:twinkle var(--dur,2s) ease-in-out infinite var(--delay,0s);opacity:0;font-size:var(--sz,10px);color:var(--c,#ffb3dc);filter:drop-shadow(0 0 4px var(--c,#ffb3dc));}
+@keyframes twinkle{0%,100%{opacity:0;transform:scale(.3);}50%{opacity:1;transform:scale(1.2);}}
+#phone-wrap{position:relative;z-index:2;width:min(680px,92vw);flex-shrink:0;}
 #phone-svg{width:100%;height:auto;overflow:visible;}
-
 #_x3C_background_x3E_{fill:url(#bodyGrad);stroke:none;}
-
 #phone_screen{fill:url(#screenGrad);stroke:rgba(255,180,220,.6);stroke-width:.8;}
-
-.inner-lines{
-fill:none;
-stroke:rgba(220,100,170,.42);
-stroke-width:1.6;
-stroke-miterlimit:10;
-stroke-linecap:round;
-stroke-linejoin:round;
-filter:url(#softLine);
-}
-
-#phone_decoration{
-fill:none;
-stroke:rgba(220,100,170,.40);
-stroke-width:1.6;
-stroke-miterlimit:10;
-stroke-linecap:round;
-stroke-linejoin:round;
-filter:url(#softLine);
-}
-
-.body-border{
-fill:none;
-stroke:rgba(220,100,170,.28);
-stroke-width:.9;
-stroke-miterlimit:10;
-stroke-linecap:round;
-stroke-linejoin:round;
-filter:url(#softLine);
-}
-
-.dpad-inner{
-fill:none;
-stroke:rgba(220,100,170,.44);
-stroke-width:1.6;
-stroke-miterlimit:10;
-stroke-linecap:round;
-stroke-linejoin:round;
-filter:url(#softLine);
-}
-
-.dpad-tab{
-fill:url(#wingBtnGrad);
-stroke:rgba(255,160,210,.3);
-stroke-width:.6;
-stroke-miterlimit:10;
-stroke-linecap:round;
-stroke-linejoin:round;
-}
-
-/* arrows — same blue as numpad buttons */
-#up_arrow,#down_arrow,#left_arrow,#right_arrow{
-fill:none;stroke:rgba(100,200,255,.9);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;
-filter:drop-shadow(0 0 3px rgba(80,180,255,.85));
-cursor:pointer;
-}
-#up_arrow:hover,#down_arrow:hover,#left_arrow:hover,#right_arrow:hover{
-stroke:#ffffff;filter:drop-shadow(0 0 5px rgba(150,220,255,1));
-}
-
-#left_wing_button,#right_wing_button{
-fill:url(#wingBtnGrad);stroke:#ff50a0;stroke-width:1.4;
-stroke-linecap:round;stroke-linejoin:round;
-cursor:pointer;transition:filter .15s;filter:url(#btnGlow);
-}
+.inner-lines{fill:none;stroke:rgba(160,30,100,.78);stroke-width:2.2;stroke-miterlimit:10;stroke-linecap:round;stroke-linejoin:round;filter:url(#softLine);}
+#phone_decoration{fill:none;stroke:rgba(160,30,100,.74);stroke-width:2.2;stroke-miterlimit:10;stroke-linecap:round;stroke-linejoin:round;filter:url(#softLine);}
+.body-border{fill:none;stroke:rgba(160,30,100,.52);stroke-width:1.3;stroke-miterlimit:10;stroke-linecap:round;stroke-linejoin:round;filter:url(#softLine);}
+.dpad-inner{fill:none;stroke:rgba(160,30,100,.78);stroke-width:2.2;stroke-miterlimit:10;stroke-linecap:round;stroke-linejoin:round;filter:url(#softLine);}
+.dpad-tab{fill:url(#wingBtnGrad);stroke:rgba(255,160,210,.3);stroke-width:.6;stroke-miterlimit:10;stroke-linecap:round;stroke-linejoin:round;}
+#up_arrow,#down_arrow,#left_arrow,#right_arrow{fill:none;stroke:rgba(100,200,255,.9);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;filter:drop-shadow(0 0 3px rgba(80,180,255,.85));cursor:pointer;}
+#up_arrow:hover,#down_arrow:hover,#left_arrow:hover,#right_arrow:hover{stroke:#ffffff;filter:drop-shadow(0 0 5px rgba(150,220,255,1));}
+#left_wing_button,#right_wing_button{fill:url(#wingBtnGrad);stroke:#ff50a0;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;cursor:pointer;transition:filter .15s;filter:url(#btnGlow);}
 #left_wing_button:hover,#right_wing_button:hover{filter:url(#btnGlowHot);}
 #left_wing_button.toggled,#right_wing_button.toggled{fill:url(#wingBtnBlue);filter:url(#btnGlowBlue);}
-
-.st2{
-fill:url(#bubbleGrad);stroke:rgba(140,210,255,.8);stroke-width:.8;stroke-miterlimit:10;
-stroke-linecap:round;stroke-linejoin:round;
-cursor:pointer;transition:filter .12s;filter:url(#bubbleGlow);
-}
+.st2{fill:url(#bubbleGrad);stroke:rgba(140,210,255,.8);stroke-width:.8;stroke-miterlimit:10;stroke-linecap:round;stroke-linejoin:round;cursor:pointer;transition:filter .12s;filter:url(#bubbleGlow);}
 .st2:hover{filter:url(#bubbleGlowHot);}
 .st2:active{filter:brightness(.85);}
-
-.numLabel{
-font-family:'VT323',monospace;font-size:14px;fill:white;
-text-anchor:middle;dominant-baseline:middle;
-pointer-events:none;filter:url(#chromeFlt);
-}
-
-#lwg{
-transform-box:fill-box;transform-origin:right center;
-transition:opacity .7s ease, transform .7s cubic-bezier(.34,1.56,.64,1);
-opacity:0;transform:scaleX(0);
-}
-#rwg{
-transform-box:fill-box;transform-origin:left center;
-transition:opacity .7s ease, transform .7s cubic-bezier(.34,1.56,.64,1);
-opacity:0;transform:scaleX(0);
-}
+.numLabel{font-family:'VT323',monospace;font-size:14px;fill:white;text-anchor:middle;dominant-baseline:middle;pointer-events:none;filter:url(#chromeFlt);}
+#lwg{transform-box:fill-box;transform-origin:right center;transition:opacity .7s ease, transform .7s cubic-bezier(.34,1.56,.64,1);opacity:0;transform:scaleX(0);}
+#rwg{transform-box:fill-box;transform-origin:left center;transition:opacity .7s ease, transform .7s cubic-bezier(.34,1.56,.64,1);opacity:0;transform:scaleX(0);}
 #lwg.active,#rwg.active{opacity:1;transform:scaleX(1);}
-
-/* screen overlay — % of phone-wrap (SVG viewBox 500w×700h) */
-#screen-content{
-position:absolute;
-left:41.4%;top:29.0%;width:17.2%;height:13.0%;
-display:flex;flex-direction:column;align-items:center;justify-content:center;
-pointer-events:none;z-index:5;overflow:hidden;gap:2px;
-}
-#screen-line1,#screen-line2,#screen-line3{
-font-family:'VT323',monospace;text-align:center;line-height:1.15;max-width:100%;
-background:linear-gradient(180deg,#fff 0%,#c8e0ff 25%,#7090c8 50%,#c8deff 75%,#fff 100%);
--webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-filter:drop-shadow(0 1px 3px rgba(100,180,255,.9));
-}
+#screen-content{position:absolute;left:41.4%;top:29.0%;width:17.2%;height:13.0%;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;z-index:5;overflow:hidden;gap:2px;}
+#screen-line1,#screen-line2,#screen-line3{font-family:'VT323',monospace;text-align:center;line-height:1.15;max-width:100%;background:linear-gradient(180deg,#fff 0%,#c8e0ff 25%,#7090c8 50%,#c8deff 75%,#fff 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 1px 3px rgba(100,180,255,.9));}
 #screen-line1{font-size:clamp(10px,2vw,22px);letter-spacing:1px;}
 #screen-line2{font-size:clamp(9px,1.6vw,17px);}
 #screen-line3{font-size:clamp(8px,1.3vw,14px);letter-spacing:.5px;}
-
-/* app screen — pixel art style mini display */
-#app-screen{
-display:none;
-position:absolute;top:0;left:0;width:100%;height:100%;
-flex-direction:column;
-font-family:'VT323',monospace;
-color:#ffffff;
-font-size:12px;
-padding:6px 5px;
-overflow:hidden;
-gap:1px;
-background:transparent;
-z-index:6;
-pointer-events:none;
-}
-#app-title{
-font-size:16px;letter-spacing:1px;text-align:center;
-background:linear-gradient(90deg,#ff80cc,#80ccff,#ff80cc);
--webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-filter:drop-shadow(0 0 4px rgba(255,150,200,.6));
-margin-bottom:2px;
-border-bottom:1px solid rgba(255,150,200,.25);
-padding-bottom:2px;
-}
-.app-row{
-display:flex;align-items:center;gap:4px;
-color:rgba(255,230,245,.85);
-font-size:11px;
-padding:1px 0;
-border-bottom:1px solid rgba(255,150,200,.08);
-}
-.app-icon{font-size:12px;width:14px;text-align:center;}
-.app-val{margin-left:auto;color:rgba(150,210,255,.9);font-size:11px;}
-
-#snake-canvas{
-display:none;
-position:absolute;top:0;left:0;
-width:100%;height:100%;
-image-rendering:pixelated;
-}
-
-#snake-score{
-display:none;
-position:absolute;top:3px;right:7px;
-font-family:'VT323',monospace;font-size:15px;
-color:#ff80cc;
-filter:drop-shadow(0 0 3px #ff40a0);
-z-index:6;
-pointer-events:none;
-}
-
-#snake-over{
-display:none;
-position:absolute;top:0;left:0;width:100%;height:100%;
-flex-direction:column;align-items:center;justify-content:center;
-background:rgba(5,0,15,.85);gap:3px;z-index:7;
-pointer-events:none;
-}
-#snake-over span{
-font-family:'VT323',monospace;text-align:center;
-background:linear-gradient(180deg,#fff 0%,#ffaadd 50%,#fff 100%);
--webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
+/* Nokia-style app screen */
+#app-screen{display:none;position:absolute;top:0;left:0;width:100%;height:100%;flex-direction:column;font-family:'VT323',monospace;color:#c8e8c0;font-size:12px;padding:4px 4px;overflow:hidden;gap:0px;background:transparent;z-index:6;pointer-events:none;}
+#app-title{font-size:13px;letter-spacing:0px;text-align:left;color:#ffffff;background:none;-webkit-text-fill-color:#ffffff;filter:none;margin-bottom:1px;border-bottom:1px solid rgba(180,220,160,.55);padding-bottom:1px;padding-left:1px;}
+.app-row{display:flex;align-items:center;gap:3px;color:#b8d8b0;font-size:11px;padding:0px 0;line-height:1.25;}
+.app-icon{font-size:10px;width:12px;text-align:center;color:#c8e8c0;}
+.app-val{margin-left:auto;color:#c8e8c0;font-size:11px;}
+.app-row.selected{background:rgba(180,220,160,.25);color:#ffffff;}
+.app-row.selected .app-val{color:#ffffff;}
+#snake-canvas{display:none;position:absolute;top:0;left:0;width:100%;height:100%;image-rendering:pixelated;}
+#snake-score{display:none;position:absolute;top:3px;right:7px;font-family:'VT323',monospace;font-size:15px;color:#ff80cc;filter:drop-shadow(0 0 3px #ff40a0);z-index:6;pointer-events:none;}
+#snake-over{display:none;position:absolute;top:0;left:0;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;background:rgba(5,0,15,.85);gap:3px;z-index:7;pointer-events:none;}
+#snake-over span{font-family:'VT323',monospace;text-align:center;background:linear-gradient(180deg,#fff 0%,#ffaadd 50%,#fff 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 #snake-over .over-title{font-size:20px;letter-spacing:1px;}
 #snake-over .over-score{font-size:16px;}
 #snake-over .over-hint{font-size:13px;color:#ff80cc;-webkit-text-fill-color:#ff80cc;}
-
-.ripple{
-position:fixed;border-radius:50%;pointer-events:none;z-index:999;
-animation:rippleOut .6s ease-out forwards;
-background:radial-gradient(circle,rgba(255,220,240,.9) 0%,rgba(255,160,220,.4) 60%,transparent 100%);
-}
+.ripple{position:fixed;border-radius:50%;pointer-events:none;z-index:999;animation:rippleOut .6s ease-out forwards;background:radial-gradient(circle,rgba(255,220,240,.9) 0%,rgba(255,160,220,.4) 60%,transparent 100%);}
 @keyframes rippleOut{from{transform:scale(0);opacity:1;}to{transform:scale(5);opacity:0;}}
-
 .fburst{position:fixed;pointer-events:none;z-index:998;animation:fburstAnim .85s ease-out forwards;}
-@keyframes fburstAnim{
-0%{opacity:1;transform:translate(0,0) scale(.5);}
-100%{opacity:0;transform:translate(var(--tx,0px),var(--ty,-55px)) scale(1.5) rotate(35deg);}
-}
-
-.gspark{
-position:fixed;pointer-events:none;z-index:997;border-radius:50%;
-animation:gsparkAnim var(--gd,.9s) ease-out forwards;
-}
-@keyframes gsparkAnim{
-0%{opacity:1;transform:translate(0,0) scale(1);}
-100%{opacity:0;transform:translate(var(--gx,0px),var(--gy,30px)) scale(0);}
-}
-
-#hint{
-position:relative;z-index:3;
-margin-top:12px;
-font-family:'VT323',monospace;
-font-size:clamp(14px,1.8vw,26px);
-color:rgba(255,220,240,.85);
-letter-spacing:3px;
-text-shadow:0 0 16px rgba(255,100,180,.7);
-text-align:center;
-pointer-events:none;
-}
+@keyframes fburstAnim{0%{opacity:1;transform:translate(0,0) scale(.5);}100%{opacity:0;transform:translate(var(--tx,0px),var(--ty,-55px)) scale(1.5) rotate(35deg);}}
+.gspark{position:fixed;pointer-events:none;z-index:997;border-radius:50%;animation:gsparkAnim var(--gd,.9s) ease-out forwards;}
+@keyframes gsparkAnim{0%{opacity:1;transform:translate(0,0) scale(1);}100%{opacity:0;transform:translate(var(--gx,0px),var(--gy,30px)) scale(0);}}
+#hint{position:relative;z-index:3;margin-top:12px;font-family:'VT323',monospace;font-size:clamp(14px,1.8vw,26px);color:rgba(255,220,240,.85);letter-spacing:3px;text-shadow:0 0 16px rgba(255,100,180,.7);text-align:center;pointer-events:none;}
 </style>
 </head>
 <body>
-
 <div class="stars" id="stars"></div>
-
 <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
 <div id="phone-wrap">
   <div id="screen-content">
-    <div id="screen-line1" style="display:none">✦ FAIRY ✦</div>
+    <div id="screen-line1" style="display:none">&#10022; FAIRY &#10022;</div>
     <div id="screen-line2" style="display:none">PHONE</div>
     <div id="screen-line3" style="display:none">· ready ·</div>
-
-    <!-- app screen panel (shows over idle text) -->
     <div id="app-screen">
       <div id="app-title">SETTINGS</div>
       <div id="app-body"></div>
     </div>
-
     <canvas id="snake-canvas" width="172" height="182"></canvas>
-    <div id="snake-score">★0</div>
+    <div id="snake-score">&#9733;0</div>
     <div id="snake-over">
       <span class="over-title">GAME OVER</span>
-      <span class="over-score" id="over-score-txt">★ 0</span>
+      <span class="over-score" id="over-score-txt">&#9733; 0</span>
       <span class="over-hint">press 0 to retry</span>
     </div>
   </div>
-
   <svg id="phone-svg" viewBox="0 0 500 700" xmlns="http://www.w3.org/2000/svg">
   <defs>
-
-  <!-- body: mid-tone pink — not too light, not too dark, lines visible -->
   <linearGradient id="bodyGrad" x1="5%" y1="0%" x2="95%" y2="100%">
-  <stop offset="0%"   stop-color="#ffccee"/>
-  <stop offset="18%"  stop-color="#ff99d8"/>
-  <stop offset="38%"  stop-color="#ff66bb"/>
-  <stop offset="58%"  stop-color="#e8389a"/>
-  <stop offset="78%"  stop-color="#cc1878"/>
-  <stop offset="100%" stop-color="#a01060"/>
+  <stop offset="0%" stop-color="#ffccee"/><stop offset="18%" stop-color="#ff99d8"/>
+  <stop offset="38%" stop-color="#ff66bb"/><stop offset="58%" stop-color="#e8389a"/>
+  <stop offset="78%" stop-color="#cc1878"/><stop offset="100%" stop-color="#a01060"/>
   </linearGradient>
-
   <radialGradient id="specGrad" cx="28%" cy="18%" r="45%">
-  <stop offset="0%"   stop-color="white" stop-opacity=".22"/>
-  <stop offset="50%"  stop-color="white" stop-opacity=".06"/>
+  <stop offset="0%" stop-color="white" stop-opacity=".22"/><stop offset="50%" stop-color="white" stop-opacity=".06"/>
   <stop offset="100%" stop-color="white" stop-opacity="0"/>
   </radialGradient>
-
   <radialGradient id="rimGrad" cx="80%" cy="88%" r="40%">
-  <stop offset="0%"   stop-color="#ffd0f0" stop-opacity=".15"/>
-  <stop offset="100%" stop-color="#ffd0f0" stop-opacity="0"/>
+  <stop offset="0%" stop-color="#ffd0f0" stop-opacity=".15"/><stop offset="100%" stop-color="#ffd0f0" stop-opacity="0"/>
   </radialGradient>
-
   <linearGradient id="screenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-  <stop offset="0%"   stop-color="#180620"/>
-  <stop offset="100%" stop-color="#060010"/>
+  <stop offset="0%" stop-color="#180620"/><stop offset="100%" stop-color="#060010"/>
   </linearGradient>
-
   <linearGradient id="wingFillTop" x1="0%" y1="0%" x2="100%" y2="100%">
-  <stop offset="0%"   stop-color="#ffaadd" stop-opacity=".95"/>
-  <stop offset="25%"  stop-color="#ff80cc" stop-opacity=".9"/>
-  <stop offset="50%"  stop-color="#d8a8ff" stop-opacity=".88"/>
-  <stop offset="75%"  stop-color="#a8d8ff" stop-opacity=".9"/>
+  <stop offset="0%" stop-color="#ffaadd" stop-opacity=".95"/><stop offset="25%" stop-color="#ff80cc" stop-opacity=".9"/>
+  <stop offset="50%" stop-color="#d8a8ff" stop-opacity=".88"/><stop offset="75%" stop-color="#a8d8ff" stop-opacity=".9"/>
   <stop offset="100%" stop-color="#80c0ff" stop-opacity=".92"/>
   </linearGradient>
-
   <linearGradient id="wingStroke" x1="0%" y1="0%" x2="100%" y2="100%">
-  <stop offset="0%"   stop-color="#ff90cc"/>
-  <stop offset="100%" stop-color="#70c0ff"/>
+  <stop offset="0%" stop-color="#ff90cc"/><stop offset="100%" stop-color="#70c0ff"/>
   </linearGradient>
-
   <linearGradient id="wingBtnGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-  <stop offset="0%"   stop-color="#ffe4f8"/>
-  <stop offset="50%"  stop-color="#ff70c0"/>
-  <stop offset="100%" stop-color="#cc1880"/>
+  <stop offset="0%" stop-color="#ffe4f8"/><stop offset="50%" stop-color="#ff70c0"/><stop offset="100%" stop-color="#cc1880"/>
   </linearGradient>
   <linearGradient id="wingBtnBlue" x1="0%" y1="0%" x2="100%" y2="100%">
-  <stop offset="0%"   stop-color="#e4f8ff"/>
-  <stop offset="50%"  stop-color="#80d8ff"/>
-  <stop offset="100%" stop-color="#40a8e0"/>
+  <stop offset="0%" stop-color="#e4f8ff"/><stop offset="50%" stop-color="#80d8ff"/><stop offset="100%" stop-color="#40a8e0"/>
   </linearGradient>
-
   <linearGradient id="bubbleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-  <stop offset="0%"   stop-color="rgba(220,244,255,.88)"/>
-  <stop offset="40%"  stop-color="rgba(150,210,255,.72)"/>
+  <stop offset="0%" stop-color="rgba(220,244,255,.88)"/><stop offset="40%" stop-color="rgba(150,210,255,.72)"/>
   <stop offset="100%" stop-color="rgba(100,185,255,.80)"/>
   </linearGradient>
-
   <pattern id="glitter" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
   <rect width="10" height="10" fill="none"/>
-  <circle cx="1"   cy="1"   r="1.2" fill="white"   opacity=".85"/>
-  <circle cx="5"   cy="1.5" r=".7"  fill="#ffccee" opacity=".8"/>
-  <circle cx="9"   cy=".8"  r="1"   fill="white"   opacity=".8"/>
-  <circle cx="2.5" cy="5"   r=".6"  fill="#ffbbdd" opacity=".78"/>
-  <circle cx="7"   cy="4"   r=".9"  fill="white"   opacity=".82"/>
-  <circle cx=".5"  cy="8.5" r=".7"  fill="#f8c0ff" opacity=".75"/>
-  <circle cx="5"   cy="8"   r="1"   fill="white"   opacity=".82"/>
-  <circle cx="9"   cy="7.5" r=".6"  fill="#ffb8ee" opacity=".8"/>
-  <circle cx="3"   cy="9.5" r=".8"  fill="white"   opacity=".78"/>
-  <circle cx="8"   cy="9.5" r=".5"  fill="#ffccff" opacity=".8"/>
-  <circle cx="4"   cy="3.5" r=".4"  fill="white"   opacity=".75"/>
-  <circle cx="6.5" cy="6.5" r=".4"  fill="#ffeeff" opacity=".8"/>
+  <circle cx="1" cy="1" r="1.2" fill="white" opacity=".85"/><circle cx="5" cy="1.5" r=".7" fill="#ffccee" opacity=".8"/>
+  <circle cx="9" cy=".8" r="1" fill="white" opacity=".8"/><circle cx="2.5" cy="5" r=".6" fill="#ffbbdd" opacity=".78"/>
+  <circle cx="7" cy="4" r=".9" fill="white" opacity=".82"/><circle cx=".5" cy="8.5" r=".7" fill="#f8c0ff" opacity=".75"/>
+  <circle cx="5" cy="8" r="1" fill="white" opacity=".82"/><circle cx="9" cy="7.5" r=".6" fill="#ffb8ee" opacity=".8"/>
+  <circle cx="3" cy="9.5" r=".8" fill="white" opacity=".78"/><circle cx="8" cy="9.5" r=".5" fill="#ffccff" opacity=".8"/>
+  <circle cx="4" cy="3.5" r=".4" fill="white" opacity=".75"/><circle cx="6.5" cy="6.5" r=".4" fill="#ffeeff" opacity=".8"/>
   </pattern>
-
   <pattern id="wingGlitter" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
   <rect width="12" height="12" fill="none"/>
-  <circle cx="1.5" cy="1.5" r="1.1" fill="white" opacity=".92"/>
-  <circle cx="6"   cy="3"   r=".65" fill="#e8d8ff" opacity=".88"/>
-  <circle cx="10"  cy="1"   r=".8"  fill="white"   opacity=".85"/>
-  <circle cx="3"   cy="8"   r=".55" fill="#ffd8f8"  opacity=".88"/>
-  <circle cx="9"   cy="9"   r=".9"  fill="white"   opacity=".85"/>
-  <circle cx=".8"  cy="11"  r=".55" fill="#d8f0ff"  opacity=".88"/>
-  <circle cx="11"  cy="6"   r=".65" fill="white"   opacity=".8"/>
-  <circle cx="5"   cy="11"  r=".5"  fill="#ffc8f8"  opacity=".92"/>
-  <circle cx="7.5" cy="6"   r=".45" fill="white"   opacity=".85"/>
-  <circle cx="3.5" cy="4.5" r=".35" fill="#c8e8ff"  opacity=".88"/>
+  <circle cx="1.5" cy="1.5" r="1.1" fill="white" opacity=".92"/><circle cx="6" cy="3" r=".65" fill="#e8d8ff" opacity=".88"/>
+  <circle cx="10" cy="1" r=".8" fill="white" opacity=".85"/><circle cx="3" cy="8" r=".55" fill="#ffd8f8" opacity=".88"/>
+  <circle cx="9" cy="9" r=".9" fill="white" opacity=".85"/><circle cx=".8" cy="11" r=".55" fill="#d8f0ff" opacity=".88"/>
+  <circle cx="11" cy="6" r=".65" fill="white" opacity=".8"/><circle cx="5" cy="11" r=".5" fill="#ffc8f8" opacity=".92"/>
+  <circle cx="7.5" cy="6" r=".45" fill="white" opacity=".85"/><circle cx="3.5" cy="4.5" r=".35" fill="#c8e8ff" opacity=".88"/>
   </pattern>
-
   <filter id="shimmer" x="0%" y="0%" width="100%" height="100%">
   <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="1" seed="2" result="noise">
   <animate attributeName="seed" values="1;8;3;6;2" dur="2.5s" repeatCount="indefinite"/>
@@ -372,48 +141,37 @@ pointer-events:none;
   <feComposite in="SourceGraphic" in2="grey" operator="arithmetic" k1="0" k2="1" k3=".55" k4="0" result="bright"/>
   <feBlend in="SourceGraphic" in2="bright" mode="screen"/>
   </filter>
-
   <filter id="softLine" x="-8%" y="-8%" width="116%" height="116%">
   <feGaussianBlur in="SourceGraphic" stdDeviation="4.5" result="blur"/>
-  <feMerge>
-  <feMergeNode in="blur"/>
-  <feMergeNode in="SourceGraphic"/>
-  </feMerge>
+  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
   </filter>
-
   <filter id="wingGlow" x="-25%" y="-25%" width="150%" height="150%">
   <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
-  <feColorMatrix in="blur" type="matrix"
-    values="1.1 0 .3 0 .05  0 .3 .9 0 .05  .4 0 1.1 0 .08  0 0 0 .8 0" result="c"/>
+  <feColorMatrix in="blur" type="matrix" values="1.1 0 .3 0 .05  0 .3 .9 0 .05  .4 0 1.1 0 .08  0 0 0 .8 0" result="c"/>
   <feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge>
   </filter>
-
   <filter id="btnGlow" x="-30%" y="-30%" width="160%" height="160%">
   <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur"/>
   <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
   </filter>
   <filter id="btnGlowHot" x="-40%" y="-40%" width="180%" height="180%">
   <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
-  <feColorMatrix in="blur" type="matrix"
-    values="1.4 0 .4 0 0  0 .2 .8 0 0  .4 0 1.2 0 0  0 0 0 1.8 0" result="c"/>
+  <feColorMatrix in="blur" type="matrix" values="1.4 0 .4 0 0  0 .2 .8 0 0  .4 0 1.2 0 0  0 0 0 1.8 0" result="c"/>
   <feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge>
   </filter>
   <filter id="btnGlowBlue" x="-40%" y="-40%" width="180%" height="180%">
   <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
-  <feColorMatrix in="blur" type="matrix"
-    values=".2 0 .4 0 0  0 .5 1 0 0  .5 0 1.5 0 0  0 0 0 1.8 0" result="c"/>
+  <feColorMatrix in="blur" type="matrix" values=".2 0 .4 0 0  0 .5 1 0 0  .5 0 1.5 0 0  0 0 0 1.8 0" result="c"/>
   <feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge>
   </filter>
   <filter id="bubbleGlow" x="-30%" y="-30%" width="160%" height="160%">
   <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
-  <feColorMatrix in="blur" type="matrix"
-    values=".3 0 .5 0 0  0 .5 1 0 0  .5 0 1.2 0 0  0 0 0 1 0" result="c"/>
+  <feColorMatrix in="blur" type="matrix" values=".3 0 .5 0 0  0 .5 1 0 0  .5 0 1.2 0 0  0 0 0 1 0" result="c"/>
   <feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge>
   </filter>
   <filter id="bubbleGlowHot" x="-40%" y="-40%" width="180%" height="180%">
   <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
-  <feColorMatrix in="blur" type="matrix"
-    values=".3 0 .5 0 0  0 .6 1.2 0 0  .6 0 1.5 0 0  0 0 0 1.5 0" result="c"/>
+  <feColorMatrix in="blur" type="matrix" values=".3 0 .5 0 0  0 .6 1.2 0 0  .6 0 1.5 0 0  0 0 0 1.5 0" result="c"/>
   <feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge>
   </filter>
   <filter id="chromeFlt" x="-20%" y="-20%" width="140%" height="140%">
@@ -423,30 +181,19 @@ pointer-events:none;
   <feComposite in="col" in2="off" operator="in" result="shadow"/>
   <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
   </filter>
-
-  <clipPath id="leftWingClip">
-  <rect x="-200" y="0" width="395" height="700"/>
-  </clipPath>
-  <clipPath id="rightWingClip">
-  <rect x="305" y="0" width="400" height="700"/>
-  </clipPath>
-
-  <!-- clip path matching the phone body outline — glitter stays inside -->
+  <clipPath id="leftWingClip"><rect x="-200" y="0" width="395" height="700"/></clipPath>
+  <clipPath id="rightWingClip"><rect x="305" y="0" width="400" height="700"/></clipPath>
   <clipPath id="bodyClip">
   <path d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z"/>
   </clipPath>
-
   </defs>
 
   <!-- LEFT WING -->
   <g id="lwg" clip-path="url(#leftWingClip)">
-  <path stroke-linecap="round" stroke-linejoin="round"
-  d="M180.02,315.06c-1.46-11.86-4.26-25.53-9.4-40.17-4.46-12.69-8.92-25.39-19.66-39.32-5.34-6.92-15.25-18.08-30.77-27.35-3.22-1.92-19.31-11-42.74-13.68-10.77-1.23-19.88-.74-26.36,0-9.12,1.99-18.23,3.99-27.35,5.98-10.25,4.54-13.07,9.26-13.68,12.82-1.19,6.95,5.61,12,30.63,37.61,14.73,15.07,17.57,19.22,20.51,25.64,3.03,6.59,5.65,16.19,6.84,20.51,2.18,7.98,2.33,10.49,5.13,13.68,2.67,3.03,6.62,4.87,14.53,8.55,2.5,1.16,3.5,1.54,9,3.86,10.09,4.25,12.19,5.29,14.93,6.4,10.4,4.22,20.65,5.7,24.79,5.98,20.39,1.41,38.1-15.03,43.59-20.51-6.03,18.86-6.57,33.69-5.98,43.59,1.05,17.59,2.16,26.18,4.27,33.33,1.54,5.2,3.35,9.27,2.56,15.38-.32,2.48-1.04,8.04-5.13,11.97-5.35,5.14-9.99,1.23-19.66,5.98-5.69,2.8-9.55,5.8-14.53,10.26-5.91,5.3-10.01,10.58-12.68,14.53-7.2-14.92-13.55-18.44-18.08-18.8-7.14-.58-12.82.85-12.82.85-7.62.58-8.95.79-11.11,0-5.78-2.12-8.48-8.2-9.4-10.26-1.17-2.62-.98-3.46-2.7-14.46-.6-3.83-.2-7.61-2.42-12.04-.68-1.36-1.4-2.41-1.91-3.11-1.97-1.41-5.01-3.96-7.49-8-1.44-2.35-6.01-9.84-3.42-16.24,1.34-3.33,3.21-2.71,8.55-8.55,1.82-1.99,5.16-5.69,7.69-11.11,1.25-2.67,2.89-7.01,3.42-12.82L180.02,315.06Z"
-  fill="url(#wingFillTop)" stroke="url(#wingStroke)" stroke-width="1.4" filter="url(#wingGlow)"/>
-  <path d="M180.02,315.06c-1.46-11.86-4.26-25.53-9.4-40.17-4.46-12.69-8.92-25.39-19.66-39.32-5.34-6.92-15.25-18.08-30.77-27.35-3.22-1.92-19.31-11-42.74-13.68-10.77-1.23-19.88-.74-26.36,0-9.12,1.99-18.23,3.99-27.35,5.98-10.25,4.54-13.07,9.26-13.68,12.82-1.19,6.95,5.61,12,30.63,37.61,14.73,15.07,17.57,19.22,20.51,25.64,3.03,6.59,5.65,16.19,6.84,20.51,2.18,7.98,2.33,10.49,5.13,13.68,2.67,3.03,6.62,4.87,14.53,8.55,2.5,1.16,3.5,1.54,9,3.86,10.09,4.25,12.19,5.29,14.93,6.4,10.4,4.22,20.65,5.7,24.79,5.98,20.39,1.41,38.1-15.03,43.59-20.51-6.03,18.86-6.57,33.69-5.98,43.59,1.05,17.59,2.16,26.18,4.27,33.33,1.54,5.2,3.35,9.27,2.56,15.38-.32,2.48-1.04,8.04-5.13,11.97-5.35,5.14-9.99,1.23-19.66,5.98-5.69,2.8-9.55,5.8-14.53,10.26-5.91,5.3-10.01,10.58-12.68,14.53-7.2-14.92-13.55-18.44-18.08-18.8-7.14-.58-12.82.85-12.82.85-7.62.58-8.95.79-11.11,0-5.78-2.12-8.48-8.2-9.4-10.26-1.17-2.62-.98-3.46-2.7-14.46-.6-3.83-.2-7.61-2.42-12.04-.68-1.36-1.4-2.41-1.91-3.11-1.97-1.41-5.01-3.96-7.49-8-1.44-2.35-6.01-9.84-3.42-16.24,1.34-3.33,3.21-2.71,8.55-8.55,1.82-1.99,5.16-5.69,7.69-11.11,1.25-2.67,2.89-7.01,3.42-12.82L180.02,315.06Z"
-  fill="url(#wingGlitter)" opacity=".65" pointer-events="none"/>
+  <path stroke-linecap="round" stroke-linejoin="round" d="M180.02,315.06c-1.46-11.86-4.26-25.53-9.4-40.17-4.46-12.69-8.92-25.39-19.66-39.32-5.34-6.92-15.25-18.08-30.77-27.35-3.22-1.92-19.31-11-42.74-13.68-10.77-1.23-19.88-.74-26.36,0-9.12,1.99-18.23,3.99-27.35,5.98-10.25,4.54-13.07,9.26-13.68,12.82-1.19,6.95,5.61,12,30.63,37.61,14.73,15.07,17.57,19.22,20.51,25.64,3.03,6.59,5.65,16.19,6.84,20.51,2.18,7.98,2.33,10.49,5.13,13.68,2.67,3.03,6.62,4.87,14.53,8.55,2.5,1.16,3.5,1.54,9,3.86,10.09,4.25,12.19,5.29,14.93,6.4,10.4,4.22,20.65,5.7,24.79,5.98,20.39,1.41,38.1-15.03,43.59-20.51-6.03,18.86-6.57,33.69-5.98,43.59,1.05,17.59,2.16,26.18,4.27,33.33,1.54,5.2,3.35,9.27,2.56,15.38-.32,2.48-1.04,8.04-5.13,11.97-5.35,5.14-9.99,1.23-19.66,5.98-5.69,2.8-9.55,5.8-14.53,10.26-5.91,5.3-10.01,10.58-12.68,14.53-7.2-14.92-13.55-18.44-18.08-18.8-7.14-.58-12.82.85-12.82.85-7.62.58-8.95.79-11.11,0-5.78-2.12-8.48-8.2-9.4-10.26-1.17-2.62-.98-3.46-2.7-14.46-.6-3.83-.2-7.61-2.42-12.04-.68-1.36-1.4-2.41-1.91-3.11-1.97-1.41-5.01-3.96-7.49-8-1.44-2.35-6.01-9.84-3.42-16.24,1.34-3.33,3.21-2.71,8.55-8.55,1.82-1.99,5.16-5.69,7.69-11.11,1.25-2.67,2.89-7.01,3.42-12.82L180.02,315.06Z" fill="url(#wingFillTop)" stroke="url(#wingStroke)" stroke-width="1.4" filter="url(#wingGlow)"/>
+  <path d="M180.02,315.06c-1.46-11.86-4.26-25.53-9.4-40.17-4.46-12.69-8.92-25.39-19.66-39.32-5.34-6.92-15.25-18.08-30.77-27.35-3.22-1.92-19.31-11-42.74-13.68-10.77-1.23-19.88-.74-26.36,0-9.12,1.99-18.23,3.99-27.35,5.98-10.25,4.54-13.07,9.26-13.68,12.82-1.19,6.95,5.61,12,30.63,37.61,14.73,15.07,17.57,19.22,20.51,25.64,3.03,6.59,5.65,16.19,6.84,20.51,2.18,7.98,2.33,10.49,5.13,13.68,2.67,3.03,6.62,4.87,14.53,8.55,2.5,1.16,3.5,1.54,9,3.86,10.09,4.25,12.19,5.29,14.93,6.4,10.4,4.22,20.65,5.7,24.79,5.98,20.39,1.41,38.1-15.03,43.59-20.51-6.03,18.86-6.57,33.69-5.98,43.59,1.05,17.59,2.16,26.18,4.27,33.33,1.54,5.2,3.35,9.27,2.56,15.38-.32,2.48-1.04,8.04-5.13,11.97-5.35,5.14-9.99,1.23-19.66,5.98-5.69,2.8-9.55,5.8-14.53,10.26-5.91,5.3-10.01,10.58-12.68,14.53-7.2-14.92-13.55-18.44-18.08-18.8-7.14-.58-12.82.85-12.82.85-7.62.58-8.95.79-11.11,0-5.78-2.12-8.48-8.2-9.4-10.26-1.17-2.62-.98-3.46-2.7-14.46-.6-3.83-.2-7.61-2.42-12.04-.68-1.36-1.4-2.41-1.91-3.11-1.97-1.41-5.01-3.96-7.49-8-1.44-2.35-6.01-9.84-3.42-16.24,1.34-3.33,3.21-2.71,8.55-8.55,1.82-1.99,5.16-5.69,7.69-11.11,1.25-2.67,2.89-7.01,3.42-12.82L180.02,315.06Z" fill="url(#wingGlitter)" opacity=".65" pointer-events="none"/>
   <path d="M172,290 C148,275 115,262 80,258" fill="none" stroke="rgba(255,180,240,.45)" stroke-width="1" stroke-linecap="round"/>
-  <path d="M168,320 C140,318 108,320 72,315" fill="none" stroke="rgba(200,160,255,.4)"  stroke-width="1" stroke-linecap="round"/>
+  <path d="M168,320 C140,318 108,320 72,315" fill="none" stroke="rgba(200,160,255,.4)" stroke-width="1" stroke-linecap="round"/>
   <path d="M160,355 C136,360 108,362 78,358" fill="none" stroke="rgba(150,200,255,.38)" stroke-width="1" stroke-linecap="round"/>
   <path d="M148,388 C128,396 104,400 80,396" fill="none" stroke="rgba(180,200,255,.35)" stroke-width="1" stroke-linecap="round"/>
   <ellipse cx="118" cy="295" rx="28" ry="18" fill="rgba(255,220,255,.12)" pointer-events="none"/>
@@ -455,13 +202,10 @@ pointer-events:none;
 
   <!-- RIGHT WING -->
   <g id="rwg" clip-path="url(#rightWingClip)">
-  <path stroke-linecap="round" stroke-linejoin="round"
-  d="M319.91,314.92c1.37-12.09,3.98-26.02,8.78-40.94,4.16-12.93,8.33-25.88,18.36-40.07,4.98-7.05,14.24-18.42,28.73-27.87,3.01-1.96,18.04-11.21,39.9-13.94,10.05-1.26,18.56-.75,24.61,0,8.51,2.03,17.03,4.06,25.54,6.1,9.57,4.63,12.2,9.44,12.77,13.07,1.11,7.08-5.24,12.23-28.6,38.33-13.75,15.36-16.4,19.59-19.15,26.13-2.83,6.72-5.28,16.5-6.38,20.91-2.04,8.13-2.17,10.7-4.79,13.94-2.49,3.09-6.18,4.96-13.57,8.71-2.33,1.18-3.26,1.57-8.4,3.93-9.42,4.33-11.39,5.39-13.94,6.52-9.71,4.3-19.28,5.81-23.14,6.1-19.04,1.44-35.58-15.31-40.7-20.91,5.63,19.22,6.14,34.34,5.59,44.42-.98,17.92-2.02,26.68-3.99,33.97-1.43,5.3-3.13,9.45-2.39,15.68.3,2.53.97,8.2,4.79,12.19,5,5.24,9.33,1.26,18.36,6.1,5.32,2.85,8.92,5.91,13.57,10.45,5.52,5.4,9.34,10.78,11.84,14.81,6.72-15.21,12.65-18.79,16.89-19.16,6.67-.59,11.97.87,11.97.87,7.11.59,8.36.81,10.38,0,5.4-2.16,7.92-8.36,8.78-10.45,1.09-2.67.92-3.53,2.53-14.74.56-3.9.19-7.76,2.26-12.27.64-1.39,1.3-2.46,1.78-3.17,1.84-1.44,4.68-4.04,6.99-8.16,1.34-2.4,5.61-10.03,3.19-16.55-1.26-3.39-3-2.77-7.98-8.71-1.7-2.03-4.82-5.8-7.18-11.32-1.17-2.72-2.7-7.14-3.19-13.07L319.91,314.92Z"
-  fill="url(#wingFillTop)" stroke="url(#wingStroke)" stroke-width="1.4" filter="url(#wingGlow)"/>
-  <path d="M319.91,314.92c1.37-12.09,3.98-26.02,8.78-40.94,4.16-12.93,8.33-25.88,18.36-40.07,4.98-7.05,14.24-18.42,28.73-27.87,3.01-1.96,18.04-11.21,39.9-13.94,10.05-1.26,18.56-.75,24.61,0,8.51,2.03,17.03,4.06,25.54,6.1,9.57,4.63,12.2,9.44,12.77,13.07,1.11,7.08-5.24,12.23-28.6,38.33-13.75,15.36-16.4,19.59-19.15,26.13-2.83,6.72-5.28,16.5-6.38,20.91-2.04,8.13-2.17,10.7-4.79,13.94-2.49,3.09-6.18,4.96-13.57,8.71-2.33,1.18-3.26,1.57-8.4,3.93-9.42,4.33-11.39,5.39-13.94,6.52-9.71,4.3-19.28,5.81-23.14,6.1-19.04,1.44-35.58-15.31-40.7-20.91,5.63,19.22,6.14,34.34,5.59,44.42-.98,17.92-2.02,26.68-3.99,33.97-1.43,5.3-3.13,9.45-2.39,15.68.3,2.53.97,8.2,4.79,12.19,5,5.24,9.33,1.26,18.36,6.1,5.32,2.85,8.92,5.91,13.57,10.45,5.52,5.4,9.34,10.78,11.84,14.81,6.72-15.21,12.65-18.79,16.89-19.16,6.67-.59,11.97.87,11.97.87,7.11.59,8.36.81,10.38,0,5.4-2.16,7.92-8.36,8.78-10.45,1.09-2.67.92-3.53,2.53-14.74.56-3.9.19-7.76,2.26-12.27.64-1.39,1.3-2.46,1.78-3.17,1.84-1.44,4.68-4.04,6.99-8.16,1.34-2.4,5.61-10.03,3.19-16.55-1.26-3.39-3-2.77-7.98-8.71-1.7-2.03-4.82-5.8-7.18-11.32-1.17-2.72-2.7-7.14-3.19-13.07L319.91,314.92Z"
-  fill="url(#wingGlitter)" opacity=".65" pointer-events="none"/>
+  <path stroke-linecap="round" stroke-linejoin="round" d="M319.91,314.92c1.37-12.09,3.98-26.02,8.78-40.94,4.16-12.93,8.33-25.88,18.36-40.07,4.98-7.05,14.24-18.42,28.73-27.87,3.01-1.96,18.04-11.21,39.9-13.94,10.05-1.26,18.56-.75,24.61,0,8.51,2.03,17.03,4.06,25.54,6.1,9.57,4.63,12.2,9.44,12.77,13.07,1.11,7.08-5.24,12.23-28.6,38.33-13.75,15.36-16.4,19.59-19.15,26.13-2.83,6.72-5.28,16.5-6.38,20.91-2.04,8.13-2.17,10.7-4.79,13.94-2.49,3.09-6.18,4.96-13.57,8.71-2.33,1.18-3.26,1.57-8.4,3.93-9.42,4.33-11.39,5.39-13.94,6.52-9.71,4.3-19.28,5.81-23.14,6.1-19.04,1.44-35.58-15.31-40.7-20.91,5.63,19.22,6.14,34.34,5.59,44.42-.98,17.92-2.02,26.68-3.99,33.97-1.43,5.3-3.13,9.45-2.39,15.68.3,2.53.97,8.2,4.79,12.19,5,5.24,9.33,1.26,18.36,6.1,5.32,2.85,8.92,5.91,13.57,10.45,5.52,5.4,9.34,10.78,11.84,14.81,6.72-15.21,12.65-18.79,16.89-19.16,6.67-.59,11.97.87,11.97.87,7.11.59,8.36.81,10.38,0,5.4-2.16,7.92-8.36,8.78-10.45,1.09-2.67.92-3.53,2.53-14.74.56-3.9.19-7.76,2.26-12.27.64-1.39,1.3-2.46,1.78-3.17,1.84-1.44,4.68-4.04,6.99-8.16,1.34-2.4,5.61-10.03,3.19-16.55-1.26-3.39-3-2.77-7.98-8.71-1.7-2.03-4.82-5.8-7.18-11.32-1.17-2.72-2.7-7.14-3.19-13.07L319.91,314.92Z" fill="url(#wingFillTop)" stroke="url(#wingStroke)" stroke-width="1.4" filter="url(#wingGlow)"/>
+  <path d="M319.91,314.92c1.37-12.09,3.98-26.02,8.78-40.94,4.16-12.93,8.33-25.88,18.36-40.07,4.98-7.05,14.24-18.42,28.73-27.87,3.01-1.96,18.04-11.21,39.9-13.94,10.05-1.26,18.56-.75,24.61,0,8.51,2.03,17.03,4.06,25.54,6.1,9.57,4.63,12.2,9.44,12.77,13.07,1.11,7.08-5.24,12.23-28.6,38.33-13.75,15.36-16.4,19.59-19.15,26.13-2.83,6.72-5.28,16.5-6.38,20.91-2.04,8.13-2.17,10.7-4.79,13.94-2.49,3.09-6.18,4.96-13.57,8.71-2.33,1.18-3.26,1.57-8.4,3.93-9.42,4.33-11.39,5.39-13.94,6.52-9.71,4.3-19.28,5.81-23.14,6.1-19.04,1.44-35.58-15.31-40.7-20.91,5.63,19.22,6.14,34.34,5.59,44.42-.98,17.92-2.02,26.68-3.99,33.97-1.43,5.3-3.13,9.45-2.39,15.68.3,2.53.97,8.2,4.79,12.19,5,5.24,9.33,1.26,18.36,6.1,5.32,2.85,8.92,5.91,13.57,10.45,5.52,5.4,9.34,10.78,11.84,14.81,6.72-15.21,12.65-18.79,16.89-19.16,6.67-.59,11.97.87,11.97.87,7.11.59,8.36.81,10.38,0,5.4-2.16,7.92-8.36,8.78-10.45,1.09-2.67.92-3.53,2.53-14.74.56-3.9.19-7.76,2.26-12.27.64-1.39,1.3-2.46,1.78-3.17,1.84-1.44,4.68-4.04,6.99-8.16,1.34-2.4,5.61-10.03,3.19-16.55-1.26-3.39-3-2.77-7.98-8.71-1.7-2.03-4.82-5.8-7.18-11.32-1.17-2.72-2.7-7.14-3.19-13.07L319.91,314.92Z" fill="url(#wingGlitter)" opacity=".65" pointer-events="none"/>
   <path d="M328,290 C352,275 385,262 420,258" fill="none" stroke="rgba(255,180,240,.45)" stroke-width="1" stroke-linecap="round"/>
-  <path d="M332,320 C360,318 392,320 428,315" fill="none" stroke="rgba(200,160,255,.4)"  stroke-width="1" stroke-linecap="round"/>
+  <path d="M332,320 C360,318 392,320 428,315" fill="none" stroke="rgba(200,160,255,.4)" stroke-width="1" stroke-linecap="round"/>
   <path d="M340,355 C364,360 392,362 422,358" fill="none" stroke="rgba(150,200,255,.38)" stroke-width="1" stroke-linecap="round"/>
   <path d="M352,388 C372,396 396,400 420,396" fill="none" stroke="rgba(180,200,255,.35)" stroke-width="1" stroke-linecap="round"/>
   <ellipse cx="382" cy="295" rx="28" ry="18" fill="rgba(255,220,255,.12)" pointer-events="none"/>
@@ -469,39 +213,28 @@ pointer-events:none;
   </g>
 
   <!-- PHONE BODY -->
-  <path id="_x3C_background_x3E_" stroke-linecap="round" stroke-linejoin="round"
-  d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z"/>
+  <path id="_x3C_background_x3E_" stroke-linecap="round" stroke-linejoin="round" d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z"/>
+  <path filter="url(#shimmer)" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#bodyClip)" d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z" fill="url(#glitter)" opacity=".6" pointer-events="none"/>
+  <path pointer-events="none" stroke-linecap="round" stroke-linejoin="round" d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z" fill="url(#specGrad)"/>
+  <path class="body-border" stroke-linecap="round" stroke-linejoin="round" d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z"/>
 
-  <path filter="url(#shimmer)" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#bodyClip)"
-  d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z"
-  fill="url(#glitter)" opacity=".6" pointer-events="none"/>
-
-  <path pointer-events="none" stroke-linecap="round" stroke-linejoin="round"
-  d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z"
-  fill="url(#specGrad)"/>
-
-  <path class="body-border" stroke-linecap="round" stroke-linejoin="round"
-  d="M189.31,178.58c3.08-3.44,8.55-4.07,19.49-5.32,3.18-.36,2.94-.19,15.95-.89,11.27-.6,11.83-.75,16.84-.89,3.81-.11,9.21-.25,15.95,0,8.11.3,7.66.78,20.38,1.77,8.22.64,13.47.83,21.27,2.66,5.31,1.25,7.79,2.31,9.75,4.43,3.61,3.91,3.53,9.31,3.54,12.41.06,10.4,2.88,20.63,3.54,31.01,1.37,21.31,2.06,17.8,2.66,31.9.39,9.25.26,17.39,0,33.67-.12,7.27-.35,17.78-.89,31.9-.57,14.95-1.18,25.84-1.77,36.33-3.62,64.68-4.14,75.75-4.43,82.41-.4,9.12-.97,22.89-1.48,39.86h0s2.71,9.04-.3,14.19c-.98,1.67-2.7,3.19-9.75,5.32-9.92,2.99-18.07,3.47-19.49,3.54-16.8.88-27.47.89-27.47.89-14.43,0-22.56-.33-30.13-.89,0,0-6.17-.45-22.15-4.43-4.61-1.15-8.36-2.23-9.75-5.32-1.6-3.57,0-9.75,0-9.75h0s-.56-10.17-.89-16.84c-.46-9.62-.34-10.31-.89-24.81-.35-9.27-.4-9.02-.89-21.27-.71-17.8-.56-17.32-.89-23.92-.19-3.86-.4-7.28-2.66-33.67-2.03-23.7-2.27-25.72-2.66-32.79-.68-12.27-.84-22.26-.89-25.7,0,0-.07-5.07,0-26.58h0s-.6-14.63,0-28.35c.21-4.72,1.02-12.3,2.66-27.47,2.33-21.6,2.34-17.48,2.66-23.04.78-13.54-.5-16.86,2.66-20.38Z"/>
-
-  <text x="196" y="435" font-size="9"  font-family="sans-serif" fill="rgba(255,230,245,.55)" pointer-events="none">✦</text>
-  <text x="199" y="462" font-size="7"  font-family="sans-serif" fill="rgba(210,235,255,.5)"  pointer-events="none">✧</text>
-  <text x="195" y="492" font-size="10" font-family="sans-serif" fill="rgba(255,225,245,.55)" pointer-events="none">★</text>
-  <text x="198" y="520" font-size="7"  font-family="sans-serif" fill="rgba(210,235,255,.5)"  pointer-events="none">✦</text>
-  <text x="196" y="548" font-size="9"  font-family="sans-serif" fill="rgba(255,230,245,.45)" pointer-events="none">✧</text>
-  <text x="288" y="435" font-size="9"  font-family="sans-serif" fill="rgba(255,230,245,.55)" pointer-events="none">✦</text>
-  <text x="290" y="462" font-size="7"  font-family="sans-serif" fill="rgba(210,235,255,.5)"  pointer-events="none">✧</text>
-  <text x="287" y="492" font-size="10" font-family="sans-serif" fill="rgba(255,225,245,.55)" pointer-events="none">★</text>
-  <text x="290" y="520" font-size="7"  font-family="sans-serif" fill="rgba(210,235,255,.5)"  pointer-events="none">✦</text>
-  <text x="288" y="548" font-size="9"  font-family="sans-serif" fill="rgba(255,230,245,.45)" pointer-events="none">✧</text>
+  <text x="196" y="435" font-size="9" font-family="sans-serif" fill="rgba(255,230,245,.55)" pointer-events="none">&#10022;</text>
+  <text x="199" y="462" font-size="7" font-family="sans-serif" fill="rgba(210,235,255,.5)" pointer-events="none">&#10023;</text>
+  <text x="195" y="492" font-size="10" font-family="sans-serif" fill="rgba(255,225,245,.55)" pointer-events="none">&#9733;</text>
+  <text x="198" y="520" font-size="7" font-family="sans-serif" fill="rgba(210,235,255,.5)" pointer-events="none">&#10022;</text>
+  <text x="196" y="548" font-size="9" font-family="sans-serif" fill="rgba(255,230,245,.45)" pointer-events="none">&#10023;</text>
+  <text x="288" y="435" font-size="9" font-family="sans-serif" fill="rgba(255,230,245,.55)" pointer-events="none">&#10022;</text>
+  <text x="290" y="462" font-size="7" font-family="sans-serif" fill="rgba(210,235,255,.5)" pointer-events="none">&#10023;</text>
+  <text x="287" y="492" font-size="10" font-family="sans-serif" fill="rgba(255,225,245,.55)" pointer-events="none">&#9733;</text>
+  <text x="290" y="520" font-size="7" font-family="sans-serif" fill="rgba(210,235,255,.5)" pointer-events="none">&#10022;</text>
+  <text x="288" y="548" font-size="9" font-family="sans-serif" fill="rgba(255,230,245,.45)" pointer-events="none">&#10023;</text>
 
   <rect id="phone_screen" x="207.02" y="203.09" width="85.95" height="91.2"/>
   <rect x="209" y="205" width="25" height="6" rx="2" fill="rgba(200,220,255,.14)" pointer-events="none"/>
 
-  <path class="inner-lines" stroke-linecap="round" stroke-linejoin="round"
-  d="M207.67,173.43c-1.58,1.91-2.94,3.91-4.55,7.91-1.07,2.66-1.32,4.29-2.66,11.52-2.3,12.43-2.19,10.93-2.66,14.18-.97,6.74-.67,7.74-1.77,14.18-.75,4.41-1.05,4.85-1.77,8.86-.97,5.38-1.2,8.84-1.77,15.95-1.26,15.6-1.28,12.88-1.77,20.38-.61,9.24-.76,16.16-.89,22.15-.11,5.22-.34,15.96,0,27.47.4,13.65,1.19,14.61,3.54,42.53,1.96,23.19,1.72,26.18,3.54,37.22,1.79,10.83,3.84,18.98,5.32,24.81,3.18,12.52,5.2,20.32,9.75,30.13,3.77,8.12,6.44,13.75,12.41,19.49,7.9,7.61,16.09,10.15,17.72,10.63,4.07,1.21,10.82,3.2,18.61.89,6.38-1.9,10.18-5.72,15.06-10.63,1.73-1.74,6.82-7.07,11.52-15.95,1.86-3.51,3.92-9.77,7.97-22.15,0,0,2.24-6.84,7.09-22.15,1.14-6.35,2.4-14.12,3.54-23.04.67-5.21,1.87-14.68,2.66-26.58.72-10.91.31-12.09.89-33.67.6-22.22,1-19.81.89-28.35-.13-9.53-.61-10.72-1.77-34.56-.67-13.73-.49-12.87-.89-18.61-.63-9.12-1.32-19.18-3.54-31.9-2.06-11.79-4.75-21.96-6.2-27.47,0,0-.45,1-3.86-11.78-11.96-1.36-24.94-2.36-38.83-2.72-17.22-.46-33.15.12-47.57,1.28Z"/>
+  <path class="inner-lines" stroke-linecap="round" stroke-linejoin="round" d="M207.67,173.43c-1.58,1.91-2.94,3.91-4.55,7.91-1.07,2.66-1.32,4.29-2.66,11.52-2.3,12.43-2.19,10.93-2.66,14.18-.97,6.74-.67,7.74-1.77,14.18-.75,4.41-1.05,4.85-1.77,8.86-.97,5.38-1.2,8.84-1.77,15.95-1.26,15.6-1.28,12.88-1.77,20.38-.61,9.24-.76,16.16-.89,22.15-.11,5.22-.34,15.96,0,27.47.4,13.65,1.19,14.61,3.54,42.53,1.96,23.19,1.72,26.18,3.54,37.22,1.79,10.83,3.84,18.98,5.32,24.81,3.18,12.52,5.2,20.32,9.75,30.13,3.77,8.12,6.44,13.75,12.41,19.49,7.9,7.61,16.09,10.15,17.72,10.63,4.07,1.21,10.82,3.2,18.61.89,6.38-1.9,10.18-5.72,15.06-10.63,1.73-1.74,6.82-7.07,11.52-15.95,1.86-3.51,3.92-9.77,7.97-22.15,0,0,2.24-6.84,7.09-22.15,1.14-6.35,2.4-14.12,3.54-23.04.67-5.21,1.87-14.68,2.66-26.58.72-10.91.31-12.09.89-33.67.6-22.22,1-19.81.89-28.35-.13-9.53-.61-10.72-1.77-34.56-.67-13.73-.49-12.87-.89-18.61-.63-9.12-1.32-19.18-3.54-31.9-2.06-11.79-4.75-21.96-6.2-27.47,0,0-.45,1-3.86-11.78-11.96-1.36-24.94-2.36-38.83-2.72-17.22-.46-33.15.12-47.57,1.28Z"/>
 
-  <path id="phone_decoration" stroke-linecap="round" stroke-linejoin="round"
-  d="M191.03,337.56c7.25,8.16,13.45,14.61,17.97,19.18,12.32,12.45,16.07,14.85,17.97,15.98,3.5,2.08,10.64,6.22,20.22,6.39,7.26.13,12.58-2.09,19.1-4.8,7.81-3.25,13.5-7.22,16.85-9.59,5.96-4.21,10.25-8.18,13.48-11.19,5.04-4.69,9.18-9.15,12.36-12.79"/>
+  <path id="phone_decoration" stroke-linecap="round" stroke-linejoin="round" d="M191.03,337.56c7.25,8.16,13.45,14.61,17.97,19.18,12.32,12.45,16.07,14.85,17.97,15.98,3.5,2.08,10.64,6.22,20.22,6.39,7.26.13,12.58-2.09,19.1-4.8,7.81-3.25,13.5-7.22,16.85-9.59,5.96-4.21,10.25-8.18,13.48-11.19,5.04-4.69,9.18-9.15,12.36-12.79"/>
 
   <path class="dpad-tab" stroke-linecap="round" stroke-linejoin="round" d="M237.7,350.99c-8.89-2.33-17.86-4.18-26.89-5.53,1.47,6.53,6.74,13.51,12.3,14.99,5.56,1.48,10.91-4.29,14.59-9.45Z"/>
   <path class="dpad-tab" stroke-linecap="round" stroke-linejoin="round" d="M259.62,350.9c9.27-2.43,18.63-4.35,28.05-5.77-1.53,6.81-7.03,14.09-12.83,15.63-5.8,1.54-11.39-4.48-15.22-9.86Z"/>
@@ -509,21 +242,18 @@ pointer-events:none;
   <path class="dpad-inner" stroke-linecap="round" stroke-linejoin="round" d="M237.7,350.99c-8.89-2.33-17.86-4.18-26.89-5.53,1.47,6.53,6.74,13.51,12.3,14.99,5.56,1.48,10.91-4.29,14.59-9.45Z"/>
   <path class="dpad-inner" stroke-linecap="round" stroke-linejoin="round" d="M259.62,350.9c9.27-2.43,18.63-4.35,28.05-5.77-1.53,6.81-7.03,14.09-12.83,15.63-5.8,1.54-11.39-4.48-15.22-9.86Z"/>
 
-  <!-- invisible large hit targets for arrows -->
-  <rect x="242" y="322" width="16" height="16" fill="transparent" id="up_arrow_hit"    style="cursor:pointer;"/>
-  <rect x="242" y="348" width="16" height="16" fill="transparent" id="down_arrow_hit"  style="cursor:pointer;"/>
+  <rect x="242" y="322" width="16" height="16" fill="transparent" id="up_arrow_hit" style="cursor:pointer;"/>
+  <rect x="242" y="348" width="16" height="16" fill="transparent" id="down_arrow_hit" style="cursor:pointer;"/>
   <rect x="265" y="344" width="20" height="14" fill="transparent" id="right_arrow_hit" style="cursor:pointer;"/>
-  <rect x="213" y="344" width="20" height="14" fill="transparent" id="left_arrow_hit"  style="cursor:pointer;"/>
+  <rect x="213" y="344" width="20" height="14" fill="transparent" id="left_arrow_hit" style="cursor:pointer;"/>
 
-  <path id="up_arrow"    d="M246.63,333.78l3.21-6.14c1.5,1.8,2.67,3.88,3.42,6.09"/>
-  <path id="down_arrow"  d="M246.52,351.2c1.88,1.11,3.4,2.83,4.25,4.84,1.09-1.89,2-3.89,2.71-5.96"/>
+  <path id="up_arrow" d="M246.63,333.78l3.21-6.14c1.5,1.8,2.67,3.88,3.42,6.09"/>
+  <path id="down_arrow" d="M246.52,351.2c1.88,1.11,3.4,2.83,4.25,4.84,1.09-1.89,2-3.89,2.71-5.96"/>
   <path id="right_arrow" d="M270.73,350.36l6.79,3.45c-2.58.65-5.16,1.3-7.75,1.96"/>
-  <path id="left_arrow"  d="M227.26,350.71l-7,3.02c2.66.57,5.32,1.14,7.98,1.71"/>
+  <path id="left_arrow" d="M227.26,350.71l-7,3.02c2.66.57,5.32,1.14,7.98,1.71"/>
 
-  <path id="left_wing_button"  stroke-linecap="round" stroke-linejoin="round"
-  d="M240.09,347.44c.51-.36,1.14-1.3-3-12.03-2.43-6.29-3.65-9.44-6.01-13.75-2.6-4.75-4.78-8.66-9.01-12.89-3.18-3.18-7.9-7.9-11.01-6.87-3.03,1-3.58,7.15-2,11.17,0,0,1.83,4.5,6.37,7.35.01,0,.02.02.02.02.27.17.48.29.62.37-.58.2-7.82,2.74-8.01,6.87-.11,2.41,2.26,4.22,7.01,7.73,2.94,2.18,5.68,3.78,10.01,6.02,9.06,4.68,13.58,7.02,15.02,6.02Z"/>
-  <path id="right_wing_button" stroke-linecap="round" stroke-linejoin="round"
-  d="M260.54,347.56c-.49-.36-1.09-1.31,2.86-12.09,2.32-6.33,3.48-9.49,5.73-13.82,2.48-4.77,4.56-8.7,8.59-12.95,3.03-3.2,7.54-7.94,10.5-6.91,2.89,1,3.41,7.18,1.91,11.23,0,0-1.74,4.52-6.07,7.39-.01,0-.02.02-.02.02-.26.17-.45.29-.59.37.55.2,7.46,2.76,7.64,6.91.1,2.42-2.16,4.24-6.68,7.77-2.8,2.19-5.42,3.8-9.55,6.05-8.64,4.7-12.96,7.05-14.32,6.05Z"/>
+  <path id="left_wing_button" stroke-linecap="round" stroke-linejoin="round" d="M240.09,347.44c.51-.36,1.14-1.3-3-12.03-2.43-6.29-3.65-9.44-6.01-13.75-2.6-4.75-4.78-8.66-9.01-12.89-3.18-3.18-7.9-7.9-11.01-6.87-3.03,1-3.58,7.15-2,11.17,0,0,1.83,4.5,6.37,7.35.01,0,.02.02.02.02.27.17.48.29.62.37-.58.2-7.82,2.74-8.01,6.87-.11,2.41,2.26,4.22,7.01,7.73,2.94,2.18,5.68,3.78,10.01,6.02,9.06,4.68,13.58,7.02,15.02,6.02Z"/>
+  <path id="right_wing_button" stroke-linecap="round" stroke-linejoin="round" d="M260.54,347.56c-.49-.36-1.09-1.31,2.86-12.09,2.32-6.33,3.48-9.49,5.73-13.82,2.48-4.77,4.56-8.7,8.59-12.95,3.03-3.2,7.54-7.94,10.5-6.91,2.89,1,3.41,7.18,1.91,11.23,0,0-1.74,4.52-6.07,7.39-.01,0-.02.02-.02.02-.26.17-.45.29-.59.37.55.2,7.46,2.76,7.64,6.91.1,2.42-2.16,4.24-6.68,7.77-2.8,2.19-5.42,3.8-9.55,6.05-8.64,4.7-12.96,7.05-14.32,6.05Z"/>
 
   <path class="st2 numpad-btn" data-key="1" d="M204.52,375.8c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
   <path class="st2 numpad-btn" data-key="2" d="M244.99,389.78c.16-.31,1.95-3.63,5.59-3.91,4.16-.33,6.55,3.64,6.71,3.91.18.31,1.85,3.31.56,6.71-.95,2.51-3.5,5.19-6.71,5.03-3.32-.16-5.19-3.25-5.59-3.91-.33-.55-2.44-4.19-.56-7.83Z"/>
@@ -546,10 +276,9 @@ pointer-events:none;
   <text class="numLabel" x="280.0" y="431"><tspan>8</tspan></text>
   <text class="numLabel" x="237.5" y="452"><tspan>9</tspan></text>
   <text class="numLabel" x="267.8" y="452"><tspan>0</tspan></text>
-
   </svg>
 </div>
-<div id="hint">✦ press 0 to load snake, then arrow to start ✦</div>
+<div id="hint">&#10022; press 0 to load snake, then arrow to start &#10022;</div>
 </div>
 
 <script>
@@ -557,180 +286,106 @@ pointer-events:none;
 (function(){
   const c=document.getElementById('stars');
   const p=['#ff70b8','#ff98cc','#ffbcdc','#ffdcf4','#ffffff','#f8b4ff','#c4e8ff'];
-  const ch=['✦','✧','★','✺','·'];
+  const ch=['\u2726','\u2727','\u2605','\u273a','\u00b7'];
   for(let i=0;i<75;i++){
     const s=document.createElement('div');s.className='star';
     s.textContent=ch[Math.floor(Math.random()*ch.length)];
-    s.style.cssText=`left:${Math.random()*100}vw;top:${Math.random()*100}vh;`
-      +`--sz:${(Math.random()*13+5)}px;--c:${p[Math.floor(Math.random()*p.length)]};`
-      +`--dur:${(Math.random()*3+1.2).toFixed(1)}s;--delay:-${(Math.random()*5).toFixed(1)}s;`;
+    s.style.cssText='left:'+Math.random()*100+'vw;top:'+Math.random()*100+'vh;'
+      +'--sz:'+(Math.random()*13+5)+'px;--c:'+p[Math.floor(Math.random()*p.length)]+';'
+      +'--dur:'+(Math.random()*3+1.2).toFixed(1)+'s;--delay:-'+(Math.random()*5).toFixed(1)+'s;';
     c.appendChild(s);
   }
 })();
 
-// ── APP SCREENS ──
-const appScreenEl  = document.getElementById('app-screen');
-const appTitleEl   = document.getElementById('app-title');
-const appBodyEl    = document.getElementById('app-body');
+const appScreenEl = document.getElementById('app-screen');
+const appTitleEl  = document.getElementById('app-title');
+const appBodyEl   = document.getElementById('app-body');
 
+// Nokia 2000s style menus
 const apps = {
-  '1':{
-    title:'⚙ SETTINGS',
-    rows:[
-      ['✦','Fairy Mode','ON'],
-      ['🔊','Volume','♪♪♪♪♪'],
-      ['☀','Brightness','████░'],
-      ['📶','Signal','★★★★'],
-      ['🔒','Lock','OFF'],
-      ['🌙','Night Mode','ON'],
-      ['✨','Theme','WINX'],
-      ['🔋','Battery','82%'],
-    ]
-  },
-  '2':{
-    title:'💬 MESSAGES',
-    rows:[
-      ['🌸','Bloom','luv u!! ♡ 2m'],
-      ['☀','Stella','omg new fit!!'],
-      ['🌊','Aisha','beach tmrw?'],
-      ['🌿','Flora','garden walk?'],
-      ['🎵','Musa','new playlist!'],
-      ['💻','Tecna','wifi fix done'],
-      ['✦','Winx Club','meeting 4pm'],
-    ]
-  },
-  '3':{
-    title:'📞 CALLS',
-    rows:[
-      ['📞','Bloom','3m ago'],
-      ['📞','Stella','1h ago'],
-      ['📵','Unknown','missed'],
-      ['📞','Flora','yesterday'],
-      ['📵','Tecna','missed'],
-      ['📞','Aisha','2 days ago'],
-      ['📞','Musa','2 days ago'],
-    ]
-  },
-  '4':{
-    title:'🖼 PICTURES',
-    rows:[
-      ['🌸','Bloom selfie','today'],
-      ['✨','Fairy dust','today'],
-      ['🌈','Alfea roof','ystrd'],
-      ['🦋','Butterflies','ystrd'],
-      ['💅','Stella fit','2d ago'],
-      ['🌊','Beach day','3d ago'],
-      ['🌿','Garden','3d ago'],
-    ]
-  },
-  '5':{
-    title:'🎵 MUSIC',
-    rows:[
-      ['▶','Magic Winx','Winx Club'],
-      ['♪','Fairy Tales','Bloom'],
-      ['♪','Shine Bright','Stella'],
-      ['♪','Ocean Waves','Aisha'],
-      ['♪','Petal Dance','Flora'],
-      ['♪','Heartbeat','Musa'],
-      ['♪','Pixel Dream','Tecna'],
-    ]
-  },
-  '6':{
-    title:'⬇ DOWNLOADS',
-    rows:[
-      ['✅','Believix Spell','done'],
-      ['✅','Fairy Map','done'],
-      ['⏳','Magic Ring','67%'],
-      ['⏳','Winx Theme','34%'],
-      ['⏳','Charmix v2','12%'],
-      ['❌','Dark spell','blocked'],
-      ['✅','Stargate map','done'],
-    ]
-  },
-  '7':{
-    title:'🔔 RINGTONES',
-    rows:[
-      ['♪','Magic Winx ★','active'],
-      ['♪','Fairy Bell',''],
-      ['♪','Stardust',''],
-      ['♪','Bloom Theme',''],
-      ['♪','Ocean Call',''],
-      ['♪','Pixel Pop',''],
-      ['♪','Rainbow Glow',''],
-    ]
-  },
-  '8':{
-    title:'📝 REMINDERS',
-    rows:[
-      ['⏰','Alfea class','8:00 AM'],
-      ['⏰','Bloom call','12:30 PM'],
-      ['💊','Fairy dose','2:00 PM'],
-      ['⏰','Wing practice','4:00 PM'],
-      ['⏰','Stella lunch','5:30 PM'],
-      ['🌙','Night potion','9:00 PM'],
-      ['⏰','Study spells','10 PM'],
-    ]
-  },
-  '9':{
-    title:'🔋 BATTERY',
-    rows:[
-      ['🔋','Level','82%'],
-      ['⚡','Status','Charging'],
-      ['⏱','Time left','3h 40m'],
-      ['✦','Fairy Power','HIGH'],
-      ['📶','Signal draw','low'],
-      ['☀','Screen draw','med'],
-      ['🎵','Music draw','low'],
-    ]
-  }
+  '1':{title:'Settings',rows:[
+    ['','Profiles','General'],['','Tones','->'],['','Display','->'],
+    ['','Time & Date','->'],['','Security','->'],['','Network','->'],['','Memory','->']
+  ]},
+  '2':{title:'Messages',rows:[
+    ['','Inbox','3 new'],['','Outbox',''],['','Sent items',''],
+    ['','Drafts','1'],['','Templates','->'],['','Settings','->'],['','Info msgs','->']
+  ]},
+  '3':{title:'Call register',rows:[
+    ['','Missed calls','2'],['','Received','5'],['','Dialled','8'],
+    ['','Delete all','->'],['','Call duration','->'],['','GPRS data','->'],['','Call costs','->']
+  ]},
+  '4':{title:'Gallery',rows:[
+    ['','Images','12'],['','Video clips','3'],['','Themes','4'],
+    ['','Graphics','->'],['','Tones','->'],['','Recordings','2'],['','Memory card','->']
+  ]},
+  '5':{title:'Music player',rows:[
+    ['','Now playing','->'],['','Artists','->'],['','Albums','->'],
+    ['','Tracks','47'],['','Playlists','->'],['','Equaliser','Normal'],['','Shuffle','Off']
+  ]},
+  '6':{title:'Downloads',rows:[
+    ['','Tones','->'],['','Images','->'],['','Games','->'],
+    ['','Applications','->'],['','Video','->'],['','Themes','->'],['','Settings','->']
+  ]},
+  '7':{title:'Ringtones',rows:[
+    ['*','Nokia tune','active'],['','Ascending',''],['','Standard',''],
+    ['','Beep once',''],['','Silent',''],['','My ringtone 1',''],['','My ringtone 2','']
+  ]},
+  '8':{title:'Reminders',rows:[
+    ['','Mon  08:00','Alarm'],['','Mon  12:30','Meeting'],['','Mon  14:00','Reminder'],
+    ['','Mon  16:00','Practice'],['','Tue  09:00','Class'],['','Tue  18:00','Dinner'],['','Wed  10:00','Call back']
+  ]},
+  '9':{title:'Battery info',rows:[
+    ['','Charge level','82%'],['','Status','Charging'],['','Talk time','4h 20m'],
+    ['','Standby','8d 12h'],['','Network','GSM 900'],['','Signal','4 bars'],['','GPRS','Ready']
+  ]}
 };
 
 function showApp(key){
-  const app = apps[key];
-  if(!app) return;
-  // hide idle text
+  const app=apps[key];if(!app)return;
   line1.style.display='none';line2.style.display='none';line3.style.display='none';
   canvas.style.display='none';scoreEl.style.display='none';overEl.style.display='none';
   appScreenEl.style.display='flex';
-  appTitleEl.textContent = app.title;
-  appBodyEl.innerHTML = '';
-  app.rows.forEach(([icon,label,val])=>{
-    const row = document.createElement('div');
-    row.className = 'app-row';
-    row.innerHTML = `<span class="app-icon">${icon}</span><span>${label}</span>${val?`<span class="app-val">${val}</span>`:''}`;
+  appTitleEl.textContent=app.title;
+  appBodyEl.innerHTML='';
+  app.rows.forEach(([icon,label,val],idx)=>{
+    const row=document.createElement('div');
+    row.className='app-row'+(idx===0?' selected':'');
+    row.innerHTML='<span class="app-icon">'+icon+'</span><span>'+label+'</span>'+(val?'<span class="app-val">'+val+'</span>':'');
     appBodyEl.appendChild(row);
   });
 }
 
-// ── SNAKE ──
+// SNAKE
 const COLS=17,ROWS=18,CELL=10;
-const canvas    = document.getElementById('snake-canvas');
-const ctx       = canvas.getContext('2d');
-const scoreEl   = document.getElementById('snake-score');
-const overEl    = document.getElementById('snake-over');
-const overScoreTxt = document.getElementById('over-score-txt');
-const line1 = document.getElementById('screen-line1');
-const line2 = document.getElementById('screen-line2');
-const line3 = document.getElementById('screen-line3');
-const hint  = document.getElementById('hint');
+const canvas=document.getElementById('snake-canvas');
+const ctx=canvas.getContext('2d');
+const scoreEl=document.getElementById('snake-score');
+const overEl=document.getElementById('snake-over');
+const overScoreTxt=document.getElementById('over-score-txt');
+const line1=document.getElementById('screen-line1');
+const line2=document.getElementById('screen-line2');
+const line3=document.getElementById('screen-line3');
+const hint=document.getElementById('hint');
 
 let snake,dir,nextDir,food,score,gameLoop,gameState;
 
 function loadGame(){
   snake=[{x:8,y:9},{x:7,y:9},{x:6,y:9}];
-  dir={x:0,y:0};nextDir={x:0,y:0};
+  dir=null;nextDir=null;
   food=spawnFood();score=0;gameState='loaded';
   line1.style.display='none';line2.style.display='none';line3.style.display='none';
   appScreenEl.style.display='none';
   overEl.style.display='none';
   canvas.style.display='block';scoreEl.style.display='block';
-  scoreEl.textContent='★0';
-  hint.textContent='✦ press an arrow to start ✦';
+  scoreEl.textContent='\u2605 0';
+  hint.textContent='\u2726 press an arrow to start \u2726';
+  hint.style.display='block';
   clearInterval(gameLoop);draw();
 }
 
 function startGame(dx,dy){
-  nextDir={x:dx,y:dy};dir={x:dx,y:dy};
+  dir={x:dx,y:dy};nextDir={x:dx,y:dy};
   gameState='running';hint.style.display='none';
   clearInterval(gameLoop);
   gameLoop=setInterval(tick,260);
@@ -744,15 +399,14 @@ function spawnFood(){
 }
 
 function tick(){
+  if(!dir)return;
   dir={...nextDir};
-  if(dir.x===0&&dir.y===0) return;
   const head={x:snake[0].x+dir.x,y:snake[0].y+dir.y};
   if(head.x<0||head.x>=COLS||head.y<0||head.y>=ROWS){endGame();return;}
   if(snake.some(s=>s.x===head.x&&s.y===head.y)){endGame();return;}
   snake.unshift(head);
-  if(head.x===food.x&&head.y===food.y){
-    score++;scoreEl.textContent='★'+score;food=spawnFood();
-  }else{snake.pop();}
+  if(head.x===food.x&&head.y===food.y){score++;scoreEl.textContent='\u2605'+score;food=spawnFood();}
+  else{snake.pop();}
   draw();
 }
 
@@ -776,19 +430,18 @@ function draw(){
 function endGame(){
   clearInterval(gameLoop);gameState='over';
   canvas.style.display='none';scoreEl.style.display='none';
-  overScoreTxt.textContent='★ '+score;
+  overScoreTxt.textContent='\u2605 '+score;
   overEl.style.display='flex';hint.style.display='block';
-  hint.textContent='✦ press 0 to play again ✦';
+  hint.textContent='\u2726 press 0 to play again \u2726';
 }
 
 function setDir(dx,dy){
   if(gameState==='loaded'){startGame(dx,dy);return;}
-  if(gameState!=='running') return;
-  if(dx===-dir.x&&dy===-dir.y) return;
+  if(gameState!=='running')return;
+  if(dir&&dx===-dir.x&&dy===-dir.y)return;
   nextDir={x:dx,y:dy};
 }
 
-// WING BUTTONS
 const lwg=document.getElementById('lwg');
 const rwg=document.getElementById('rwg');
 const lwb=document.getElementById('left_wing_button');
@@ -796,21 +449,21 @@ const rwb=document.getElementById('right_wing_button');
 let leftOn=false,rightOn=false;
 
 function fairyBurst(x,y){
-  const ch=['✦','✧','★','✺','·'];
+  const ch=['\u2726','\u2727','\u2605','\u273a','\u00b7'];
   const col=['#ff70b8','#ffaadd','#c4e8ff','#ffdcf4','#f8b4ff','#88d4ff'];
   for(let i=0;i<10;i++){
     const el=document.createElement('div');el.className='fburst';
     el.textContent=ch[Math.floor(Math.random()*ch.length)];
     const ang=Math.random()*Math.PI*2,d=28+Math.random()*55;
-    el.style.cssText=`left:${x}px;top:${y}px;color:${col[Math.floor(Math.random()*col.length)]};`
-      +`font-size:${9+Math.random()*14}px;--tx:${Math.cos(ang)*d}px;--ty:${Math.sin(ang)*d-48}px;`
-      +`animation-delay:${Math.random()*.14}s;filter:drop-shadow(0 0 5px currentColor);`;
+    el.style.cssText='left:'+x+'px;top:'+y+'px;color:'+col[Math.floor(Math.random()*col.length)]+';'
+      +'font-size:'+(9+Math.random()*14)+'px;--tx:'+(Math.cos(ang)*d)+'px;--ty:'+(Math.sin(ang)*d-48)+'px;'
+      +'animation-delay:'+(Math.random()*.14)+'s;filter:drop-shadow(0 0 5px currentColor);';
     document.body.appendChild(el);el.addEventListener('animationend',()=>el.remove());
   }
 }
 function ripple(x,y){
   const r=document.createElement('div');r.className='ripple';const s=65;
-  r.style.cssText=`left:${x-s/2}px;top:${y-s/2}px;width:${s}px;height:${s}px;`;
+  r.style.cssText='left:'+(x-s/2)+'px;top:'+(y-s/2)+'px;width:'+s+'px;height:'+s+'px;';
   document.body.appendChild(r);r.addEventListener('animationend',()=>r.remove());
 }
 function center(el){const rc=el.getBoundingClientRect();return[rc.left+rc.width/2,rc.top+rc.height/2];}
@@ -819,107 +472,91 @@ function showIdleScreen(){
   appScreenEl.style.display='none';
   canvas.style.display='none';scoreEl.style.display='none';overEl.style.display='none';
   line1.style.display='';line2.style.display='';line3.style.display='';
-  line1.textContent='✦ FAIRY ✦';line2.textContent='PHONE';line3.textContent='· ready ·';
+  line1.textContent='\u2726 FAIRY \u2726';line2.textContent='PHONE';line3.textContent='\u00b7 ready \u00b7';
 }
 
 gameState='idle';
-// screen starts black — no showIdleScreen() on load
 
-// NUMPAD — 1-9 show app screens, 0 loads snake
 document.querySelectorAll('.numpad-btn').forEach(el=>{
   el.addEventListener('click',e=>{
     const key=e.currentTarget.dataset.key;
     const[cx,cy]=center(e.currentTarget);
     ripple(cx,cy);fairyBurst(cx,cy);
-    if(key==='0'){
-      loadGame();
-    } else {
-      if(gameState==='running') return; // don't interrupt snake
-      gameState='idle';
-      clearInterval(gameLoop);
+    if(key==='0'){loadGame();}
+    else{
+      if(gameState==='running')return;
+      gameState='idle';clearInterval(gameLoop);
       showApp(key);
-      hint.textContent='✦ press 0 to load snake ✦';
+      hint.textContent='\u2726 press 0 to load snake \u2726';
       hint.style.display='block';
     }
   });
 });
 
-// arrow direction handler — used by svg paths, hit rects, wing buttons, and keyboard
 function handleArrow(dx,dy){
-  const[cx,cy]=[window.innerWidth/2, window.innerHeight/2];
-  ripple(cx,cy);
-  setDir(dx,dy);
+  const[cx,cy]=[window.innerWidth/2,window.innerHeight/2];
+  ripple(cx,cy);setDir(dx,dy);
 }
 
-// arrow visible paths
-document.getElementById('up_arrow').addEventListener('click',   ()=>handleArrow(0,-1));
-document.getElementById('down_arrow').addEventListener('click',  ()=>handleArrow(0,1));
-document.getElementById('right_arrow').addEventListener('click', ()=>handleArrow(1,0));
-document.getElementById('left_arrow').addEventListener('click',  ()=>handleArrow(-1,0));
-// arrow large invisible hit rects
-document.getElementById('up_arrow_hit').addEventListener('click',   ()=>handleArrow(0,-1));
-document.getElementById('down_arrow_hit').addEventListener('click',  ()=>handleArrow(0,1));
-document.getElementById('right_arrow_hit').addEventListener('click', ()=>handleArrow(1,0));
-document.getElementById('left_arrow_hit').addEventListener('click',  ()=>handleArrow(-1,0));
+document.getElementById('up_arrow').addEventListener('click',()=>handleArrow(0,-1));
+document.getElementById('down_arrow').addEventListener('click',()=>handleArrow(0,1));
+document.getElementById('right_arrow').addEventListener('click',()=>handleArrow(1,0));
+document.getElementById('left_arrow').addEventListener('click',()=>handleArrow(-1,0));
+document.getElementById('up_arrow_hit').addEventListener('click',()=>handleArrow(0,-1));
+document.getElementById('down_arrow_hit').addEventListener('click',()=>handleArrow(0,1));
+document.getElementById('right_arrow_hit').addEventListener('click',()=>handleArrow(1,0));
+document.getElementById('left_arrow_hit').addEventListener('click',()=>handleArrow(-1,0));
 
-// WING BUTTONS — left=snake up/right, right=snake down/left, toggled state changes direction
 lwb.addEventListener('click',()=>{
   leftOn=!leftOn;lwg.classList.toggle('active',leftOn);lwb.classList.toggle('toggled',leftOn);
   const[cx,cy]=center(lwb);ripple(cx,cy);fairyBurst(cx,cy);
-  // also steer snake: left wing button = go left
-  if(gameState==='running'||gameState==='loaded'){
-    setDir(-1,0);
-  } else {
+  if(gameState==='running'||gameState==='loaded'){setDir(-1,0);}
+  else{
     line1.style.display='';line2.style.display='';line3.style.display='';
     appScreenEl.style.display='none';
-    line1.textContent='✦ WINGS ✦';line2.textContent=leftOn?'left open':'left closed';line3.textContent='';
+    line1.textContent='\u2726 WINGS \u2726';line2.textContent=leftOn?'left open':'left closed';line3.textContent='';
   }
 });
 rwb.addEventListener('click',()=>{
   rightOn=!rightOn;rwg.classList.toggle('active',rightOn);rwb.classList.toggle('toggled',rightOn);
   const[cx,cy]=center(rwb);ripple(cx,cy);fairyBurst(cx,cy);
-  // right wing button = go right
-  if(gameState==='running'||gameState==='loaded'){
-    setDir(1,0);
-  } else {
+  if(gameState==='running'||gameState==='loaded'){setDir(1,0);}
+  else{
     line1.style.display='';line2.style.display='';line3.style.display='';
     appScreenEl.style.display='none';
-    line1.textContent='✦ WINGS ✦';line2.textContent=rightOn?'right open':'right closed';line3.textContent='';
+    line1.textContent='\u2726 WINGS \u2726';line2.textContent=rightOn?'right open':'right closed';line3.textContent='';
   }
 });
 
-// KEYBOARD
 document.addEventListener('keydown',e=>{
-  if(e.key==='ArrowUp')    {e.preventDefault();handleArrow(0,-1);}
-  if(e.key==='ArrowDown')  {e.preventDefault();handleArrow(0,1);}
-  if(e.key==='ArrowLeft')  {e.preventDefault();handleArrow(-1,0);}
-  if(e.key==='ArrowRight') {e.preventDefault();handleArrow(1,0);}
+  if(e.key==='ArrowUp'){e.preventDefault();handleArrow(0,-1);}
+  if(e.key==='ArrowDown'){e.preventDefault();handleArrow(0,1);}
+  if(e.key==='ArrowLeft'){e.preventDefault();handleArrow(-1,0);}
+  if(e.key==='ArrowRight'){e.preventDefault();handleArrow(1,0);}
 });
 
-// TOUCH
 [lwb,rwb].forEach(b=>{
   b.addEventListener('touchstart',e=>{e.preventDefault();b.dispatchEvent(new MouseEvent('click'));},{passive:false});
 });
 
-// GLITTER SPILL (unchanged)
 const phoneSvg=document.getElementById('phone-svg');
 const glitterColors=['#ffffff','#ffd6f4','#ffb3e6','#ffc8ff','#d4b0ff','#b8d8ff','#ffe0ff','#fff0b8'];
 let lastGlitterTime=0;
 phoneSvg.addEventListener('mousemove',e=>{
-  const now=Date.now();if(now-lastGlitterTime<40) return;lastGlitterTime=now;
+  const now=Date.now();if(now-lastGlitterTime<40)return;lastGlitterTime=now;
   const rect=phoneSvg.getBoundingClientRect();
   const mx=e.clientX,my=e.clientY;
   const relX=(mx-rect.left)/rect.width,relY=(my-rect.top)/rect.height;
-  if(relX<0.27||relX>0.73||relY<0.14||relY>0.95) return;
+  if(relX<0.27||relX>0.73||relY<0.14||relY>0.95)return;
   const count=2+Math.floor(Math.random()*3);
   for(let i=0;i<count;i++){
     const spark=document.createElement('div');spark.className='gspark';
     const sz=3+Math.random()*6,col=glitterColors[Math.floor(Math.random()*glitterColors.length)];
     const ang=Math.random()*Math.PI*2,dist=15+Math.random()*40,dur=(.5+Math.random()*.6).toFixed(2);
-    spark.style.cssText=`left:${mx}px;top:${my}px;width:${sz}px;height:${sz}px;`
-      +`background:${col};box-shadow:0 0 ${sz*1.5}px ${col};`
-      +`--gx:${(Math.cos(ang)*dist).toFixed(1)}px;--gy:${(Math.sin(ang)*dist+10).toFixed(1)}px;`
-      +`--gd:${dur}s;animation-delay:${(Math.random()*.08).toFixed(2)}s;`;
+    spark.style.cssText='left:'+mx+'px;top:'+my+'px;width:'+sz+'px;height:'+sz+'px;'
+      +'background:'+col+';box-shadow:0 0 '+(sz*1.5)+'px '+col+';'
+      +'--gx:'+(Math.cos(ang)*dist).toFixed(1)+'px;--gy:'+(Math.sin(ang)*dist+10).toFixed(1)+'px;'
+      +'--gd:'+dur+'s;animation-delay:'+(Math.random()*.08).toFixed(2)+'s;';
     document.body.appendChild(spark);spark.addEventListener('animationend',()=>spark.remove());
   }
 });
